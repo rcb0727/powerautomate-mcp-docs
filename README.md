@@ -1,6 +1,8 @@
 # Power Automate MCP Server
 
-An MCP (Model Context Protocol) server that connects Claude to Microsoft Power Automate. Create, manage, and deploy Power Automate flows using natural language.
+An MCP (Model Context Protocol) server for Microsoft Power Automate. Create, manage, and deploy Power Automate flows using natural language.
+
+Works with any MCP-compatible AI client: **Claude Desktop**, **Claude Code**, **VS Code Copilot**, **Cursor**, **Google Gemini CLI**, and more.
 
 ## Features
 
@@ -8,61 +10,97 @@ An MCP (Model Context Protocol) server that connects Claude to Microsoft Power A
 - **Test & Debug** - Automatic testing with intelligent error diagnosis
 - **Validate** - Pre-flight checks with best practices scoring (0-100)
 - **Manage Flows** - List, update, clone, and delete flows
+- **Dataverse CRUD** - Full table/row operations via OData Web API
+- **SharePoint** - Sites, lists, items, and files via Microsoft Graph
 - **Expression Help** - Interactive Power Automate expression reference
 - **Connector Intelligence** - Full knowledge of 400+ connectors and schemas
 - **Cross-Platform** - Works on Windows, macOS, and Linux
 
 ## Quick Start
 
-### Prerequisites
-
-- Node.js 20+
-- Microsoft 365 work account with Power Automate access
-- **Linux only**: libsecret for secure token storage
-  ```bash
-  # Ubuntu/Debian
-  sudo apt-get install libsecret-1-dev gnome-keyring
-
-  # Fedora/RHEL
-  sudo dnf install libsecret-devel gnome-keyring
-  ```
-
-### Installation
-
 ```bash
 npm install -g powerautomate-mcp
-```
-
-### First-Time Setup
-
-```bash
 powerautomate-mcp --setup
 ```
 
-This interactive wizard will:
-1. Sign you in via browser
-2. Discover your Power Automate environments
-3. Create the configuration file
+Then configure your AI client. See the **[Installation Guide](INSTALL.md)** for platform-specific setup:
 
-### Register with Claude
+| Client | Config |
+|--------|--------|
+| Claude Desktop | `claude_desktop_config.json` |
+| Claude Code | `claude mcp add powerautomate` |
+| VS Code Copilot | `.vscode/mcp.json` |
+| Cursor | `~/.cursor/mcp.json` |
+| Gemini CLI | `~/.gemini/settings.json` |
+| ChatGPT | `--http` flag + tunnel (see [guide](INSTALL.md#chatgpt-openai)) |
 
-Add to your Claude configuration:
+---
 
-**macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
-**Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
-**Linux**: `~/.config/Claude/claude_desktop_config.json`
+## Microsoft Entra App Registration (Required)
 
-```json
-{
-  "mcpServers": {
-    "powerautomate": {
-      "command": "powerautomate-mcp"
-    }
-  }
-}
+Before using this MCP server, an Microsoft Entra app registration must be configured in your tenant. This requires **Global Administrator** or **Application Administrator** role.
+
+### Who Needs to Do This?
+
+| Role | Action Required |
+|------|-----------------|
+| IT Admin / Global Admin | Create app registration, grant admin consent |
+| End Users | Just run `powerautomate-mcp --setup` after admin completes setup |
+
+### Option 1: PowerShell Script (Recommended)
+
+```powershell
+# Requires: Azure CLI (https://aka.ms/installazurecli)
+# Requires: Global Admin or Application Administrator role
+
+az login
+./scripts/Register-PublishedApp.ps1
 ```
 
-Restart Claude. The Power Automate tools will appear automatically.
+The script will:
+1. Create the app registration
+2. Configure required permissions
+3. Output the admin consent URL
+
+### Option 2: Manual Setup
+
+1. Go to [Azure Portal](https://portal.azure.com) > **Microsoft Entra ID** > **App registrations** > **New registration**
+
+2. Configure basic settings:
+   - **Name**: `Power Automate MCP`
+   - **Supported account types**: Accounts in any organizational directory (multi-tenant)
+   - **Redirect URI**: Select "Public client/native" and enter:
+     ```
+     https://login.microsoftonline.com/common/oauth2/nativeclient
+     ```
+
+3. After creation, go to **Authentication** and enable:
+   - **Allow public client flows**: Yes
+
+4. Go to **API permissions** > **Add a permission** and add:
+
+   | API | Permission | Type | Used For |
+   |-----|------------|------|----------|
+   | Microsoft Graph | `User.Read` | Delegated | User profile |
+   | Microsoft Graph | `Sites.ReadWrite.All` | Delegated | SharePoint sites, lists, files |
+   | Microsoft Graph | `Files.ReadWrite.All` | Delegated | OneDrive/SharePoint file operations |
+   | Power Automate (Flow Service) | `Flows.Read.All` | Delegated | Read flows |
+   | Power Automate (Flow Service) | `Flows.Manage.All` | Delegated | Create/update/delete flows |
+   | Dynamics CRM | `user_impersonation` | Delegated | Dataverse table/row CRUD |
+
+5. Click **Grant admin consent for [Your Tenant]** (requires admin role)
+
+### Admin Consent
+
+After creating the app, admin consent is required for users to authenticate:
+
+```
+https://login.microsoftonline.com/common/adminconsent?client_id=YOUR_CLIENT_ID
+```
+
+Replace `YOUR_CLIENT_ID` with the Application (client) ID from your app registration.
+
+---
 
 ## Usage Examples
 
@@ -139,122 +177,37 @@ Help me write an expression to format a date as "January 1, 2024"
 | `upload_sharepoint_file` | Upload a file (up to 4MB) |
 | `get_sharepoint_file_content` | Download file content |
 
-## Microsoft Entra App Registration (Required)
-
-Before using this MCP server, an Microsoft Entra app registration must be configured in your tenant. This requires **Global Administrator** or **Application Administrator** role.
-
-### Who Needs to Do This?
-
-| Role | Action Required |
-|------|-----------------|
-| IT Admin / Global Admin | Create app registration, grant admin consent |
-| End Users | Just run `powerautomate-mcp --setup` after admin completes setup |
-
-### Option 1: PowerShell Script (Recommended)
-
-```powershell
-# Requires: Azure CLI (https://aka.ms/installazurecli)
-# Requires: Global Admin or Application Administrator role
-
-az login
-./scripts/Register-PublishedApp.ps1
-```
-
-The script will:
-1. Create the app registration
-2. Configure required permissions
-3. Output the admin consent URL
-
-### Option 2: Manual Setup
-
-1. Go to [Azure Portal](https://portal.azure.com) > **Microsoft Entra ID** > **App registrations** > **New registration**
-
-2. Configure basic settings:
-   - **Name**: `Power Automate MCP`
-   - **Supported account types**: Accounts in any organizational directory (multi-tenant)
-   - **Redirect URI**: Select "Public client/native" and enter:
-     ```
-     https://login.microsoftonline.com/common/oauth2/nativeclient
-     ```
-
-3. After creation, go to **Authentication** and enable:
-   - **Allow public client flows**: Yes
-
-4. Go to **API permissions** > **Add a permission** and add:
-
-   | API | Permission | Type | Used For |
-   |-----|------------|------|----------|
-   | Microsoft Graph | `User.Read` | Delegated | User profile |
-   | Microsoft Graph | `Sites.ReadWrite.All` | Delegated | SharePoint sites, lists, files |
-   | Microsoft Graph | `Files.ReadWrite.All` | Delegated | OneDrive/SharePoint file operations |
-   | Power Automate (Flow Service) | `Flows.Read.All` | Delegated | Read flows |
-   | Power Automate (Flow Service) | `Flows.Manage.All` | Delegated | Create/update/delete flows |
-   | Dynamics CRM | `user_impersonation` | Delegated | Dataverse table/row CRUD |
-
-5. Click **Grant admin consent for [Your Tenant]** (requires admin role)
-
-### Admin Consent
-
-After creating the app, admin consent is required for users to authenticate:
-
-```
-https://login.microsoftonline.com/common/adminconsent?client_id=YOUR_CLIENT_ID
-```
-
-Replace `YOUR_CLIENT_ID` with the Application (client) ID from your app registration.
-
-### Update the MCP Server
-
-After creating your app registration, update `src/setup/published-app.ts` with your client ID and rebuild:
-
-```bash
-npm run build
-```
-
 ## Security
 
-This server implements security best practices:
+This server implements defense-in-depth security:
 
-- **Secure Token Storage**: DPAPI (Windows), Keychain (macOS), libsecret (Linux)
-- **Input Validation**: OData injection protection, query sanitization
-- **Error Sanitization**: PII redacted from logs and error messages
-- **No Plaintext Secrets**: Tokens never stored in plaintext
-
-## Development
-
-```bash
-# Clone and install
-git clone https://github.com/rcb0727/powerautomate-mcp.git
-cd powerautomate-mcp
-npm install
-
-# Build
-npm run build
-
-# Build in watch mode
-npm run dev
-
-# Test with MCP Inspector
-npm run inspect
-```
+- **Secure Token Storage**: DPAPI (Windows), Keychain (macOS), libsecret (Linux) — no plaintext fallback
+- **Input Validation**: GUID validation on all IDs, OData injection protection (ASCII-only), path traversal blocking (including URL-encoded), SharePoint hostname allowlist
+- **SSRF Prevention**: Domain allowlists on Dataverse URLs, resource links, and token resources
+- **Injection Prevention**: Power Automate expression injection blocking (`@{`/`}@`), OData filter sanitization, command injection prevention (`execFile` over `exec`)
+- **Log Redaction**: Deep wildcard Pino redaction for tokens, passwords, secrets, API keys, refresh/ID tokens, connection names
+- **Error Sanitization**: PII, file paths, GUIDs, bearer tokens, and JWTs stripped from error messages
+- **HTTP Transport Security**: Localhost-only binding, timing-safe API key comparison, header-only auth (no query params), CORS restricted
+- **Resource Limits**: 50MB streaming JSON response limit, 100MB binary download limit, 4MB upload pre-check
+- **Auth Safety**: Token refresh mutex (prevents race conditions), MSAL PII filtering, silent-only mode in server
 
 ## Architecture
 
 ```
-Claude <--stdio/http--> powerautomate-mcp
-                            |
-                            ├── Power Automate Flow Management API
-                            ├── Microsoft Graph API (SharePoint, OneDrive, Excel)
-                            ├── Dataverse Web API (tables, rows, solutions)
-                            ├── MSAL Auth (browser popup / device code)
-                            ├── SQLite Schema Cache (400+ connectors)
-                            └── Secure Token Storage (OS keychain)
+AI Client <--stdio/http--> powerautomate-mcp
+(Claude, VS Code,               |
+ Cursor, Gemini)                 ├── Power Automate Flow Management API
+                                 ├── Microsoft Graph API (SharePoint, OneDrive, Excel)
+                                 ├── Dataverse Web API (tables, rows, solutions)
+                                 ├── MSAL Auth (browser popup / device code)
+                                 ├── SQLite Schema Cache (400+ connectors)
+                                 └── Secure Token Storage (OS keychain)
 ```
 
 ## License
 
 MIT
 
-## Contributing
+## Support
 
-PRs welcome! See [CLAUDE.md](./CLAUDE.md) for development workflow.
+For issues and feature requests, please open an issue in this repository.

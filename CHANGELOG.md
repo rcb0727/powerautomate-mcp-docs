@@ -1,5 +1,34 @@
 # Changelog
 
+## [0.3.3] - 2026-02-04
+
+### Security
+- GUID validation on all flow/run/approval/connection IDs before URL interpolation in FlowManagementApi
+- GUID validation on Dataverse `getSolution`, `getSolutionFlow`, `setSolutionFlowState`, `getCanvasApp`, `getAIModel`
+- Timing-safe API key comparison (`crypto.timingSafeEqual`) for HTTP transport
+- Handle `X-API-Key` header array type safely
+- Validate Dataverse environment URL in constructor (not just `setEnvironmentUrl`)
+- Validate OpenAPI import host URL with `validateHttpsUrl`
+- Block `@{`/`}@` injection in `conditions.custom()` expressions
+- Consume response body on 401 path to prevent connection pool leaks
+- Consume response body on DELETE success path in connector-metadata
+- Restrict OData filter character set to ASCII-only (prevent Unicode bypass)
+- Deep wildcard `**` log redaction for nested auth headers/tokens
+- Additional redacted fields: `refreshToken`, `idToken`, `client_secret`, `apiKey`
+- Sanitize `handleBinaryResponse` error details before propagation
+- Sanitize Dataverse init error via `sanitizeErrorMessage` before storing on globalThis
+- Log outer `clearAccountCache` deletion error before fallback
+- Streaming response body consumption with size limit (prevents OOM before size check)
+- MSAL logger forwarding to pino (errors/warnings surfaced, PII filtered)
+
+## [0.3.2] - 2026-02-04
+
+### Security
+- Remove API key via query parameter — header-only authentication for HTTP transport
+- Block Power Automate expression injection (`@{`, `}@`) in trigger condition values
+- Validate `$select` on Dataverse `getRow()` to prevent OData injection
+- Remove response body from binary download error logs to prevent data leakage
+
 ## [0.3.1] - 2026-02-04
 
 ### Security
