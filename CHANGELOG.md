@@ -1,5 +1,43 @@
 # Changelog
 
+## [0.5.0] - 2026-02-05
+
+### Security — 3 rounds of penetration testing, 30+ findings fixed
+- **SSRF protection**: IPv4, IPv6, IPv6-mapped IPv4, IPv4-compatible IPv6, expanded loopback, octal/hex/decimal IP notation, ULA (fc00::/7), link-local (fe80::/10)
+- **OData injection**: Tautology detection expanded to all comparison operators (lt/gt/le/ge/ne), parenthesized forms, arithmetic operators (add/sub/mul/div), OData function calls (length/concat/substring/etc.)
+- **Path traversal**: NFKC Unicode normalization (collapses fullwidth `．．／` → `../`), bidi control character stripping (RLO U+202E etc.), zero-width character removal, null byte rejection, double-encoding defense
+- **Domain validation**: Proper domain boundary checks (prevents `evil-dynamics.com` matching `dynamics.com`), trailing dot normalization, ASCII-only enforcement against homoglyph attacks
+- **Error sanitization**: Recursive sensitive key redaction (tokens, passwords, secrets, credentials), underscore-separated key variants, stack trace suppression in fatal handler
+- **Prototype pollution defense**: `__proto__`/`constructor`/`prototype` key rejection in account cache deserialization, type validation on all cached fields
+- **Input limits**: 2MB max on MCP tool inputs, 20-level object depth limit (prevents stack exhaustion DoS)
+- **Config hardening**: Symlink rejection on config file (non-Windows), world-readable permission warnings, SQLite cache file permissions (0o600)
+- **MSAL log suppression**: Verbose/Trace level messages dropped from MSAL callback to prevent internal data leakage
+- **Token domain allowlist**: Moved to bare-domain format with `isAllowedTokenDomain()` function using proper suffix matching
+
+### Fixed
+- HTTP transport restored with full Streamable HTTP MCP implementation (session management, health endpoint, localhost-only binding, graceful shutdown)
+
+## [0.4.0] - 2026-02-05
+
+### Added
+- **Power Apps tools** (16 new): list/get/publish canvas apps, list/get model-driven apps, list/get app versions, list/get app connections, list/get app permissions, share/remove app permissions, get app audit log, set app owner
+- **Environment Lifecycle tools** (8 new): list/get/create/delete/copy/reset/backup/restore environments
+- **DLP Policy tools** (6 new): list/get/create/update/delete DLP policies, list connectors by policy
+- **Solutions ALM tools** (6 new): list/get/export/import solutions, list solution components, add component to solution
+- **Managed Environments tools** (4 new): enable/disable managed environments, get/set governance settings
+- **Capacity tools** (5 new): get tenant capacity, list environment capacity, list add-ons, get storage breakdown, get capacity alerts
+- New API clients: `PowerAppsApi`, `PowerPlatformAdminApi`
+- **Setup wizard with integrated app registration** (`--setup` handles everything):
+  - Auto-creates app registration via Azure CLI (or falls back to shared published app)
+  - Interactive browser-based sign-in
+  - Admin consent URL auto-opened in browser
+  - Environment discovery and selection
+  - Config file creation with proper permissions
+- 45 new MCP tools (108 total)
+
+### Fixed
+- Resolved ~50 pre-existing TypeScript strict-mode errors across the codebase
+
 ## [0.3.3] - 2026-02-04
 
 ### Security

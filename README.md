@@ -10,6 +10,10 @@ Works with any MCP-compatible AI client: **Claude Desktop**, **Claude Code**, **
 - **Test & Debug** - Automatic testing with intelligent error diagnosis
 - **Validate** - Pre-flight checks with best practices scoring (0-100)
 - **Manage Flows** - List, update, clone, and delete flows
+- **Power Apps** - Manage canvas and model-driven apps, permissions, versions
+- **Environment Admin** - Create, copy, backup, restore environments
+- **DLP Policies** - Create and manage data loss prevention policies
+- **Solutions ALM** - Export, import, and manage Dataverse solutions
 - **Dataverse CRUD** - Full table/row operations via OData Web API
 - **SharePoint** - Sites, lists, items, and files via Microsoft Graph
 - **Expression Help** - Interactive Power Automate expression reference
@@ -22,6 +26,13 @@ Works with any MCP-compatible AI client: **Claude Desktop**, **Claude Code**, **
 npm install -g powerautomate-mcp
 powerautomate-mcp --setup
 ```
+
+The setup wizard handles everything automatically:
+1. Creates the app registration via Azure CLI (or falls back to a shared app)
+2. Opens your browser to sign in
+3. Presents the admin consent URL (auto-opens in browser)
+4. Discovers your environments and lets you select one
+5. Saves your configuration
 
 Then configure your AI client. See the **[Installation Guide](INSTALL.md)** for platform-specific setup:
 
@@ -36,33 +47,30 @@ Then configure your AI client. See the **[Installation Guide](INSTALL.md)** for 
 
 ---
 
-## Microsoft Entra App Registration (Required)
+## Microsoft Entra App Registration
 
-Before using this MCP server, an Microsoft Entra app registration must be configured in your tenant. This requires **Global Administrator** or **Application Administrator** role.
+The setup wizard (`--setup`) creates the app registration automatically if you have Azure CLI installed. No manual steps required for most users.
 
-### Who Needs to Do This?
+### Who Needs to Do What?
 
-| Role | Action Required |
-|------|-----------------|
-| IT Admin / Global Admin | Create app registration, grant admin consent |
-| End Users | Just run `powerautomate-mcp --setup` after admin completes setup |
+| Role | Action |
+|------|--------|
+| Admin with Azure CLI | Run `powerautomate-mcp --setup` — everything is automated |
+| Admin without Azure CLI | Run `--setup`, it uses a shared app; grant admin consent when prompted |
+| Non-admin user | Run `--setup`, then ask your admin to approve the consent URL shown |
+| End users (after admin setup) | Just run `powerautomate-mcp --setup` |
 
-### Option 1: PowerShell Script (Recommended)
+### Admin Consent
 
-```powershell
-# Requires: Azure CLI (https://aka.ms/installazurecli)
-# Requires: Global Admin or Application Administrator role
+The setup wizard presents the admin consent URL and auto-opens it in your browser. If you're a Global Admin, approve directly. If not, share the URL with your admin:
 
-az login
-./scripts/Register-PublishedApp.ps1
+```
+https://login.microsoftonline.com/{tenant-id}/adminconsent?client_id=YOUR_CLIENT_ID
 ```
 
-The script will:
-1. Create the app registration
-2. Configure required permissions
-3. Output the admin consent URL
+### Manual Setup (Optional)
 
-### Option 2: Manual Setup
+If you prefer to create the app registration manually:
 
 1. Go to [Azure Portal](https://portal.azure.com) > **Microsoft Entra ID** > **App registrations** > **New registration**
 
@@ -90,16 +98,6 @@ The script will:
 
 5. Click **Grant admin consent for [Your Tenant]** (requires admin role)
 
-### Admin Consent
-
-After creating the app, admin consent is required for users to authenticate:
-
-```
-https://login.microsoftonline.com/common/adminconsent?client_id=YOUR_CLIENT_ID
-```
-
-Replace `YOUR_CLIENT_ID` with the Application (client) ID from your app registration.
-
 ---
 
 ## Usage Examples
@@ -120,7 +118,7 @@ What connectors are available for working with SharePoint?
 Help me write an expression to format a date as "January 1, 2024"
 ```
 
-## Available Tools (63 total)
+## Available Tools (108 total)
 
 ### Core Flow Operations
 | Tool | Description |
@@ -177,19 +175,77 @@ Help me write an expression to format a date as "January 1, 2024"
 | `upload_sharepoint_file` | Upload a file (up to 4MB) |
 | `get_sharepoint_file_content` | Download file content |
 
+### Power Apps
+| Tool | Description |
+|------|-------------|
+| `list_canvas_apps` | List canvas apps |
+| `get_canvas_app` | Get app details |
+| `publish_canvas_app` | Publish an app |
+| `list_model_driven_apps` | List model-driven apps |
+| `get_model_driven_app` | Get model-driven app details |
+| `list_app_versions` | List app version history |
+| `get_app_permissions` | Get app permissions |
+| `share_app` | Share an app with users/groups |
+| `remove_app_permission` | Remove app access |
+| `set_app_owner` | Transfer app ownership |
+
+### Environment Administration
+| Tool | Description |
+|------|-------------|
+| `list_environments` | List all environments |
+| `get_environment` | Get environment details |
+| `create_environment` | Create a new environment |
+| `delete_environment` | Delete an environment |
+| `copy_environment` | Copy an environment |
+| `reset_environment` | Reset an environment |
+| `backup_environment` | Create a backup |
+| `restore_environment` | Restore from backup |
+
+### DLP Policies
+| Tool | Description |
+|------|-------------|
+| `list_dlp_policies` | List data loss prevention policies |
+| `get_dlp_policy` | Get policy details |
+| `create_dlp_policy` | Create a new DLP policy |
+| `update_dlp_policy` | Update an existing policy |
+| `delete_dlp_policy` | Delete a policy |
+| `list_policy_connectors` | List connectors by policy group |
+
+### Solutions ALM
+| Tool | Description |
+|------|-------------|
+| `list_solutions` | List Dataverse solutions |
+| `get_solution` | Get solution details |
+| `export_solution` | Export a solution |
+| `import_solution` | Import a solution |
+| `list_solution_components` | List components in a solution |
+| `add_solution_component` | Add a component to a solution |
+
+### Managed Environments & Capacity
+| Tool | Description |
+|------|-------------|
+| `enable_managed_environment` | Enable managed environment |
+| `disable_managed_environment` | Disable managed environment |
+| `get_governance_settings` | Get governance configuration |
+| `get_tenant_capacity` | Get tenant-level capacity |
+| `get_capacity_alerts` | Get capacity alert notifications |
+
 ## Security
 
-This server implements defense-in-depth security:
+This server implements defense-in-depth security hardened through 3 rounds of penetration testing:
 
 - **Secure Token Storage**: DPAPI (Windows), Keychain (macOS), libsecret (Linux) — no plaintext fallback
-- **Input Validation**: GUID validation on all IDs, OData injection protection (ASCII-only), path traversal blocking (including URL-encoded), SharePoint hostname allowlist
-- **SSRF Prevention**: Domain allowlists on Dataverse URLs, resource links, and token resources
-- **Injection Prevention**: Power Automate expression injection blocking (`@{`/`}@`), OData filter sanitization, command injection prevention (`execFile` over `exec`)
-- **Log Redaction**: Deep wildcard Pino redaction for tokens, passwords, secrets, API keys, refresh/ID tokens, connection names
-- **Error Sanitization**: PII, file paths, GUIDs, bearer tokens, and JWTs stripped from error messages
-- **HTTP Transport Security**: Localhost-only binding, timing-safe API key comparison, header-only auth (no query params), CORS restricted
-- **Resource Limits**: 50MB streaming JSON response limit, 100MB binary download limit, 4MB upload pre-check
-- **Auth Safety**: Token refresh mutex (prevents race conditions), MSAL PII filtering, silent-only mode in server
+- **SSRF Prevention**: Comprehensive private host detection covering IPv4, IPv6, IPv6-mapped/compatible IPv4, octal/hex/decimal notation, ULA, link-local ranges, domain allowlists
+- **OData Injection Protection**: Tautology detection across all comparison operators, parenthesized forms, arithmetic/function-based bypasses, Unicode NFC normalization, ASCII-only enforcement
+- **Path Traversal Prevention**: NFKC Unicode normalization, bidi control character stripping, zero-width character removal, null byte rejection, URL double-encoding defense
+- **Input Validation**: GUID validation on all IDs, field list validation, environment ID format checks, SharePoint hostname allowlist
+- **Injection Prevention**: Power Automate expression injection blocking (`@{`/`}@`), command injection prevention (`execFile` over `exec`), prototype pollution defense
+- **Error Sanitization**: Recursive sensitive key redaction (tokens, passwords, secrets), PII removal, stack trace suppression
+- **Log Redaction**: Deep wildcard Pino redaction for auth headers, tokens, API keys
+- **HTTP Transport Security**: Localhost-only binding, session-based Streamable HTTP, timing-safe API key comparison
+- **Resource Limits**: 2MB input size limit, 20-level depth limit, 50MB JSON response limit, 100MB binary download limit
+- **Config Hardening**: File permissions (0o600), symlink rejection, world-readable warnings
+- **Auth Safety**: Token refresh mutex, MSAL PII filtering, MSAL verbose/trace suppression, silent-only mode in server
 
 ## Architecture
 
@@ -197,6 +253,8 @@ This server implements defense-in-depth security:
 AI Client <--stdio/http--> powerautomate-mcp
 (Claude, VS Code,               |
  Cursor, Gemini)                 ├── Power Automate Flow Management API
+                                 ├── Power Apps API (canvas/model-driven apps)
+                                 ├── Power Platform Admin API (environments, DLP, capacity)
                                  ├── Microsoft Graph API (SharePoint, OneDrive, Excel)
                                  ├── Dataverse Web API (tables, rows, solutions)
                                  ├── MSAL Auth (browser popup / device code)
