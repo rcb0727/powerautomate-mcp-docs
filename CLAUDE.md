@@ -112,6 +112,8 @@
 | `set_app_owner` | Transfer app ownership |
 
 ### Environment Administration
+> Requires **Power Platform Admin**, **Dynamics 365 Admin**, or **Global Admin** role. Non-admin users will receive permission errors.
+
 | Tool | When to Use |
 |------|-------------|
 | `list_environments` | List all environments |
@@ -124,6 +126,8 @@
 | `restore_environment` | Restore from backup |
 
 ### DLP Policies
+> Requires **Power Platform Admin**, **Dynamics 365 Admin**, or **Global Admin** role.
+
 | Tool | When to Use |
 |------|-------------|
 | `list_dlp_policies` | List data loss prevention policies |
@@ -144,6 +148,8 @@
 | `add_solution_component` | Add a component to a solution |
 
 ### Managed Environments & Capacity
+> Requires **Power Platform Admin**, **Dynamics 365 Admin**, or **Global Admin** role.
+
 | Tool | When to Use |
 |------|-------------|
 | `enable_managed_environment` | Enable managed environment |

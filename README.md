@@ -137,7 +137,7 @@ List all canvas apps in my environment and who owns them
 Share the "Expense Tracker" app with the Finance team
 ```
 
-### Administration
+### Administration (requires Power Platform Admin, Dynamics 365 Admin, or Global Admin)
 ```
 Create a new sandbox environment called "Dev Testing"
 ```
@@ -228,6 +228,8 @@ What parameters does the "Send an email (V2)" action need?
 | `set_app_owner` | Transfer app ownership |
 
 ### Environment Administration
+> Requires **Power Platform Admin**, **Dynamics 365 Admin**, or **Global Admin** role.
+
 | Tool | Description |
 |------|-------------|
 | `list_environments` | List all environments |
@@ -240,6 +242,8 @@ What parameters does the "Send an email (V2)" action need?
 | `restore_environment` | Restore from backup |
 
 ### DLP Policies
+> Requires **Power Platform Admin**, **Dynamics 365 Admin**, or **Global Admin** role.
+
 | Tool | Description |
 |------|-------------|
 | `list_dlp_policies` | List data loss prevention policies |
@@ -260,6 +264,8 @@ What parameters does the "Send an email (V2)" action need?
 | `add_solution_component` | Add a component to a solution |
 
 ### Managed Environments & Capacity
+> Requires **Power Platform Admin**, **Dynamics 365 Admin**, or **Global Admin** role.
+
 | Tool | Description |
 |------|-------------|
 | `enable_managed_environment` | Enable managed environment |
