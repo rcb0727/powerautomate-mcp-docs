@@ -55,14 +55,14 @@ The setup wizard (`--setup`) creates the app registration automatically if you h
 
 | Role | Action |
 |------|--------|
-| Admin with Azure CLI | Run `powerautomate-mcp --setup` — everything is automated |
-| Admin without Azure CLI | Run `--setup`, it uses a shared app; grant admin consent when prompted |
-| Non-admin user | Run `--setup`, then ask your admin to approve the consent URL shown |
+| Entra ID admin with Azure CLI | Run `powerautomate-mcp --setup` — everything is automated |
+| Entra ID admin without Azure CLI | Run `--setup`, it uses a shared app; grant admin consent when prompted |
+| Non-admin user | Run `--setup`, then ask an admin (see roles below) to approve the consent URL shown |
 | End users (after admin setup) | Just run `powerautomate-mcp --setup` |
 
 ### Admin Consent
 
-The setup wizard presents the admin consent URL and auto-opens it in your browser. If you're a Global Admin, approve directly. If not, share the URL with your admin:
+The setup wizard presents the admin consent URL and auto-opens it in your browser. Any of these Entra ID roles can grant consent: **Global Administrator**, **Application Administrator**, **Cloud Application Administrator**, or **Privileged Role Administrator**. If you don't have one of these roles, share the URL with your admin:
 
 ```
 https://login.microsoftonline.com/{tenant-id}/adminconsent?client_id=YOUR_CLIENT_ID
@@ -96,7 +96,7 @@ If you prefer to create the app registration manually:
    | Power Automate (Flow Service) | `Flows.Manage.All` | Delegated | Create/update/delete flows |
    | Dynamics CRM | `user_impersonation` | Delegated | Dataverse table/row CRUD |
 
-5. Click **Grant admin consent for [Your Tenant]** (requires admin role)
+5. Click **Grant admin consent for [Your Tenant]** (requires Global Admin, Application Admin, Cloud Application Admin, or Privileged Role Admin)
 
 ---
 
