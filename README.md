@@ -102,20 +102,58 @@ If you prefer to create the app registration manually:
 
 ## Usage Examples
 
+### Flows
 ```
 Create a flow that sends me an email every morning with the weather forecast
 ```
-
 ```
 Test my "Daily Report" flow and tell me if there are any errors
 ```
+```
+Help me write an expression to format a date as "January 1, 2024"
+```
 
+### SharePoint
+```
+List all items in the "Projects" list on our Marketing site
+```
+```
+Upload this month's report to the Shared Documents library
+```
+
+### Dataverse
+```
+Show me all active accounts in Dataverse with revenue over $1M
+```
+```
+Create a new contact row for John Smith in the contacts table
+```
+
+### Power Apps
+```
+List all canvas apps in my environment and who owns them
+```
+```
+Share the "Expense Tracker" app with the Finance team
+```
+
+### Administration
+```
+Create a new sandbox environment called "Dev Testing"
+```
+```
+What DLP policies are applied to my default environment?
+```
+```
+Export the "Sales Solution" as a managed solution for deployment
+```
+
+### Connectors & Expressions
 ```
 What connectors are available for working with SharePoint?
 ```
-
 ```
-Help me write an expression to format a date as "January 1, 2024"
+What parameters does the "Send an email (V2)" action need?
 ```
 
 ## Available Tools (108 total)

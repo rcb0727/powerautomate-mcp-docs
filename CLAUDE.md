@@ -41,7 +41,7 @@
 4. Re-test after fixing
 5. Repeat until flow succeeds
 
-## Tool Reference
+## Tool Reference (108 tools)
 
 ### Planning & Building
 | Tool | When to Use |
@@ -59,6 +59,7 @@
 | `get_runs` | Check execution history |
 | `diagnose_flow` | Troubleshoot failures with fixes |
 | `get_run_actions` | Detailed action-level debugging |
+| `validate_flow` | Pre-flight validation with best practices score |
 
 ### Discovery
 | Tool | When to Use |
@@ -67,12 +68,89 @@
 | `get_flow` | Get full flow definition |
 | `list_connections` | Check available connections |
 | `search_connectors` | Find connectors by name |
-| `get_action_schema` | Get action parameters |
+| `get_action_schema` | Get connector action parameters |
+| `get_expression_help` | Expression syntax reference |
 
-### Expressions
+### Dataverse CRUD
 | Tool | When to Use |
 |------|-------------|
-| `get_expression_help` | Help with Power Automate expressions |
+| `list_dataverse_tables` | List all tables (entities) in the environment |
+| `get_dataverse_table` | Get table schema with column definitions |
+| `query_dataverse_rows` | Query rows with OData filter/select/orderby |
+| `get_dataverse_row` | Get a single row by ID |
+| `create_dataverse_row` | Create a new row |
+| `update_dataverse_row` | Update an existing row |
+| `delete_dataverse_row` | Delete a row (with confirmation) |
+
+### SharePoint
+| Tool | When to Use |
+|------|-------------|
+| `search_sharepoint_sites` | Search for SharePoint sites by name |
+| `get_sharepoint_site` | Get site by ID or hostname/path |
+| `list_sharepoint_lists` | List all lists and libraries in a site |
+| `get_sharepoint_list_columns` | Get column definitions for a list |
+| `list_sharepoint_items` | Get list items with OData filtering |
+| `create_sharepoint_item` | Create a new list item |
+| `update_sharepoint_item` | Update a list item |
+| `delete_sharepoint_item` | Delete a list item (with confirmation) |
+| `list_sharepoint_files` | List files in a document library |
+| `upload_sharepoint_file` | Upload a file (up to 4MB) |
+| `get_sharepoint_file_content` | Download file content |
+
+### Power Apps
+| Tool | When to Use |
+|------|-------------|
+| `list_canvas_apps` | List canvas apps in the environment |
+| `get_canvas_app` | Get app details |
+| `publish_canvas_app` | Publish an app |
+| `list_model_driven_apps` | List model-driven apps |
+| `get_model_driven_app` | Get model-driven app details |
+| `list_app_versions` | List app version history |
+| `get_app_permissions` | Get app permissions |
+| `share_app` | Share an app with users/groups |
+| `remove_app_permission` | Remove app access |
+| `set_app_owner` | Transfer app ownership |
+
+### Environment Administration
+| Tool | When to Use |
+|------|-------------|
+| `list_environments` | List all environments |
+| `get_environment` | Get environment details |
+| `create_environment` | Create a new environment |
+| `delete_environment` | Delete an environment |
+| `copy_environment` | Copy an environment |
+| `reset_environment` | Reset an environment |
+| `backup_environment` | Create a backup |
+| `restore_environment` | Restore from backup |
+
+### DLP Policies
+| Tool | When to Use |
+|------|-------------|
+| `list_dlp_policies` | List data loss prevention policies |
+| `get_dlp_policy` | Get policy details |
+| `create_dlp_policy` | Create a new DLP policy |
+| `update_dlp_policy` | Update an existing policy |
+| `delete_dlp_policy` | Delete a policy |
+| `list_policy_connectors` | List connectors by policy group |
+
+### Solutions ALM
+| Tool | When to Use |
+|------|-------------|
+| `list_solutions` | List Dataverse solutions |
+| `get_solution` | Get solution details |
+| `export_solution` | Export a solution |
+| `import_solution` | Import a solution |
+| `list_solution_components` | List components in a solution |
+| `add_solution_component` | Add a component to a solution |
+
+### Managed Environments & Capacity
+| Tool | When to Use |
+|------|-------------|
+| `enable_managed_environment` | Enable managed environment |
+| `disable_managed_environment` | Disable managed environment |
+| `get_governance_settings` | Get governance configuration |
+| `get_tenant_capacity` | Get tenant-level capacity |
+| `get_capacity_alerts` | Get capacity alert notifications |
 
 ## Critical Rules
 
@@ -81,6 +159,7 @@
 3. **ALWAYS diagnose failures** - Don't leave broken flows
 4. **Present all questions** - Don't assume user's answers
 5. **Verify connections first** - Check before building
+6. **Use `update_flow` not `create_flow`** when modifying an existing flow
 
 ## Example Workflow
 
@@ -103,23 +182,24 @@ User: "Create a flow that emails me daily sales reports"
 4. TEST
    → Call test_flow flowId="abc123..."
    → Wait for completion
-   → Show result: ✅ TEST PASSED or ❌ TEST FAILED
+   → Show result: TEST PASSED or TEST FAILED
 
 5. DEBUG (if needed)
    → If failed, diagnose_flow shows: "Connection Error - Re-authenticate"
    → Apply fix
    → test_flow again
-   → Repeat until ✅
+   → Repeat until success
 ```
 
 ## Connection Requirements
 
 Before building flows, verify connections exist:
-- **Office 365 Outlook** → Email triggers/actions
-- **SharePoint Online** → File/list operations
-- **Microsoft Teams** → Channel posts, notifications
-- **Excel Online (Business)** → Spreadsheet operations
-- **Approvals** → Approval workflows
+- **Office 365 Outlook** - Email triggers/actions
+- **SharePoint Online** - File/list operations
+- **Microsoft Teams** - Channel posts, notifications
+- **Excel Online (Business)** - Spreadsheet operations
+- **Approvals** - Approval workflows
+- **Dataverse** - Table/row operations
 
 If missing, direct users to: **make.powerautomate.com > Data > Connections**
 
@@ -133,6 +213,7 @@ If missing, direct users to: **make.powerautomate.com > Data > Connections**
 | Rate Limited | Add delays, reduce concurrency |
 | Expression Error | Use get_expression_help, check syntax |
 | Permission Error | Check service account permissions |
+| Consent Error | Admin must grant consent (Global Admin, App Admin, Cloud App Admin, or Privileged Role Admin) |
 
 ## Best Practices to Suggest
 
