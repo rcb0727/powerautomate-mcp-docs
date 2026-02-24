@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.5.1] - 2026-02-23
+
+### Fixed
+- **Incomplete app registration scopes**: Added Graph `Sites.ReadWrite.All`, `Files.ReadWrite.All`, and Dynamics CRM `user_impersonation` to `REQUIRED_RESOURCE_ACCESS` — previously only Graph `User.Read` and Flow Service scopes were provisioned, causing AADSTS65006 errors when accessing SharePoint/Dataverse tools
+- **AADSTS50011 redirect URI mismatch**: Setup wizard now uses Device Code Flow instead of interactive browser auth — avoids random localhost port issues on strict corporate tenants with Conditional Access policies
+- **Linux token cache failure on KDE/non-GNOME**: Added native filesystem cache fallback (`NativeFileCachePlugin`) when `msal-node-extensions` `PersistenceCreator` fails — handles KDE KWallet, headless servers, WSL without keyring; writes to `token-cache.bin` with 0o600 permissions
+- **Race condition on setup exit**: Added 1.5s flush delay before `process.exit(0)` after setup wizard completes — prevents truncated/empty token cache files from async MSAL cache writes being killed mid-flight
+
 ## [0.5.0] - 2026-02-05
 
 ### Security — 3 rounds of penetration testing, 30+ findings fixed
