@@ -28,7 +28,7 @@ powerautomate-mcp --setup
 ```
 
 The setup wizard handles everything automatically:
-1. Creates the app registration via Azure CLI (or falls back to a shared app)
+1. Creates the app registration in your tenant via Azure CLI (or prompts you to provide one)
 2. Opens your browser to sign in
 3. Presents the admin consent URL (auto-opens in browser)
 4. Discovers your environments and lets you select one
@@ -56,9 +56,11 @@ The setup wizard (`--setup`) creates the app registration automatically if you h
 | Role | Action |
 |------|--------|
 | Entra ID admin with Azure CLI | Run `powerautomate-mcp --setup` — everything is automated |
-| Entra ID admin without Azure CLI | Run `--setup`, it uses a shared app; grant admin consent when prompted |
+| Entra ID admin without Azure CLI | Run `--setup`, paste your app's Client ID when prompted, grant admin consent |
 | Non-admin user | Run `--setup`, then ask an admin (see roles below) to approve the consent URL shown |
 | End users (after admin setup) | Just run `powerautomate-mcp --setup` |
+
+> **Tip:** You can also set `PA_MCP_CLIENT_ID` as an environment variable to skip the prompt entirely.
 
 ### Admin Consent
 
