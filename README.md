@@ -94,6 +94,8 @@ If you prefer to create the app registration manually:
    | Microsoft Graph | `Files.ReadWrite.All` | Delegated | OneDrive/SharePoint file operations |
    | Power Automate (Flow Service) | `Flows.Read.All` | Delegated | Read flows |
    | Power Automate (Flow Service) | `Flows.Manage.All` | Delegated | Create/update/delete flows |
+   | Power Automate (Flow Service) | `Activity.Read.All` | Delegated | Flow run history |
+   | Power Automate (Flow Service) | `Approvals.Manage.All` | Delegated | Approval management |
    | Dynamics CRM | `user_impersonation` | Delegated | Dataverse table/row CRUD |
 
 5. Click **Grant admin consent for [Your Tenant]** (requires Global Admin, Application Admin, Cloud Application Admin, or Privileged Role Admin)

@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.5.2] - 2026-02-23
+
+### Fixed
+- **AADSTS65006 on device code auth**: Flow Service scope GUIDs (`Flows.Read.All`, `Flows.Manage.All`) were invalid — replaced with correct IDs from the Microsoft Flow Service principal
+- **Device code flow blocked**: App registration was missing `isFallbackPublicClient = true` — added `--is-fallback-public-client` flag to `az ad app create` in setup wizard
+- **Missing Flow Service scopes**: Added `Activity.Read.All` and `Approvals.Manage.All` delegated permissions for run history and approval tools
+- **Stale published app ID**: Updated `PUBLISHED_APP_CLIENT_ID` to current app registration
+
 ## [0.5.1] - 2026-02-23
 
 ### Fixed
