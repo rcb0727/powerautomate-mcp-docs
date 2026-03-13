@@ -24,14 +24,30 @@ npm install -g powerautomate-mcp
 
 ## Updating
 
+The server checks for updates automatically on startup and will notify you if a newer version is available.
+
+**Self-update (recommended):**
+
+```bash
+powerautomate-mcp --update
+```
+
+**Manual update:**
+
 ```bash
 npm install -g powerautomate-mcp
 ```
 
-Check your installed version:
+**Check your installed version:**
 
 ```bash
-powerautomate-mcp --help
+powerautomate-mcp --version
+```
+
+**Verify your setup after updating:**
+
+```bash
+powerautomate-mcp --validate
 ```
 
 After updating, restart your AI client (Claude Desktop, Cursor, etc.) to pick up the new version. Claude Code picks it up automatically on the next session.

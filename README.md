@@ -104,6 +104,33 @@ If you prefer to create the app registration manually:
 
 ---
 
+## CLI Reference
+
+```
+powerautomate-mcp [options]
+```
+
+| Flag | Description |
+|------|-------------|
+| `--setup`, `-s` | Run the interactive setup wizard |
+| `--validate` | Verify config, auth, and API connectivity then exit |
+| `--update` | Check for updates and install the latest version |
+| `--version`, `-v` | Print version and exit |
+| `--http` | Start with Streamable HTTP transport |
+| `--port <N>` | Port for HTTP transport (default: 3000) |
+| `--env <name>` | Override the default environment (alias or GUID) |
+| `--config <path>` | Use an alternate config file |
+| `--debug` | Enable debug-level logging |
+| `--help`, `-h` | Show help message |
+
+**Environment Variables:**
+| Variable | Description |
+|----------|-------------|
+| `PA_MCP_CLIENT_ID` | Microsoft Entra app client ID (overrides config file) |
+| `PA_CONFIG_PATH` | Custom path to config.json |
+
+---
+
 ## Usage Examples
 
 ### Flows

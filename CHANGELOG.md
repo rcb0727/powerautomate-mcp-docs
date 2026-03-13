@@ -1,5 +1,27 @@
 # Changelog
 
+## [0.6.0] - 2026-03-13
+
+### Added
+- **CLI: `--version` / `-v`** — Print installed version and exit
+- **CLI: `--validate`** — Verify config, authentication, and API connectivity in one shot, then exit
+- **CLI: `--update`** — Self-update via npm registry. Checks latest published version, detects install method (npm/yarn/pnpm/npx), runs the appropriate update command
+- **CLI: `--env <name>`** — Override the default environment at startup without editing config.json
+- **CLI: `--config <path>`** — Use an alternate config file path
+- **CLI: `--debug`** — Enable debug-level logging at startup
+- **Startup update notice** — Non-blocking background check against npm registry on every server start; prints "Update available" to stderr if a newer version exists
+- **Flow search by name** — `list_flows` tool accepts a `search` parameter for case-insensitive name filtering
+- **Environment variable interpolation** — Config values support `${VAR}` patterns resolved from environment variables at load time
+- **Test suite** — 64 tests across 8 test files covering validators, expression parsing, config loading, CLI features
+
+### Fixed
+- **Nested action scope validation** — Control actions (If, Foreach, Switch, Scope, Until) now validate `runAfter` references within local scope instead of top-level actions
+- **Circular dependency detection** — Now applied recursively to nested action scopes
+- **Bare expression detection** — `@triggerBody()`, `@outputs()`, `@utcNow()` expressions now detected (previously only `@{...}` wrapped form)
+- **retryPolicy check location** — Best practices validator checks `inputs.retryPolicy` where Power Automate stores it
+- **429 rate limit handling** — All API clients detect HTTP 429 and throw `RateLimitError` with retry-after parsing
+- **Setup wizard tenantId** — Reads from existing config during re-auth instead of defaulting to "common"
+
 ## [0.5.3] - 2026-02-23
 
 ### Changed
