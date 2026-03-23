@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.7.1] - 2026-03-23
+
+### Fixed
+- **AADSTS65001 consent error on admin tools**: Setup wizard now pre-caches tokens for `api.bap.microsoft.com` and `service.powerapps.com` during initial authentication. Previously, only `service.flow.microsoft.com` was consented, causing silent token acquisition to fail at runtime for tools that call the Power Platform Admin API or PowerApps API.
+- **RouteNotFound on `get_environment` and other admin tools**: Switched Power Platform Admin API base URL from `api.powerplatform.com` (which requires geography-based routing) to `api.bap.microsoft.com` (the correct global BAP admin endpoint). Added automatic `/scopes/admin/` path prefix insertion for all `Microsoft.BusinessAppPlatform` API paths.
+- **Token domain allowlist incomplete**: Added `powerplatform.com` and `powerapps.com` to `ALLOWED_TOKEN_DOMAINS`. Token requests for these resources were previously rejected with "Token resource not in allowlist" before the HTTP call was even made.
+
+### Upgrade Notes
+- After updating, run `powerautomate-mcp --setup` again to re-authenticate with the new scopes.
+- No changes to Azure AD app registration permissions are required.
+
 ## [0.7.0] - 2026-03-14
 
 ### Added
