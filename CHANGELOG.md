@@ -1,15 +1,5 @@
 # Changelog
 
-## [0.7.2] - 2026-03-25
-
-### Fixed
-- **AADSTS650057 during setup**: Added Business Application Platform (BAP) API (`0e0bf3cc-3078-4fd4-9ef3-cb6dc0245b10`) to `REQUIRED_RESOURCE_ACCESS` in the app registration created by `--setup`. Without this, token acquisition for `https://api.bap.microsoft.com` failed with "Invalid resource" error.
-- **Unexpected second device code prompt during setup**: After initial sign-in, secondary resource probes (BAP, PowerApps) that failed silent token acquisition would fall through to an interactive device code flow, presenting the user with a confusing second auth prompt. Both `device-code.ts` and `wam-broker.ts` now detect that an account already exists and throw immediately instead of launching another interactive flow.
-
-### Upgrade Notes
-- Run `powerautomate-mcp --setup` after updating to add BAP API permissions to your existing app registration.
-- Fixes [#4](https://github.com/rcb0727/powerautomate-mcp-docs/issues/4)
-
 ## [0.7.1] - 2026-03-23
 
 ### Fixed
