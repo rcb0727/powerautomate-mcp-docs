@@ -21,58 +21,6 @@
 - After updating, run `powerautomate-mcp --setup` again to re-authenticate with the new scopes.
 - No changes to Azure AD app registration permissions are required.
 
-## [0.7.0] - 2026-03-14
-
-### Added
-- **Expression escaping for flow creation** — HTTP action `body` objects containing `@{}` template expressions or `@`-prefixed keys (e.g., `@odata.type`) are automatically converted to runtime string expressions using `json(concat(...))`. This fixes "invalid template" errors when creating complex flows programmatically via `create_flow` or `update_flow`.
-- **`preprocessFlowActions()` utility** — Walks the entire action tree (including nested Foreach/If/Switch/Scope actions) and escapes expression-in-object patterns before sending to the Logic Apps API.
-- **Connector parameter escaping** — Same expression escaping applied to OpenApiConnection `parameters` objects, not just HTTP `body`.
-
-### Fixed
-- **If/Switch condition format** — The structured object format `{"not": {"contains": [...]}}` is now documented and validated. The string expression format `{"type": "Expression", "value": "@..."}` was incorrectly accepted by validation but rejected by the API.
-- **Complex flow creation via API** — Flows with Graph API email attachments (`@odata.type`), nested expressions in JSON bodies, and multi-level foreach loops can now be created programmatically without manual UI editing.
-
-### Developer Notes
-- New file: `src/utils/expression-escape.ts` — `containsExpressions()`, `objectToStringExpression()`, `preprocessFlowActions()`
-- Modified: `src/tools/create-flow.ts`, `src/tools/update-flow.ts` — preprocess actions before API submission
-
-
-## [0.6.0] - 2026-03-13
-
-### Added
-- **CLI: `--version` / `-v`** — Print installed version and exit
-- **CLI: `--validate`** — Verify config, authentication, and API connectivity in one shot, then exit
-- **CLI: `--update`** — Self-update via npm registry. Checks latest published version, detects install method (npm/yarn/pnpm/npx), runs the appropriate update command
-- **CLI: `--env <name>`** — Override the default environment at startup without editing config.json
-- **CLI: `--config <path>`** — Use an alternate config file path
-- **CLI: `--debug`** — Enable debug-level logging at startup
-- **Startup update notice** — Non-blocking background check against npm registry on every server start; prints "Update available" to stderr if a newer version exists
-- **Flow search by name** — `list_flows` tool accepts a `search` parameter for case-insensitive name filtering
-- **Environment variable interpolation** — Config values support `${VAR}` patterns resolved from environment variables at load time
-- **Test suite** — 64 tests across 8 test files covering validators, expression parsing, config loading, CLI features
-
-### Fixed
-- **Nested action scope validation** — Control actions (If, Foreach, Switch, Scope, Until) now validate `runAfter` references within local scope instead of top-level actions
-- **Circular dependency detection** — Now applied recursively to nested action scopes
-- **Bare expression detection** — `@triggerBody()`, `@outputs()`, `@utcNow()` expressions now detected (previously only `@{...}` wrapped form)
-- **retryPolicy check location** — Best practices validator checks `inputs.retryPolicy` where Power Automate stores it
-- **429 rate limit handling** — All API clients detect HTTP 429 and throw `RateLimitError` with retry-after parsing
-- **Setup wizard tenantId** — Reads from existing config during re-auth instead of defaulting to "common"
-
-## [0.5.3] - 2026-02-23
-
-### Changed
-- **Dynamic app registration**: Removed hardcoded `PUBLISHED_APP_CLIENT_ID` — each tenant now provides its own Entra app Client ID via environment variable (`PA_MCP_CLIENT_ID`), config file, Azure CLI auto-create, or manual prompt during setup. No more silent fallback to a shared app registration.
-- **`PA_MCP_CLIENT_ID` env var**: New environment variable overrides config file `auth.clientId` at both setup and runtime — useful for CI/CD and multi-tenant deployments
-- Setup wizard now prompts for manual Client ID entry when Azure CLI is unavailable (instead of falling back to a hardcoded ID)
-
-## [0.5.2] - 2026-02-23
-
-### Fixed
-- **AADSTS65006 on device code auth**: Flow Service scope GUIDs (`Flows.Read.All`, `Flows.Manage.All`) were invalid — replaced with correct IDs from the Microsoft Flow Service principal
-- **Device code flow blocked**: App registration was missing `isFallbackPublicClient = true` — added `--is-fallback-public-client` flag to `az ad app create` in setup wizard
-- **Missing Flow Service scopes**: Added `Activity.Read.All` and `Approvals.Manage.All` delegated permissions for run history and approval tools
-
 ## [0.5.1] - 2026-02-23
 
 ### Fixed
@@ -109,7 +57,7 @@
 - **Capacity tools** (5 new): get tenant capacity, list environment capacity, list add-ons, get storage breakdown, get capacity alerts
 - New API clients: `PowerAppsApi`, `PowerPlatformAdminApi`
 - **Setup wizard with integrated app registration** (`--setup` handles everything):
-  - Auto-creates app registration via Azure CLI (or prompts for manual Client ID)
+  - Auto-creates app registration via Azure CLI (or falls back to shared published app)
   - Interactive browser-based sign-in
   - Admin consent URL auto-opened in browser
   - Environment discovery and selection

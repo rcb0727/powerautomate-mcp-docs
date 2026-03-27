@@ -24,30 +24,14 @@ npm install -g powerautomate-mcp
 
 ## Updating
 
-The server checks for updates automatically on startup and will notify you if a newer version is available.
-
-**Self-update (recommended):**
-
-```bash
-powerautomate-mcp --update
-```
-
-**Manual update:**
-
 ```bash
 npm install -g powerautomate-mcp
 ```
 
-**Check your installed version:**
+Check your installed version:
 
 ```bash
-powerautomate-mcp --version
-```
-
-**Verify your setup after updating:**
-
-```bash
-powerautomate-mcp --validate
+powerautomate-mcp --help
 ```
 
 After updating, restart your AI client (Claude Desktop, Cursor, etc.) to pick up the new version. Claude Code picks it up automatically on the next session.
@@ -226,3 +210,23 @@ powerautomate-mcp --http --port 3000
 ```
 
 This starts a Streamable HTTP server on `POST /mcp` compatible with any MCP client that supports the HTTP transport.
+
+
+## Enterprise Tenants with Strict Consent Policies
+
+If your tenant requires admin consent for all applications:
+
+1. **Add required API permissions to your app registration** in Microsoft Entra:
+   - Microsoft Graph: `User.Read`, `Sites.ReadWrite.All`, `Files.ReadWrite.All`
+   - Flow Service (`7df0a125-d3be-4c96-aa54-591f83ff541c`): `Flows.Read.All`, `Flows.Manage.All`, `Activity.Read.All`, `Approvals.Manage.All`
+   - PowerApps Service (`475226c6-020e-4fb2-8a90-7a972cbfc1d4`): `User`
+   - Dynamics CRM (`00000007-0000-0000-c000-000000000000`): `user_impersonation`
+
+2. **Grant admin consent** for all permissions via:
+   ```
+   https://login.microsoftonline.com/{tenant-id}/adminconsent?client_id={your-client-id}
+   ```
+
+3. Re-run `powerautomate-mcp --setup` to authenticate.
+
+Without the PowerApps Service permission, `list_connections` and other connector tools will fail with AADSTS65001.
