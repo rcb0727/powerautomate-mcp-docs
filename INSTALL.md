@@ -9,12 +9,25 @@ This MCP server uses the **stdio** transport and works with any MCP-compatible A
 - Microsoft Entra app registration (see [README](README.md#microsoft-entra-app-registration-required))
 - **Linux only**: libsecret for secure token storage
   ```bash
+  # Ubuntu/Debian runtime
+  sudo apt-get install libsecret-1-0 gnome-keyring
+
+  # Fedora/RHEL runtime
+  sudo dnf install libsecret gnome-keyring
+  ```
+
+  If you build native modules from source, also install the development package:
+
+  ```bash
   # Ubuntu/Debian
-  sudo apt-get install libsecret-1-dev gnome-keyring
+  sudo apt-get install libsecret-1-dev
 
   # Fedora/RHEL
-  sudo dnf install libsecret-devel gnome-keyring
+  sudo dnf install libsecret-devel
   ```
+
+  If setup fails with `libsecret-1.so.0: cannot open shared object file`, the
+  runtime package above is missing.
 
 ## Install from npm
 

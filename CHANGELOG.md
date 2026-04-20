@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.7.5] - 2026-04-20
+
+### Fixed
+- **Linux setup crash when `libsecret` runtime is missing**: Documented the missing-library failure more clearly and aligned the install instructions with the actual runtime packages users need for `powerautomate-mcp --setup`.
+- **Linux token cache fallback docs**: Clarified that Linux uses `libsecret` when available and otherwise falls back to a `0o600` file cache.
+
 ## [0.7.4] - 2026-03-27
 
 ### Fixed

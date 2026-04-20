@@ -309,7 +309,7 @@ What parameters does the "Send an email (V2)" action need?
 
 This server implements defense-in-depth security hardened through 3 rounds of penetration testing:
 
-- **Secure Token Storage**: DPAPI (Windows), Keychain (macOS), libsecret (Linux) — no plaintext fallback
+- **Secure Token Storage**: DPAPI (Windows), Keychain (macOS), libsecret on Linux when available, with a 0o600 file-cache fallback when it is not
 - **SSRF Prevention**: Comprehensive private host detection covering IPv4, IPv6, IPv6-mapped/compatible IPv4, octal/hex/decimal notation, ULA, link-local ranges, domain allowlists
 - **OData Injection Protection**: Tautology detection across all comparison operators, parenthesized forms, arithmetic/function-based bypasses, Unicode NFC normalization, ASCII-only enforcement
 - **Path Traversal Prevention**: NFKC Unicode normalization, bidi control character stripping, zero-width character removal, null byte rejection, URL double-encoding defense
