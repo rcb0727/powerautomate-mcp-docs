@@ -341,6 +341,10 @@ AI Client <--stdio/http--> powerautomate-mcp
 
 MIT
 
+## A Note of Thanks
+
+Thank you for using this project — it is truly appreciated. Every install, bug report, and suggestion makes this a better tool, and I'm committed to fixing any issue that arises so we have the best Power Automate MCP server possible. If something isn't working for you, please open an issue. I read every one, and a solid reproduction gets a fast fix.
+
 ## Support
 
 For issues and feature requests, please open an issue in this repository.
