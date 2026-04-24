@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.7.6] - 2026-04-23
+
+### Fixed
+- **Dataverse URL constructed from environment GUID instead of `domainName`**: `createMcpServer` now resolves the Dataverse hostname at startup by calling the BAP admin API (`GET /providers/Microsoft.BusinessAppPlatform/scopes/admin/environments/{envId}`) and using `properties.linkedEnvironmentMetadata.instanceUrl`. Every Dataverse-dependent tool (`list_dataverse_tables`, `list_solutions`, `query_dataverse_rows`, `create_dataverse_row`, etc.) was failing with `ENOTFOUND <envId>.crm.dynamics.com` on tenants where the org's unique name differs from the environment GUID — i.e. the common case. A `dataverseUrl` override can also be set per environment in `config.json`; the region-based guess is kept only as a last-resort fallback. Fixes [#6](https://github.com/rcb0727/powerautomate-mcp-docs/issues/6).
+- **`get_run_actions` / `cancel_run` / `resubmit_run` rejected valid Power Automate run IDs**: `validateRowId` enforces a strict GUID pattern, but flow run IDs are uppercase alphanumeric (`085842471510537964096537047XXCU11`), not GUIDs. Introduced `validateFlowRunId` (alphanumeric, 10-128 chars) and routed the three run-handling sites through it. Flow-ID / connection-ID / approval-ID validation is unchanged. Fixes [#7](https://github.com/rcb0727/powerautomate-mcp-docs/issues/7).
+- **`list_dataverse_tables` failed with `0x80060888: The query parameter $orderby is not supported`**: Dataverse `EntityDefinitions` rejects `$orderby` (and `$top`) on the metadata collection. Removed the server-side `$orderby` / `$top` params and now sort + cap the result client-side by `LogicalName`. Fixes [#8](https://github.com/rcb0727/powerautomate-mcp-docs/issues/8).
+
+### Upgrade Notes
+- No action needed for most users — the Dataverse URL is now auto-resolved at startup via the BAP admin API using the existing `https://api.bap.microsoft.com` permission.
+- If you prefer to pin the Dataverse hostname explicitly, add `"dataverseUrl": "<org>.crm.dynamics.com"` to the environment block in `config.json`.
+
 ## [0.7.5] - 2026-04-20
 
 ### Fixed
