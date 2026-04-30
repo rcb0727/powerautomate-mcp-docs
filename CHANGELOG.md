@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.7.7] - 2026-04-29
+
+### Fixed
+- **Setup wizard showed `? undefined` instead of the device code on some tenants**: When running `powerautomate-mcp --setup`, the device-code prompt could render as `? undefined` instead of showing the URL and code to enter on `microsoft.com/devicelogin`. With no code visible, the 15-minute window expired and the wizard failed with the misleading error `Failed to authenticate: ... invalid_grant`. Affected tenants tended to be non-English locales and stricter B2B configurations where Microsoft's authentication response did not include the pre-formatted prompt string our code expected. The setup wizard now builds the prompt itself from the user code + verification URL when Microsoft omits it, so the prompt always renders correctly. Fixes [#9](https://github.com/rcb0727/powerautomate-mcp-docs/issues/9).
+
+### Upgrade Notes
+- Run `npm install -g powerautomate-mcp@latest`, then re-run `powerautomate-mcp --setup`. No app-registration or permission changes are needed.
+
 ## [0.7.6] - 2026-04-23
 
 ### Fixed
