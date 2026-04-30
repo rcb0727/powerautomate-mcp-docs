@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.7.8] - 2026-04-30
+
+### Fixed
+- **Setup wizard failed silently when device-code flow was blocked at the tenant**: 0.7.7 fixed the `? undefined` prompt rendering, but on tenants where device-code flow itself is blocked, Microsoft also leaves `userCode` empty. The callback rendered `enter the code (code missing) to authenticate`, MSAL polled the token endpoint and got immediate `invalid_grant`, and the user got the cryptic `post_request_failed` message with no actionable next step. The setup wizard now detects an empty `userCode` and surfaces the three likely root causes in the error message: (1) Conditional Access blocking device-code grants, (2) app registration missing **Allow public client flows** (most common single fix — flip it under Authentication → Advanced settings in Azure Portal), or (3) corporate proxy stripping OAuth response fields. The device-code response shape is also logged at info level (non-PII fields only) so future tenant anomalies are diagnosable straight from `--debug` logs. Continues fixing [#9](https://github.com/rcb0727/powerautomate-mcp-docs/issues/9).
+
+### Upgrade Notes
+- `npm install -g powerautomate-mcp@latest`, then re-run `powerautomate-mcp --setup`. If the new error fires, the most common fix is **Allow public client flows** on your app registration.
+
 ## [0.7.7] - 2026-04-29
 
 ### Fixed
