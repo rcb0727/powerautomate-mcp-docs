@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.7.9] - 2026-05-05
+
+### Security
+- **Bumped `undici` to ^6.24.0 and `@modelcontextprotocol/sdk` to ^1.26.0** to close 6 published advisories: SNYK-JS-UNDICI-15518064 (uncaught exception, high), SNYK-JS-UNDICI-15518068 (data amplification, high), SNYK-JS-UNDICI-15518070 (uncaught exception, high), SNYK-JS-UNDICI-15518061 (HTTP request smuggling, medium), SNYK-JS-UNDICI-15518072 (CRLF injection, medium), and SNYK-JS-MODELCONTEXTPROTOCOLSDK-15208843 (race condition, high). No behavior changes — minor/patch upgrades only. The remaining transitive advisory in `uuid` (SNYK-JS-UUID-16133035) is reachable only through `@azure/msal-node@2.x` and will be addressed alongside an msal-node major upgrade in a future release.
+
+### Upgrade Notes
+- `npm install -g powerautomate-mcp@latest`. No app-registration, configuration, or workflow changes required.
+
 ## [0.7.8] - 2026-04-30
 
 ### Fixed
