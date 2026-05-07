@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.8.0] - 2026-05-06
+
+### Added
+- **`get_flow` `format` parameter (`"summary" | "json" | "both"`)**: The previous output rendered only top-level actions and silently dropped everything nested inside `Switch`/`If`/`Foreach`/`Scope` controls. Round-tripping a flow with nested branches through `get_flow` → `update_flow` lost the nested actions. The new `format="json"` mode returns the raw `flow.properties.definition` JSON with every nested action preserved; `format="both"` appends the JSON after the human-readable summary. The `summary` default is unchanged for back-compat. The summary output also now surfaces flow `description` and creator (owner). Use `format="json"` whenever you intend to call `update_flow` on a flow with nested controls.
+- **`update_flow` `mergeActions` mode**: Set `mergeActions: true` to deep-merge the actions you provide onto the current flow definition instead of replacing wholesale. Recurses into `actions`/`cases`/`else`/`foreach` so siblings you didn't pass are preserved. Solves the wholesale-replace footgun where omitting any action caused it to be deleted.
+- **`update_flow` `patchActions` (path-based, smallest payload)**: Pass a map of slash-separated paths to action values, e.g. `{"If_Recognized_Form/cases/Default/actions/Compose": {...}}`. Each entry surgically replaces (or, when value is `null`, deletes) one node in the action tree. Ideal when an LLM client has per-tool-input size pressure — a surgical edit is typically a fraction of the full action tree (~31% of the full payload in our smoke tests for a representative Switch with cases). `patchActions` is applied AFTER `mergeActions` so they compose.
+- **`description` on `create_flow` and `update_flow`**: Optional `description` parameter sets the flow description shown in the Power Automate UI. On `update_flow`, an empty string clears the description; `undefined` leaves it unchanged. The field is also surfaced by `get_flow` in both summary and JSON output.
+- **`list_flows` ownership filter**: New `scope` parameter (`"owned" | "shared" | "all"` — default `"all"`) filters results client-side by comparing `flow.properties.creator.id` against the current user's Azure AD object ID (extracted from the access token). Use `scope="shared"` to surface flows that have been shared with you that you didn't create. The new `includeOwner` flag (default `true`) tags each row with the owner display name plus an `[owned]` / `[shared]` indicator.
+
+### Changed
+- **`FlowProperties` and `CreateFlowRequest` types now include optional `description: string`** to match the Power Automate Flow Service API surface. Internal helper `getCurrentUserOid()` was added to `FlowManagementApi` to expose the current user's object ID for ownership filtering, derived from the existing access token (no extra Graph calls).
+
+### Upgrade Notes
+- `npm install -g powerautomate-mcp@latest`. No app-registration, configuration, or workflow changes required.
+- All v0.8.0 additions are additive and backwards-compatible. Existing `get_flow` / `update_flow` / `create_flow` / `list_flows` calls continue to work exactly as before.
+- Recommended workflow when editing a flow with nested controls: call `get_flow` with `format="json"` to capture the full definition, then call `update_flow` with either `mergeActions: true` (delta-only) or `patchActions` (surgical) to avoid resending the entire action tree.
+
 ## [0.7.9] - 2026-05-05
 
 ### Security

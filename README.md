@@ -143,6 +143,12 @@ Test my "Daily Report" flow and tell me if there are any errors
 ```
 Help me write an expression to format a date as "January 1, 2024"
 ```
+```
+Show me all the flows that have been shared with me
+```
+```
+Patch the "Compose" action inside the Default case of "If_Recognized_Form" — only that one node, leave the rest alone
+```
 
 ### SharePoint
 ```
@@ -192,10 +198,10 @@ What parameters does the "Send an email (V2)" action need?
 ### Core Flow Operations
 | Tool | Description |
 |------|-------------|
-| `list_flows` | List flows in an environment |
-| `get_flow` | Get full flow definition |
-| `create_flow` | Create a new flow |
-| `update_flow` | Modify an existing flow |
+| `list_flows` | List flows. `scope: "owned" \| "shared" \| "all"` filters by ownership; `includeOwner` shows the creator + `[owned]`/`[shared]` tag |
+| `get_flow` | Get flow definition. `format: "summary" \| "json" \| "both"` — use `json`/`both` to capture nested actions inside Switch/If/Foreach/Scope |
+| `create_flow` | Create a new flow (supports optional `description`) |
+| `update_flow` | Modify an existing flow. Three modes: full replace (default), `mergeActions: true` (deep-merge — preserves siblings), or `patchActions: { "path": value }` (surgical, smallest payload). Also supports `description` |
 | `delete_flow` | Delete a flow |
 | `toggle_flow` | Enable or disable a flow |
 | `clone_flow` | Copy flow to another environment |
