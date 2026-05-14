@@ -193,7 +193,7 @@ What connectors are available for working with SharePoint?
 What parameters does the "Send an email (V2)" action need?
 ```
 
-## Available Tools (108 total)
+## Available Tools (109 total)
 
 ### Core Flow Operations
 | Tool | Description |
@@ -212,6 +212,8 @@ What parameters does the "Send an email (V2)" action need?
 | `test_flow` | Run flow with automatic diagnosis |
 | `run_flow` | Trigger a manual flow |
 | `get_runs` | Get flow run history |
+| `get_run_actions` | Action-level debugging with full I/O visibility. Fetches inputs/outputs for failed actions by default; `includeInputs`/`includeOutputs` for all; `actionName` to drill into one action; `failedOnly` to filter |
+| `get_run_action_repetitions` | Loop iteration drill-down for `Apply_to_each`/`Do_until`. Shows per-iteration status, inputs, outputs, errors. `failedOnly` + `maxIterations` for large loops |
 | `diagnose_flow` | Analyze failures with fix suggestions |
 | `validate_flow` | Validate with best practices score |
 

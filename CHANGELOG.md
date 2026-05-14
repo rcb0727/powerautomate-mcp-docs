@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.9.0] - 2026-05-13
+
+### Added
+- **`get_run_actions` full I/O visibility**: Removed the hardcoded action-name filter that only fetched outputs for a handful of named actions. The tool now fetches **inputs and outputs for all failed actions by default**, and for all actions when `includeInputs` / `includeOutputs` is explicitly set to `true`. New `actionName` parameter allows filtering to a specific action by partial name match for targeted drill-down. Truncation limits raised from 200 to 1,000 characters. I/O fetches run in parallel for faster results. Tracked properties and retry counts are now surfaced in the output.
+- **New `get_run_action_repetitions` tool**: Drill into individual iterations of `Apply_to_each` (for_each) and `Do_until` loops. Shows per-iteration status, timing, inputs, outputs, and error details. Supports `failedOnly` filtering, `includeInputs`/`includeOutputs` toggles, and a `maxIterations` cap (default 50) to handle large loops safely. Essential for debugging loops that partially fail — previously you could only see the parent action status with no visibility into which iteration broke.
+- **New `getFlowRunActionRepetitions` API method**: Calls the Power Automate `runs/{runId}/actions/{actionName}/repetitions` endpoint to retrieve iteration-level data for loop actions.
+- **New types**: `FlowRunActionRepetition` and `FlowRunActionRepetitionProperties` with support for `repetitionIndexes` (scope + item index), `inputsLink`, `outputsLink`, and `iterationCount`.
+
+### Changed
+- **`get_run_actions` output format**: Each action now renders on its own block with structured sub-lines for Error, Inputs, Outputs, Tracked properties, and Retries — replacing the previous single-line format that truncated errors at 100 characters.
+- **`getRunActionsTool` JSON Schema**: Now includes `includeInputs`, `includeOutputs`, and `actionName` properties to match the Zod validation schema.
+
+### Upgrade Notes
+- `npm install -g powerautomate-mcp@latest`. No app-registration, configuration, or workflow changes required.
+- All v0.9.0 additions are additive and backwards-compatible. Existing `get_run_actions` calls continue to work — failed actions now automatically include I/O data without any parameter changes.
+- Recommended debugging workflow: `get_run_actions` with `failedOnly: true` → identify the failed action → if it's inside a loop, call `get_run_action_repetitions` with the action name to see which iteration failed and why.
+
 ## [0.8.0] - 2026-05-06
 
 ### Added
