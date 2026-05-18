@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.9.1] - 2026-05-17
+
+### Fixed
+- **Setup wizard crashes before showing device code when reusing existing app registration**: The wizard clears the token cache during setup but the account cache persists from a prior session. `currentAccount` was non-null, silent acquisition failed (no tokens), and the secondary-resource-probe guard (added in v0.7.4) blocked the device code fallback — crashing with "Silent token acquisition failed" before the user ever saw an auth code. Fixed by tracking `interactiveAuthCompleted` flag: the guard now only blocks secondary resource probes after a successful device code auth in the current session, not when `currentAccount` is stale from a prior run.
+
+### Upgrade Notes
+- `npm install -g powerautomate-mcp@latest`
+- No re-authentication needed — this fix makes `--setup` work correctly when it previously crashed.
+- Fixes [#10](https://github.com/rcb0727/powerautomate-mcp-docs/issues/10)
+
 ## [0.9.0] - 2026-05-13
 
 ### Added
