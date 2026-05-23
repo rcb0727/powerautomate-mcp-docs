@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.9.3] - 2026-05-23
+
+### Improved
+- **`diagnose_flow` now fetches actual API error responses**: Previously only read the generic Power Automate error wrapper which often just said "Unknown error." Now fetches the real HTTP response body from failed actions (via `outputsLink`) to surface the actual API error — e.g., Jira's `"The requested API has been removed"`, Graph's `"Resource not found"`, or a 401 auth failure body. Also fetches action inputs to show what URL/body was sent. HTTP status codes, response bodies, and request details are included in the diagnostic output. Error pattern matching re-runs against the real response for better category classification and fix suggestions.
+
 ## [0.9.2] - 2026-05-22
 
 ### Fixed
