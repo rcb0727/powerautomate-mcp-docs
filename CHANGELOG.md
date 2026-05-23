@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.9.2] - 2026-05-22
+
+### Fixed
+- **BAP token not cached after `--setup`**: The setup wizard's "additional resources" probe used silent-only acquisition for `api.bap.microsoft.com`, which fails on strict corporate tenants where consent was never interactively captured. Now uses interactive auth (with silent-first optimization) so the BAP token is reliably cached post-setup. This fixes Dataverse tools failing with "No cached credentials" even after a clean `--setup`.
+- **Azure region names produce invalid Dataverse hostnames**: The region map only covered Power Platform region names (`unitedstates`, `europe`) but not Azure region names (`westus`, `eastus`, `westeurope`, etc.). When `region: "westus"` was in the config, the fallback generated `<guid>.westus.dynamics.com` — an invalid hostname. Added 20+ Azure region mappings.
+- **Misleading error message on BAP fallback**: Distinguished auth failures ("BAP token not cached — run --setup or add dataverseUrl") from API failures ("instanceUrl not returned — falling back to region guess") so users don't chase futile `--setup` re-runs.
+
+### Upgrade Notes
+- `npm install -g powerautomate-mcp@latest`
+- Run `powerautomate-mcp --setup` to cache the BAP token interactively
+- **Workaround** (if interactive BAP auth fails): Add `dataverseUrl` to your environment config:
+  ```json
+  { "id": "<env-guid>", "region": "westus", "dataverseUrl": "<org-name>.crm.dynamics.com" }
+  ```
+- Fixes [#11](https://github.com/rcb0727/powerautomate-mcp-docs/issues/11)
+
 ## [0.9.1] - 2026-05-17
 
 ### Fixed
