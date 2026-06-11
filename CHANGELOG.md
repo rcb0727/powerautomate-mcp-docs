@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.9.4] - 2026-06-11
+
+### Fixed
+- **`get_run_actions` / `diagnose_flow` payload fetches blocked — `*.powerplatformusercontent.com` missing from resource-link allowlist**: action `inputsLink`/`outputsLink` URIs returned by the Flow API resolve to the per-environment Power Platform content endpoint (`<environment-id>.environment.api.powerplatformusercontent.com`), which the resource-link validator rejected fail-closed with `Invalid resource link: domain not in allowlist`. On affected tenants every payload fetch failed, and `diagnose_flow` categorized all failures as "Unknown Error" because it could never retrieve the real HTTP response body (the headline 0.9.3 improvement). Added `powerplatformusercontent.com` to the allowlist with the same dot-boundary subdomain matching as the existing entries — Microsoft lists `https://*.powerplatformusercontent.com` as required Power Platform infrastructure ([online requirements](https://learn.microsoft.com/power-platform/admin/online-requirements)). The existing SAS-token handling (auth header withheld for `sig=`/`sv=` URLs) is URI-based and applies to these links unchanged. Regression tests added, including lookalike-domain rejection (`evilpowerplatformusercontent.com`, `powerplatformusercontent.com.evil.io`). Fixes [#12](https://github.com/rcb0727/powerautomate-mcp-docs/issues/12).
+
+### Upgrade Notes
+- `npm install -g powerautomate-mcp@latest`. No configuration or permission changes required.
+
 ## [0.9.3] - 2026-05-23
 
 ### Improved
