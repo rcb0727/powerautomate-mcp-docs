@@ -1,6 +1,6 @@
 # Power Automate MCP Server
 
-**Docs:** **Overview** · [Installation & Upgrading](INSTALL.md) · [Changelog](CHANGELOG.md) · [Report an issue](https://github.com/rcb0727/powerautomate-mcp-docs/issues)
+**Docs:** **Overview** · [Installation & Upgrading](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md) · [Changelog](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/CHANGELOG.md) · [Report an issue](https://github.com/rcb0727/powerautomate-mcp-docs/issues)
 
 An MCP (Model Context Protocol) server for Microsoft Power Automate. Create, manage, and deploy Power Automate flows using natural language.
 
@@ -11,8 +11,8 @@ Works with any MCP-compatible AI client: **Claude Desktop**, **Claude Code**, **
 | Page | What you'll find |
 |------|------------------|
 | **README** (this page) | [Features](#features) · [Quick Start](#quick-start) · [App Registration](#microsoft-entra-app-registration) · [CLI Reference](#cli-reference) · [Usage Examples](#usage-examples) · [All 109 Tools](#available-tools-109-total) · [Security](#security) · [Architecture](#architecture) |
-| [Installation Guide](INSTALL.md) | [Prerequisites](INSTALL.md#prerequisites) · [Install](INSTALL.md#install-from-npm) · [**Updating safely**](INSTALL.md#updating) · per-client setup ([Claude Desktop](INSTALL.md#claude-desktop), [Claude Code](INSTALL.md#claude-code-cli), [VS Code](INSTALL.md#vs-code-github-copilot), [Cursor](INSTALL.md#cursor), [Gemini CLI](INSTALL.md#google-gemini-cli), [ChatGPT](INSTALL.md#chatgpt-openai)) · [Enterprise consent](INSTALL.md#enterprise-tenants-with-strict-consent-policies) |
-| [Changelog](CHANGELOG.md) | Release history with per-version upgrade notes |
+| [Installation Guide](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md) | [Prerequisites](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#prerequisites) · [Install](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#install-from-npm) · [**Updating safely**](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#updating) · per-client setup ([Claude Desktop](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#claude-desktop), [Claude Code](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#claude-code-cli), [VS Code](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#vs-code-github-copilot), [Cursor](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#cursor), [Gemini CLI](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#google-gemini-cli), [ChatGPT](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#chatgpt-openai)) · [Enterprise consent](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#enterprise-tenants-with-strict-consent-policies) |
+| [Changelog](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/CHANGELOG.md) | Release history with per-version upgrade notes |
 | [Issues](https://github.com/rcb0727/powerautomate-mcp-docs/issues) | Bug reports and feature requests — every one gets read |
 
 ## Features
@@ -45,7 +45,7 @@ The setup wizard handles everything automatically:
 4. Discovers your environments and lets you select one
 5. Saves your configuration
 
-Then configure your AI client. See the **[Installation Guide](INSTALL.md)** for platform-specific setup:
+Then configure your AI client. See the **[Installation Guide](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md)** for platform-specific setup:
 
 | Client | Config |
 |--------|--------|
@@ -54,7 +54,7 @@ Then configure your AI client. See the **[Installation Guide](INSTALL.md)** for 
 | VS Code Copilot | `.vscode/mcp.json` |
 | Cursor | `~/.cursor/mcp.json` |
 | Gemini CLI | `~/.gemini/settings.json` |
-| ChatGPT | `--http` flag + tunnel (see [guide](INSTALL.md#chatgpt-openai)) |
+| ChatGPT | `--http` flag + tunnel (see [guide](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#chatgpt-openai)) |
 
 ---
 
@@ -366,4 +366,4 @@ Thank you for using this project — it is truly appreciated. Every install, bug
 
 ## Support
 
-For issues and feature requests, please [open an issue](https://github.com/rcb0727/powerautomate-mcp-docs/issues) in this repository. Upgrading? See [Updating safely](INSTALL.md#updating) and the [Changelog](CHANGELOG.md).
+For issues and feature requests, please [open an issue](https://github.com/rcb0727/powerautomate-mcp-docs/issues) in this repository. Upgrading? See [Updating safely](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#updating) and the [Changelog](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/CHANGELOG.md).

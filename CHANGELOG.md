@@ -1,8 +1,8 @@
 # Changelog
 
-**Docs:** [Overview](README.md) · [Installation & Upgrading](INSTALL.md) · **Changelog** · [Report an issue](https://github.com/rcb0727/powerautomate-mcp-docs/issues)
+**Docs:** [Overview](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/README.md) · [Installation & Upgrading](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md) · **Changelog** · [Report an issue](https://github.com/rcb0727/powerautomate-mcp-docs/issues)
 
-> **Upgrading?** Quit your AI clients first so no `powerautomate-mcp` process is running, then `npm install -g powerautomate-mcp@latest`. Details: [Updating safely](INSTALL.md#updating).
+> **Upgrading?** Quit your AI clients first so no `powerautomate-mcp` process is running, then `npm install -g powerautomate-mcp@latest`. Details: [Updating safely](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#updating).
 
 ## Release Index
 

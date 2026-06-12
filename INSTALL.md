@@ -1,6 +1,6 @@
 # Installation Guide
 
-**Docs:** [Overview](README.md) · **Installation & Upgrading** · [Changelog](CHANGELOG.md) · [Report an issue](https://github.com/rcb0727/powerautomate-mcp-docs/issues)
+**Docs:** [Overview](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/README.md) · **Installation & Upgrading** · [Changelog](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/CHANGELOG.md) · [Report an issue](https://github.com/rcb0727/powerautomate-mcp-docs/issues)
 
 This MCP server uses the **stdio** transport and works with any MCP-compatible AI client.
 
@@ -10,7 +10,7 @@ This MCP server uses the **stdio** transport and works with any MCP-compatible A
 
 - Node.js 20+
 - Microsoft 365 work account with Power Automate access
-- Microsoft Entra app registration (see [README](README.md#microsoft-entra-app-registration))
+- Microsoft Entra app registration (see [README](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/README.md#microsoft-entra-app-registration))
 - **Linux only**: libsecret for secure token storage
   ```bash
   # Ubuntu/Debian runtime
@@ -56,7 +56,7 @@ npm install -g powerautomate-mcp
 
 `powerautomate-mcp --update` does the npm upgrade for you — the same rule applies: close clients first.
 
-See the [Changelog](CHANGELOG.md) for what's new and any version-specific upgrade notes.
+See the [Changelog](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/CHANGELOG.md) for what's new and any version-specific upgrade notes.
 
 ## First-Time Setup
 
