@@ -1,8 +1,19 @@
 # Power Automate MCP Server
 
+**Docs:** **Overview** · [Installation & Upgrading](INSTALL.md) · [Changelog](CHANGELOG.md) · [Report an issue](https://github.com/rcb0727/powerautomate-mcp-docs/issues)
+
 An MCP (Model Context Protocol) server for Microsoft Power Automate. Create, manage, and deploy Power Automate flows using natural language.
 
 Works with any MCP-compatible AI client: **Claude Desktop**, **Claude Code**, **VS Code Copilot**, **Cursor**, **Google Gemini CLI**, and more.
+
+## Documentation Map
+
+| Page | What you'll find |
+|------|------------------|
+| **README** (this page) | [Features](#features) · [Quick Start](#quick-start) · [App Registration](#microsoft-entra-app-registration) · [CLI Reference](#cli-reference) · [Usage Examples](#usage-examples) · [All 109 Tools](#available-tools-109-total) · [Security](#security) · [Architecture](#architecture) |
+| [Installation Guide](INSTALL.md) | [Prerequisites](INSTALL.md#prerequisites) · [Install](INSTALL.md#install-from-npm) · [**Updating safely**](INSTALL.md#updating) · per-client setup ([Claude Desktop](INSTALL.md#claude-desktop), [Claude Code](INSTALL.md#claude-code-cli), [VS Code](INSTALL.md#vs-code-github-copilot), [Cursor](INSTALL.md#cursor), [Gemini CLI](INSTALL.md#google-gemini-cli), [ChatGPT](INSTALL.md#chatgpt-openai)) · [Enterprise consent](INSTALL.md#enterprise-tenants-with-strict-consent-policies) |
+| [Changelog](CHANGELOG.md) | Release history with per-version upgrade notes |
+| [Issues](https://github.com/rcb0727/powerautomate-mcp-docs/issues) | Bug reports and feature requests — every one gets read |
 
 ## Features
 
@@ -355,4 +366,4 @@ Thank you for using this project — it is truly appreciated. Every install, bug
 
 ## Support
 
-For issues and feature requests, please open an issue in this repository.
+For issues and feature requests, please [open an issue](https://github.com/rcb0727/powerautomate-mcp-docs/issues) in this repository. Upgrading? See [Updating safely](INSTALL.md#updating) and the [Changelog](CHANGELOG.md).

@@ -1,12 +1,16 @@
 # Installation Guide
 
+**Docs:** [Overview](README.md) · **Installation & Upgrading** · [Changelog](CHANGELOG.md) · [Report an issue](https://github.com/rcb0727/powerautomate-mcp-docs/issues)
+
 This MCP server uses the **stdio** transport and works with any MCP-compatible AI client.
+
+**On this page:** [Prerequisites](#prerequisites) · [Install](#install-from-npm) · [Updating](#updating) · [First-Time Setup](#first-time-setup) · [Configure Your AI Client](#configure-your-ai-client) · [Enterprise Tenants](#enterprise-tenants-with-strict-consent-policies)
 
 ## Prerequisites
 
 - Node.js 20+
 - Microsoft 365 work account with Power Automate access
-- Microsoft Entra app registration (see [README](README.md#microsoft-entra-app-registration-required))
+- Microsoft Entra app registration (see [README](README.md#microsoft-entra-app-registration))
 - **Linux only**: libsecret for secure token storage
   ```bash
   # Ubuntu/Debian runtime
@@ -37,17 +41,22 @@ npm install -g powerautomate-mcp
 
 ## Updating
 
-```bash
-npm install -g powerautomate-mcp
-```
+> **Stop running MCP instances before you upgrade.** Quit your AI clients (Claude Desktop, Cursor, VS Code, etc.) and stop any `powerautomate-mcp --http` servers first. A running process keeps the old version loaded in memory, and on Windows it can hold file locks in npm's global directory — causing `EBUSY`/`EPERM` errors and a half-upgraded install that's confusing to debug.
 
-Check your installed version:
+1. Quit your AI clients and stop any `--http` server instances
+2. Upgrade:
+   ```bash
+   npm install -g powerautomate-mcp@latest
+   ```
+3. Verify the new version:
+   ```bash
+   powerautomate-mcp --version
+   ```
+4. Relaunch your AI client — it starts the new version automatically. Claude Code picks it up on the next session.
 
-```bash
-powerautomate-mcp --help
-```
+`powerautomate-mcp --update` does the npm upgrade for you — the same rule applies: close clients first.
 
-After updating, restart your AI client (Claude Desktop, Cursor, etc.) to pick up the new version. Claude Code picks it up automatically on the next session.
+See the [Changelog](CHANGELOG.md) for what's new and any version-specific upgrade notes.
 
 ## First-Time Setup
 

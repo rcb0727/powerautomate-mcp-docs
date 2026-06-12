@@ -1,5 +1,26 @@
 # Changelog
 
+**Docs:** [Overview](README.md) · [Installation & Upgrading](INSTALL.md) · **Changelog** · [Report an issue](https://github.com/rcb0727/powerautomate-mcp-docs/issues)
+
+> **Upgrading?** Quit your AI clients first so no `powerautomate-mcp` process is running, then `npm install -g powerautomate-mcp@latest`. Details: [Updating safely](INSTALL.md#updating).
+
+## Release Index
+
+| Version | Date | Highlights |
+|---------|------|------------|
+| [0.9.4](#094---2026-06-11) | 2026-06-11 | `get_run_actions`/`diagnose_flow` payload fetches unblocked — `*.powerplatformusercontent.com` added to resource-link allowlist ([#12](https://github.com/rcb0727/powerautomate-mcp-docs/issues/12)) |
+| [0.9.3](#093---2026-05-23) | 2026-05-23 | `diagnose_flow` fetches the actual HTTP response body from failed actions |
+| [0.9.2](#092---2026-05-22) | 2026-05-22 | BAP token caching after `--setup`, 20+ Azure region mappings ([#11](https://github.com/rcb0727/powerautomate-mcp-docs/issues/11)) |
+| [0.9.1](#091---2026-05-17) | 2026-05-17 | `--setup` crash with reused app registration fixed ([#10](https://github.com/rcb0727/powerautomate-mcp-docs/issues/10)) |
+| [0.9.0](#090---2026-05-13) | 2026-05-13 | Full action-level I/O visibility + `get_run_action_repetitions` loop drill-down |
+| [0.8.0](#080---2026-05-06) | 2026-05-06 | Nested-action capture (`format="json"`), merge/patch flow updates, shared-flow filtering |
+| [0.7.9](#079---2026-05-05) | 2026-05-05 | Security: `undici` + MCP SDK bumps closing 6 advisories |
+| [0.7.8](#078---2026-04-30) | 2026-04-30 | Actionable diagnostics when device-code flow is blocked ([#9](https://github.com/rcb0727/powerautomate-mcp-docs/issues/9)) |
+| [0.7.7](#077---2026-04-29) | 2026-04-29 | Device-code prompt rendering fix ([#9](https://github.com/rcb0727/powerautomate-mcp-docs/issues/9)) |
+| [0.7.6](#076---2026-04-23) | 2026-04-23 | Dataverse URL auto-resolution, flow run-ID validation, `$orderby` fix ([#6](https://github.com/rcb0727/powerautomate-mcp-docs/issues/6), [#7](https://github.com/rcb0727/powerautomate-mcp-docs/issues/7), [#8](https://github.com/rcb0727/powerautomate-mcp-docs/issues/8)) |
+
+Older releases are documented below in full.
+
 ## [0.9.4] - 2026-06-11
 
 ### Fixed
