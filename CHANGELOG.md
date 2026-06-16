@@ -8,6 +8,7 @@
 
 | Version | Date | Highlights |
 |---------|------|------------|
+| [0.10.1](#0101---2026-06-15) | 2026-06-15 | **Security** — Dataverse API error bodies sanitized before reaching tool output; record GUIDs, user emails, and credentials no longer leak in error messages |
 | [0.10.0](#0100---2026-06-15) | 2026-06-15 | **Power Pages** — 12 new tools: Dataverse site config (pages, web roles, table permissions, snippets, templates) with standard/enhanced data-model auto-routing, plus site management (provision/restart/delete) via the Power Platform API |
 | [0.9.4](#094---2026-06-11) | 2026-06-11 | `get_run_actions`/`diagnose_flow` payload fetches unblocked — `*.powerplatformusercontent.com` added to resource-link allowlist ([#12](https://github.com/rcb0727/powerautomate-mcp-docs/issues/12)) |
 | [0.9.3](#093---2026-05-23) | 2026-05-23 | `diagnose_flow` fetches the actual HTTP response body from failed actions |
@@ -21,6 +22,17 @@
 | [0.7.6](#076---2026-04-23) | 2026-04-23 | Dataverse URL auto-resolution, flow run-ID validation, `$orderby` fix ([#6](https://github.com/rcb0727/powerautomate-mcp-docs/issues/6), [#7](https://github.com/rcb0727/powerautomate-mcp-docs/issues/7), [#8](https://github.com/rcb0727/powerautomate-mcp-docs/issues/8)) |
 
 Older releases are documented below in full.
+
+## [0.10.1] - 2026-06-15
+
+### Security
+- **Dataverse API error responses are now sanitized before they can reach tool output (low-severity information disclosure).** `DataverseApi.handleResponse` attached the raw, parsed Dataverse error body to the thrown `ApiError`, and the tool dispatcher's `formatErrorMessage` read `error.details` directly — bypassing `PowerAutomateError.toJSON`'s credential stripping — so a Dataverse error containing a record GUID, user email, or instance URL could surface to the MCP caller un-redacted. Both layers now run the error body through `sanitizeErrorMessage` (GUIDs collapsed to an 8-character correlation prefix, emails → `[EMAIL]`, bearer tokens / API keys redacted), mirroring the existing `PowerPagesApi` behavior. This affects only the text of *error* messages — successful responses, tool signatures, and error categorization (connection/auth/not-found/rate-limit guidance) are unchanged. Regression tests added covering GUID and email redaction at both layers.
+
+### Fixed
+- **`tsc --noEmit` is clean again (developer/CI-facing only — no runtime change).** Resolved 5 pre-existing TypeScript errors unrelated to the v0.10.0 Power Pages work: four `TS2532` "object is possibly undefined" index accesses in `get-run-actions.ts` (already guarded by an existing key-initialization check, now expressed with provably-safe non-null assertions) and one `TS6133` unused parameter in `get-run-action-repetitions.ts` (underscore-prefixed). The bundler (tsup/esbuild) never typechecked, so published builds were never affected; this only restores a green `tsc` for contributors and CI. No emitted JavaScript changes.
+
+### Upgrade Notes
+- `npm install -g powerautomate-mcp@latest`. No app-registration, configuration, or workflow changes required.
 
 ## [0.10.0] - 2026-06-15
 
