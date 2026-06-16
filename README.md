@@ -10,7 +10,7 @@ Works with any MCP-compatible AI client: **Claude Desktop**, **Claude Code**, **
 
 | Page | What you'll find |
 |------|------------------|
-| **README** (this page) | [Features](#features) · [Quick Start](#quick-start) · [App Registration](#microsoft-entra-app-registration) · [CLI Reference](#cli-reference) · [Usage Examples](#usage-examples) · [All 109 Tools](#available-tools-109-total) · [Security](#security) · [Architecture](#architecture) |
+| **README** (this page) | [Features](#features) · [Quick Start](#quick-start) · [App Registration](#microsoft-entra-app-registration) · [CLI Reference](#cli-reference) · [Usage Examples](#usage-examples) · [All 121 Tools](#available-tools-121-total) · [Security](#security) · [Architecture](#architecture) |
 | [Installation Guide](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md) | [Prerequisites](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#prerequisites) · [Install](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#install-from-npm) · [**Updating safely**](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#updating) · per-client setup ([Claude Desktop](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#claude-desktop), [Claude Code](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#claude-code-cli), [VS Code](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#vs-code-github-copilot), [Cursor](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#cursor), [Gemini CLI](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#google-gemini-cli), [ChatGPT](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#chatgpt-openai)) · [Enterprise consent](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#enterprise-tenants-with-strict-consent-policies) |
 | [Changelog](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/CHANGELOG.md) | Release history with per-version upgrade notes |
 | [Issues](https://github.com/rcb0727/powerautomate-mcp-docs/issues) | Bug reports and feature requests — every one gets read |
@@ -22,6 +22,7 @@ Works with any MCP-compatible AI client: **Claude Desktop**, **Claude Code**, **
 - **Validate** - Pre-flight checks with best practices scoring (0-100)
 - **Manage Flows** - List, update, clone, and delete flows
 - **Power Apps** - Manage canvas and model-driven apps, permissions, versions
+- **Power Pages** - Configure sites (pages, web roles, table permissions, snippets, templates) and manage hosting (provision, restart, delete)
 - **Environment Admin** - Create, copy, backup, restore environments
 - **DLP Policies** - Create and manage data loss prevention policies
 - **Solutions ALM** - Export, import, and manage Dataverse solutions
@@ -110,6 +111,9 @@ If you prefer to create the app registration manually:
    | Power Automate (Flow Service) | `Activity.Read.All` | Delegated | Flow run history |
    | Power Automate (Flow Service) | `Approvals.Manage.All` | Delegated | Approval management |
    | Dynamics CRM | `user_impersonation` | Delegated | Dataverse table/row CRUD |
+   | Power Platform API | delegated permission | Delegated | Power Pages **site management** (Tier 2 — optional; see note below) |
+
+   > **Power Pages site-management tools (Tier 2)** call `https://api.powerplatform.com` and need the "Power Platform API" delegated permission (appId `8578e004-a5c6-46e7-913e-12f58912df43`). It is **not** added by the automatic `--setup` app creation because that API exposes only feature-scoped permissions and the auto-creator can't safely guess the scope. Add it manually here if you want Tier 2; the Power Pages **config** tools (Dataverse) work without it. After adding, re-run `--setup` — the wizard reports whether the Power Platform API authorized.
 
 5. Click **Grant admin consent for [Your Tenant]** (requires Global Admin, Application Admin, Cloud Application Admin, or Privileged Role Admin)
 
@@ -204,7 +208,7 @@ What connectors are available for working with SharePoint?
 What parameters does the "Send an email (V2)" action need?
 ```
 
-## Available Tools (109 total)
+## Available Tools (121 total)
 
 ### Core Flow Operations
 | Tool | Description |
@@ -276,6 +280,30 @@ What parameters does the "Send an email (V2)" action need?
 | `share_app` | Share an app with users/groups |
 | `remove_app_permission` | Remove app access |
 | `set_app_owner` | Transfer app ownership |
+
+### Power Pages — Site Configuration (Dataverse)
+Auto-detects each site's data model (standard `adx_*` vs enhanced `mspp_*` tables) and routes to the right tables. Requires a Dataverse-enabled environment.
+
+| Tool | Description |
+|------|-------------|
+| `list_powerpages_sites` | List Power Pages sites in Dataverse, tagged by data model, with the site id for the tools below |
+| `get_powerpages_site` | Get a site's Dataverse record + detected data model |
+| `list_powerpages_components` | List a site's config components. `component`: `webpage`, `webrole`, `tablepermission`, `contentsnippet`, `webtemplate`, `pagetemplate`, `sitesetting`, `sitemarker`, `weblinkset`, `webfile`, `list`, `basicform`, `advancedform` |
+| `get_powerpages_component` | Get a single config component by record id |
+| `create_powerpages_component` | Create a config component (site link added automatically via `@odata.bind`) |
+| `update_powerpages_component` | Update a config component |
+| `delete_powerpages_component` | Delete a config component (with confirmation) |
+
+### Power Pages — Site Management (Power Platform API)
+> Requires the **Power Platform API** delegated permission on the app registration (see [App Registration](#microsoft-entra-app-registration)) and a Power Pages / Power Platform admin role.
+
+| Tool | Description |
+|------|-------------|
+| `list_powerpages_websites` | List hosted websites (status, public URL, data model, type) |
+| `get_powerpages_website` | Get a website's hosting details |
+| `create_powerpages_website` | Provision a new website (asynchronous; `confirm` required) |
+| `delete_powerpages_website` | Delete a website (`confirm` required) |
+| `restart_powerpages_website` | Restart a website to apply Dataverse config changes (the API equivalent of the studio "Sync") |
 
 ### Environment Administration
 > Requires **Power Platform Admin**, **Dynamics 365 Admin**, or **Global Admin** role.

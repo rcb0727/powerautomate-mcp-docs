@@ -41,7 +41,7 @@
 4. Re-test after fixing
 5. Repeat until flow succeeds
 
-## Tool Reference (108 tools)
+## Tool Reference (121 tools)
 
 ### Planning & Building
 | Tool | When to Use |
@@ -110,6 +110,30 @@
 | `share_app` | Share an app with users/groups |
 | `remove_app_permission` | Remove app access |
 | `set_app_owner` | Transfer app ownership |
+
+### Power Pages — Site Configuration (Dataverse)
+Auto-routes by data model: standard `adx_*` tables or enhanced `mspp_*` virtual tables.
+
+| Tool | When to Use |
+|------|-------------|
+| `list_powerpages_sites` | List Power Pages sites in Dataverse (tagged standard/enhanced) with their site ids |
+| `get_powerpages_site` | Get a site record + detected data model |
+| `list_powerpages_components` | List a site's config. `component`: webpage, webrole, tablepermission, contentsnippet, webtemplate, pagetemplate, sitesetting, sitemarker, weblinkset, webfile, list, basicform, advancedform |
+| `get_powerpages_component` | Get one config component by id |
+| `create_powerpages_component` | Create a config component (site link auto-added) |
+| `update_powerpages_component` | Update a config component |
+| `delete_powerpages_component` | Delete a config component (confirm) |
+
+### Power Pages — Site Management (Power Platform API)
+> Requires the Power Platform API delegated permission + a Power Pages / Power Platform admin role.
+
+| Tool | When to Use |
+|------|-------------|
+| `list_powerpages_websites` | List hosted Power Pages sites (status, URL, data model, type) |
+| `get_powerpages_website` | Get a hosted site's details |
+| `create_powerpages_website` | Provision a new site (async; confirm required) |
+| `delete_powerpages_website` | Delete a hosted site (confirm required) |
+| `restart_powerpages_website` | Restart a site to apply Dataverse config changes |
 
 ### Environment Administration
 > Requires **Power Platform Admin**, **Dynamics 365 Admin**, or **Global Admin** role. Non-admin users will receive permission errors.

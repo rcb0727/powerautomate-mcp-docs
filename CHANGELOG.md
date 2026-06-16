@@ -8,6 +8,7 @@
 
 | Version | Date | Highlights |
 |---------|------|------------|
+| [0.10.0](#0100---2026-06-15) | 2026-06-15 | **Power Pages** — 12 new tools: Dataverse site config (pages, web roles, table permissions, snippets, templates) with standard/enhanced data-model auto-routing, plus site management (provision/restart/delete) via the Power Platform API |
 | [0.9.4](#094---2026-06-11) | 2026-06-11 | `get_run_actions`/`diagnose_flow` payload fetches unblocked — `*.powerplatformusercontent.com` added to resource-link allowlist ([#12](https://github.com/rcb0727/powerautomate-mcp-docs/issues/12)) |
 | [0.9.3](#093---2026-05-23) | 2026-05-23 | `diagnose_flow` fetches the actual HTTP response body from failed actions |
 | [0.9.2](#092---2026-05-22) | 2026-05-22 | BAP token caching after `--setup`, 20+ Azure region mappings ([#11](https://github.com/rcb0727/powerautomate-mcp-docs/issues/11)) |
@@ -20,6 +21,17 @@
 | [0.7.6](#076---2026-04-23) | 2026-04-23 | Dataverse URL auto-resolution, flow run-ID validation, `$orderby` fix ([#6](https://github.com/rcb0727/powerautomate-mcp-docs/issues/6), [#7](https://github.com/rcb0727/powerautomate-mcp-docs/issues/7), [#8](https://github.com/rcb0727/powerautomate-mcp-docs/issues/8)) |
 
 Older releases are documented below in full.
+
+## [0.10.0] - 2026-06-15
+
+### Added
+- **Power Pages support (12 new tools, 109 → 121 total).** Two planes:
+  - **Site configuration (Dataverse)** — `list_powerpages_sites`, `get_powerpages_site`, and `list`/`get`/`create`/`update`/`delete_powerpages_component` covering web pages, web roles, table permissions, content snippets, web/page templates, site settings, site markers, web link sets, web files, lists, and basic/advanced forms. Each tool auto-detects the site's **data model** and routes to the correct tables — the standard legacy `adx_*` tables or the enhanced `mspp_*` virtual tables — and `create` wires the site association automatically via `@odata.bind`. Runs over the existing Dataverse Web API client (Dataverse-enabled environment required).
+  - **Site management (Power Platform API)** — `list`/`get`/`create`/`delete`/`restart_powerpages_website` for hosting/lifecycle via `https://api.powerplatform.com` (`api-version=2024-10-01`). `create` is asynchronous and gated behind `confirm`; `restart` is the API equivalent of the design-studio "Sync".
+- Entity-set names and `powerpagecomponenttype` codes verified against Microsoft Learn. Unit tests cover data-model routing, entity-set selection, `@odata.bind` injection, GUID/OData-injection rejection, confirm-gates, and registry wiring.
+
+### Upgrade Notes
+- `npm install -g powerautomate-mcp@latest`. The Power Pages **configuration** tools need only your existing Dataverse permission. The Power Pages **management** tools additionally require the **Power Platform API** delegated permission (appId `8578e004-a5c6-46e7-913e-12f58912df43`) on your app registration — add it in Microsoft Entra, grant admin consent, and re-run `--setup` (the wizard reports whether it authorized). Service principals are not supported by the Power Pages management namespace; use the interactive delegated sign-in.
 
 ## [0.9.4] - 2026-06-11
 

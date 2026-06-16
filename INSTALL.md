@@ -243,6 +243,7 @@ If your tenant requires admin consent for all applications:
    - Flow Service (`7df0a125-d3be-4c96-aa54-591f83ff541c`): `Flows.Read.All`, `Flows.Manage.All`, `Activity.Read.All`, `Approvals.Manage.All`
    - PowerApps Service (`475226c6-020e-4fb2-8a90-7a972cbfc1d4`): `User`
    - Dynamics CRM (`00000007-0000-0000-c000-000000000000`): `user_impersonation`
+   - Power Platform API (`8578e004-a5c6-46e7-913e-12f58912df43`): a delegated permission — **optional**, only for the Power Pages site-management tools (Tier 2). The Power Pages config tools (Dataverse) don't need it.
 
 2. **Grant admin consent** for all permissions via:
    ```
