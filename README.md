@@ -242,7 +242,9 @@ What parameters does the "Send an email (V2)" action need?
 
 ## Available Tools (121 total)
 
-### Core Flow Operations
+<details>
+<summary>Core Flow Operations (7 tools)</summary>
+
 | Tool | Description |
 |------|-------------|
 | `list_flows` | List flows. `scope: "owned" \| "shared" \| "all"` filters by ownership; `includeOwner` shows the creator + `[owned]`/`[shared]` tag |
@@ -253,7 +255,11 @@ What parameters does the "Send an email (V2)" action need?
 | `toggle_flow` | Enable or disable a flow |
 | `clone_flow` | Copy flow to another environment |
 
-### Testing & Debugging
+</details>
+
+<details>
+<summary>Testing & Debugging (7 tools)</summary>
+
 | Tool | Description |
 |------|-------------|
 | `test_flow` | Run flow with automatic diagnosis |
@@ -264,7 +270,11 @@ What parameters does the "Send an email (V2)" action need?
 | `diagnose_flow` | Analyze failures with fix suggestions |
 | `validate_flow` | Validate with best practices score |
 
-### Planning & Help
+</details>
+
+<details>
+<summary>Planning & Help (5 tools)</summary>
+
 | Tool | Description |
 |------|-------------|
 | `plan_flow` | Interactive flow planning wizard |
@@ -273,7 +283,11 @@ What parameters does the "Send an email (V2)" action need?
 | `search_connectors` | Find connectors by name |
 | `get_action_schema` | Get connector action parameters |
 
-### Dataverse CRUD
+</details>
+
+<details>
+<summary>Dataverse CRUD (7 tools)</summary>
+
 | Tool | Description |
 |------|-------------|
 | `list_dataverse_tables` | List all tables (entities) in the environment |
@@ -284,7 +298,11 @@ What parameters does the "Send an email (V2)" action need?
 | `update_dataverse_row` | Update an existing row |
 | `delete_dataverse_row` | Delete a row (with confirmation) |
 
-### SharePoint
+</details>
+
+<details>
+<summary>SharePoint (11 tools)</summary>
+
 | Tool | Description |
 |------|-------------|
 | `search_sharepoint_sites` | Search for SharePoint sites |
@@ -299,7 +317,11 @@ What parameters does the "Send an email (V2)" action need?
 | `upload_sharepoint_file` | Upload a file (up to 4MB) |
 | `get_sharepoint_file_content` | Download file content |
 
-### Power Apps
+</details>
+
+<details>
+<summary>Power Apps (10 tools)</summary>
+
 | Tool | Description |
 |------|-------------|
 | `list_canvas_apps` | List canvas apps |
@@ -313,7 +335,11 @@ What parameters does the "Send an email (V2)" action need?
 | `remove_app_permission` | Remove app access |
 | `set_app_owner` | Transfer app ownership |
 
-### Power Pages — Site Configuration (Dataverse)
+</details>
+
+<details>
+<summary>Power Pages — Site Configuration (7 tools)</summary>
+
 Auto-detects each site's data model (standard `adx_*` vs enhanced `mspp_*` tables) and routes to the right tables. Requires a Dataverse-enabled environment.
 
 | Tool | Description |
@@ -326,7 +352,11 @@ Auto-detects each site's data model (standard `adx_*` vs enhanced `mspp_*` table
 | `update_powerpages_component` | Update a config component |
 | `delete_powerpages_component` | Delete a config component (with confirmation) |
 
-### Power Pages — Site Management (Power Platform API)
+</details>
+
+<details>
+<summary>Power Pages — Site Management (5 tools)</summary>
+
 > Requires the **Power Platform API** delegated permission on the app registration (see [App Registration](#microsoft-entra-app-registration)) and a Power Pages / Power Platform admin role.
 
 | Tool | Description |
@@ -337,7 +367,11 @@ Auto-detects each site's data model (standard `adx_*` vs enhanced `mspp_*` table
 | `delete_powerpages_website` | Delete a website (`confirm` required) |
 | `restart_powerpages_website` | Restart a website to apply Dataverse config changes (the API equivalent of the studio "Sync") |
 
-### Environment Administration
+</details>
+
+<details>
+<summary>Environment Administration (8 tools)</summary>
+
 > Requires **Power Platform Admin**, **Dynamics 365 Admin**, or **Global Admin** role.
 
 | Tool | Description |
@@ -351,7 +385,11 @@ Auto-detects each site's data model (standard `adx_*` vs enhanced `mspp_*` table
 | `backup_environment` | Create a backup |
 | `restore_environment` | Restore from backup |
 
-### DLP Policies
+</details>
+
+<details>
+<summary>DLP Policies (6 tools)</summary>
+
 > Requires **Power Platform Admin**, **Dynamics 365 Admin**, or **Global Admin** role.
 
 | Tool | Description |
@@ -363,7 +401,11 @@ Auto-detects each site's data model (standard `adx_*` vs enhanced `mspp_*` table
 | `delete_dlp_policy` | Delete a policy |
 | `list_policy_connectors` | List connectors by policy group |
 
-### Solutions ALM
+</details>
+
+<details>
+<summary>Solutions ALM (6 tools)</summary>
+
 | Tool | Description |
 |------|-------------|
 | `list_solutions` | List Dataverse solutions |
@@ -373,7 +415,11 @@ Auto-detects each site's data model (standard `adx_*` vs enhanced `mspp_*` table
 | `list_solution_components` | List components in a solution |
 | `add_solution_component` | Add a component to a solution |
 
-### Managed Environments & Capacity
+</details>
+
+<details>
+<summary>Managed Environments & Capacity (5 tools)</summary>
+
 > Requires **Power Platform Admin**, **Dynamics 365 Admin**, or **Global Admin** role.
 
 | Tool | Description |
@@ -383,6 +429,8 @@ Auto-detects each site's data model (standard `adx_*` vs enhanced `mspp_*` table
 | `get_governance_settings` | Get governance configuration |
 | `get_tenant_capacity` | Get tenant-level capacity |
 | `get_capacity_alerts` | Get capacity alert notifications |
+
+</details>
 
 ## Security
 
