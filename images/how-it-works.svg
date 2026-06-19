@@ -1,0 +1,272 @@
+<svg viewBox="0 0 700 1080" xmlns="http://www.w3.org/2000/svg" role="img" style="font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;">
+  <title>PowerPlatform MCP — Complete Showcase</title>
+  <desc>Three example scenarios showing the MCP handling simple, moderate, and complex automation tasks.</desc>
+
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#666"/>
+    </marker>
+    <marker id="arrow-accent" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#2563eb"/>
+    </marker>
+    <marker id="arrow-pa" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#0066ff"/>
+    </marker>
+    <marker id="arrow-dv" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#742774"/>
+    </marker>
+    <marker id="arrow-pp" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#0b556a"/>
+    </marker>
+  </defs>
+
+  <rect width="700" height="1080" fill="#ffffff" rx="8"/>
+
+  <!-- Title -->
+  <text x="350" y="34" text-anchor="middle" font-size="16" font-weight="700" fill="#1a1a1a">PowerPlatform MCP</text>
+  <text x="350" y="54" text-anchor="middle" font-size="11" fill="#666">From natural language to Power Platform actions</text>
+
+  <!-- === FLOW === -->
+  <rect x="30" y="74" width="110" height="82" rx="12" fill="#f5f5f5" stroke="#e0e0e0" stroke-width="1.5"/>
+  <text x="85" y="100" text-anchor="middle" font-size="20">&#x1F464;</text>
+  <text x="85" y="120" text-anchor="middle" font-size="11" font-weight="600" fill="#1a1a1a">User</text>
+  <text x="85" y="136" text-anchor="middle" font-size="8.5" fill="#666">Natural language</text>
+
+  <line x1="140" y1="115" x2="178" y2="115" stroke="#666" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="180" y="74" width="110" height="82" rx="12" fill="#f5f5f5" stroke="#2563eb" stroke-width="2"/>
+  <text x="235" y="100" text-anchor="middle" font-size="18">&#x1F9E0;</text>
+  <text x="235" y="120" text-anchor="middle" font-size="11" font-weight="600" fill="#1a1a1a">LLM</text>
+  <text x="235" y="136" text-anchor="middle" font-size="8.5" fill="#666">Plans tool calls</text>
+
+  <line x1="290" y1="115" x2="328" y2="115" stroke="#2563eb" stroke-width="1.5" marker-end="url(#arrow-accent)"/>
+
+  <rect x="330" y="70" width="130" height="92" rx="12" fill="#2563eb" fill-opacity="0.08" stroke="#2563eb" stroke-width="2"/>
+  <text x="395" y="96" text-anchor="middle" font-size="16">&#x26A1;</text>
+  <text x="395" y="114" text-anchor="middle" font-size="11" font-weight="700" fill="#2563eb">MCP Server</text>
+  <text x="395" y="130" text-anchor="middle" font-size="8.5" fill="#666">Auth &#8226; Validate &#8226; Execute</text>
+  <text x="395" y="143" text-anchor="middle" font-size="8.5" fill="#666">121 tools</text>
+
+  <line x1="460" y1="98" x2="528" y2="82" stroke="#0066ff" stroke-width="1.5" marker-end="url(#arrow-pa)"/>
+  <line x1="460" y1="115" x2="528" y2="115" stroke="#742774" stroke-width="1.5" marker-end="url(#arrow-dv)"/>
+  <line x1="460" y1="132" x2="528" y2="148" stroke="#0b556a" stroke-width="1.5" marker-end="url(#arrow-pp)"/>
+
+  <rect x="530" y="66" width="140" height="40" rx="8" fill="#0066ff" fill-opacity="0.06" stroke="#0066ff" stroke-width="1"/>
+  <text x="600" y="83" text-anchor="middle" font-size="9" font-weight="600" fill="#0066ff">&#x2699;&#xFE0F; Power Automate</text>
+  <text x="600" y="98" text-anchor="middle" font-size="7.5" fill="#666">Flows, connectors, runs</text>
+
+  <rect x="530" y="110" width="140" height="30" rx="8" fill="#742774" fill-opacity="0.06" stroke="#742774" stroke-width="1"/>
+  <text x="600" y="130" text-anchor="middle" font-size="9" font-weight="600" fill="#742774">&#x1F5C4;&#xFE0F; Dataverse</text>
+
+  <rect x="530" y="144" width="140" height="30" rx="8" fill="#0b556a" fill-opacity="0.06" stroke="#0b556a" stroke-width="1"/>
+  <text x="600" y="164" text-anchor="middle" font-size="9" font-weight="600" fill="#0b556a">&#x1F310; Power Pages</text>
+
+  <!-- ========================================== -->
+  <!-- EXAMPLE 1: Simple -->
+  <!-- ========================================== -->
+  <line x1="30" y1="195" x2="670" y2="195" stroke="#e0e0e0" stroke-width="1" stroke-dasharray="4,4"/>
+  <text x="350" y="220" text-anchor="middle" font-size="13" font-weight="600" fill="#1a1a1a">Examples &#8212; From Simple to Complex</text>
+
+  <rect x="30" y="235" width="640" height="145" rx="10" fill="#f5f5f5" stroke="#e0e0e0" stroke-width="1"/>
+  <rect x="42" y="245" width="55" height="18" rx="9" fill="#22c55e" fill-opacity="0.15" stroke="#22c55e" stroke-width="1"/>
+  <text x="69" y="258" text-anchor="middle" font-size="8" font-weight="700" fill="#16a34a">SIMPLE</text>
+  <text x="108" y="258" font-size="10" font-weight="600" fill="#1a1a1a">Dataverse + Power Pages</text>
+
+  <text x="42" y="280" font-size="9" fill="#1a1a1a" font-style="italic">"Add a Contact table to Dataverse and show it as a list on my Power Pages site"</text>
+
+  <rect x="42" y="295" width="295" height="50" rx="6" fill="#742774" fill-opacity="0.04" stroke="#742774" stroke-width="1"/>
+  <text x="52" y="312" font-size="8" font-weight="700" fill="#742774">&#x2460; Dataverse</text>
+  <text x="52" y="325" font-size="8" fill="#666">Creates Contact table &#8212; FullName, Email, Phone</text>
+  <text x="52" y="338" font-size="8" fill="#666">columns auto-typed</text>
+
+  <rect x="347" y="295" width="311" height="50" rx="6" fill="#0b556a" fill-opacity="0.04" stroke="#0b556a" stroke-width="1"/>
+  <text x="357" y="312" font-size="8" font-weight="700" fill="#0b556a">&#x2461; Power Pages</text>
+  <text x="357" y="325" font-size="8" fill="#666">Adds list component bound to Contact table</text>
+  <text x="357" y="338" font-size="8" fill="#666">Auto-configures table permissions + site map</text>
+
+  <text x="42" y="368" font-size="8" fill="#666">2 tool calls &#8226; 2 services &#8226; ~10 seconds</text>
+
+  <!-- ========================================== -->
+  <!-- EXAMPLE 2: Moderate &#8212; Contract Routing -->
+  <!-- ========================================== -->
+  <rect x="30" y="392" width="640" height="210" rx="10" fill="#f5f5f5" stroke="#e0e0e0" stroke-width="1"/>
+
+  <rect x="42" y="402" width="75" height="18" rx="9" fill="#f59e0b" fill-opacity="0.15" stroke="#f59e0b" stroke-width="1"/>
+  <text x="79" y="415" text-anchor="middle" font-size="8" font-weight="700" fill="#d97706">MODERATE</text>
+  <text x="128" y="415" font-size="10" font-weight="600" fill="#1a1a1a">Contract Routing + Compliance Check</text>
+
+  <text x="42" y="437" font-size="9" fill="#1a1a1a" font-style="italic">"When a signed contract is uploaded to SharePoint, extract the client name and type,</text>
+  <text x="42" y="451" font-size="9" fill="#1a1a1a" font-style="italic">merge it with our master tracking list, auto-file it into the right department folder,</text>
+  <text x="42" y="465" font-size="9" fill="#1a1a1a" font-style="italic">and if the NDA or insurance cert is missing, alert legal in Teams."</text>
+
+  <!-- Flow viz -->
+  <rect x="42" y="480" width="88" height="48" rx="5" fill="#038387" fill-opacity="0.06" stroke="#038387" stroke-width="1"/>
+  <text x="86" y="497" text-anchor="middle" font-size="9">&#x1F4C4;</text>
+  <text x="86" y="512" text-anchor="middle" font-size="7" font-weight="600" fill="#1a1a1a">SP Trigger</text>
+  <text x="86" y="523" text-anchor="middle" font-size="6.5" fill="#666">File uploaded</text>
+
+  <line x1="130" y1="504" x2="142" y2="504" stroke="#666" stroke-width="1" marker-end="url(#arrow)"/>
+
+  <rect x="144" y="480" width="88" height="48" rx="5" fill="#038387" fill-opacity="0.06" stroke="#038387" stroke-width="1"/>
+  <text x="188" y="497" text-anchor="middle" font-size="9">&#x1F50D;</text>
+  <text x="188" y="512" text-anchor="middle" font-size="7" font-weight="600" fill="#1a1a1a">Extract Metadata</text>
+  <text x="188" y="523" text-anchor="middle" font-size="6.5" fill="#666">Client + type</text>
+
+  <line x1="232" y1="504" x2="244" y2="504" stroke="#666" stroke-width="1" marker-end="url(#arrow)"/>
+
+  <rect x="246" y="480" width="88" height="48" rx="5" fill="#038387" fill-opacity="0.06" stroke="#038387" stroke-width="1"/>
+  <text x="290" y="497" text-anchor="middle" font-size="9">&#x1F4CB;</text>
+  <text x="290" y="512" text-anchor="middle" font-size="7" font-weight="600" fill="#1a1a1a">Update Tracker</text>
+  <text x="290" y="523" text-anchor="middle" font-size="6.5" fill="#666">Master list merge</text>
+
+  <line x1="334" y1="504" x2="346" y2="504" stroke="#666" stroke-width="1" marker-end="url(#arrow)"/>
+
+  <rect x="348" y="480" width="88" height="48" rx="5" fill="#038387" fill-opacity="0.06" stroke="#038387" stroke-width="1"/>
+  <text x="392" y="497" text-anchor="middle" font-size="9">&#x1F4C1;</text>
+  <text x="392" y="512" text-anchor="middle" font-size="7" font-weight="600" fill="#1a1a1a">Auto-File</text>
+  <text x="392" y="523" text-anchor="middle" font-size="6.5" fill="#666">Dept folder by type</text>
+
+  <line x1="436" y1="504" x2="448" y2="504" stroke="#666" stroke-width="1" marker-end="url(#arrow)"/>
+
+  <rect x="450" y="480" width="70" height="48" rx="5" fill="#0066ff" fill-opacity="0.05" stroke="#0066ff" stroke-width="1"/>
+  <text x="485" y="497" text-anchor="middle" font-size="9">&#x1F500;</text>
+  <text x="485" y="512" text-anchor="middle" font-size="7" font-weight="600" fill="#1a1a1a">Check Docs</text>
+  <text x="485" y="523" text-anchor="middle" font-size="6.5" fill="#666">NDA? Cert?</text>
+
+  <line x1="520" y1="504" x2="532" y2="504" stroke="#666" stroke-width="1" marker-end="url(#arrow)"/>
+
+  <rect x="534" y="480" width="124" height="48" rx="5" fill="#505ac9" fill-opacity="0.06" stroke="#505ac9" stroke-width="1"/>
+  <text x="596" y="497" text-anchor="middle" font-size="9">&#x26A0;&#xFE0F;</text>
+  <text x="596" y="512" text-anchor="middle" font-size="7" font-weight="600" fill="#1a1a1a">Teams &#8594; Legal</text>
+  <text x="596" y="523" text-anchor="middle" font-size="6.5" fill="#666">Missing docs + folder link</text>
+
+  <!-- Callout -->
+  <rect x="42" y="540" width="616" height="30" rx="6" fill="#2563eb" fill-opacity="0.04" stroke="#2563eb" stroke-width="1" stroke-dasharray="3,3"/>
+  <text x="350" y="560" text-anchor="middle" font-size="8.5" fill="#2563eb">&#x1F4A1; Contracts filed instantly, tracker always current, legal only pinged when something's actually missing</text>
+
+  <text x="42" y="590" font-size="8" fill="#666">5 tool calls &#8226; 2 connectors &#8226; conditional compliance check &#8226; ~15 seconds</text>
+
+  <!-- ========================================== -->
+  <!-- EXAMPLE 3: Complex -->
+  <!-- ========================================== -->
+  <rect x="30" y="615" width="640" height="248" rx="10" fill="#f5f5f5" stroke="#e0e0e0" stroke-width="1"/>
+
+  <rect x="42" y="625" width="70" height="18" rx="9" fill="#ef4444" fill-opacity="0.15" stroke="#ef4444" stroke-width="1"/>
+  <text x="77" y="638" text-anchor="middle" font-size="8" font-weight="700" fill="#dc2626">COMPLEX</text>
+  <text x="123" y="638" font-size="10" font-weight="600" fill="#1a1a1a">Employee Onboarding Automation</text>
+
+  <text x="42" y="660" font-size="9" fill="#1a1a1a" font-style="italic">"When a new employee is added to our HR SharePoint list, provision their M365 account,</text>
+  <text x="42" y="674" font-size="9" fill="#1a1a1a" font-style="italic">add them to Teams channels by department, create OneDrive folders, send welcome email,</text>
+  <text x="42" y="688" font-size="9" fill="#1a1a1a" font-style="italic">notify their manager, and log everything to Planner for IT tracking."</text>
+
+  <rect x="245" y="700" width="170" height="26" rx="5" fill="#038387" fill-opacity="0.06" stroke="#038387" stroke-width="1"/>
+  <text x="330" y="718" text-anchor="middle" font-size="7.5" font-weight="600" fill="#038387">&#x1F4CB; SharePoint &#8212; HR list trigger</text>
+
+  <line x1="330" y1="726" x2="330" y2="737" stroke="#666" stroke-width="1"/>
+
+  <line x1="62" y1="739" x2="598" y2="739" stroke="#666" stroke-width="1.5"/>
+  <line x1="62" y1="739" x2="62" y2="750" stroke="#666" stroke-width="1" marker-end="url(#arrow)"/>
+  <line x1="170" y1="739" x2="170" y2="750" stroke="#666" stroke-width="1" marker-end="url(#arrow)"/>
+  <line x1="278" y1="739" x2="278" y2="750" stroke="#666" stroke-width="1" marker-end="url(#arrow)"/>
+  <line x1="384" y1="739" x2="384" y2="750" stroke="#666" stroke-width="1" marker-end="url(#arrow)"/>
+  <line x1="490" y1="739" x2="490" y2="750" stroke="#666" stroke-width="1" marker-end="url(#arrow)"/>
+  <line x1="598" y1="739" x2="598" y2="750" stroke="#666" stroke-width="1" marker-end="url(#arrow)"/>
+
+  <rect x="22" y="752" width="80" height="48" rx="5" fill="#0066ff" fill-opacity="0.05" stroke="#0066ff" stroke-width="1"/>
+  <text x="62" y="768" text-anchor="middle" font-size="8">&#x1F464;</text>
+  <text x="62" y="781" text-anchor="middle" font-size="7" font-weight="600" fill="#1a1a1a">Entra ID</text>
+  <text x="62" y="793" text-anchor="middle" font-size="6.5" fill="#666">Provision + license</text>
+
+  <rect x="130" y="752" width="80" height="48" rx="5" fill="#505ac9" fill-opacity="0.05" stroke="#505ac9" stroke-width="1"/>
+  <text x="170" y="768" text-anchor="middle" font-size="8">&#x1F4AC;</text>
+  <text x="170" y="781" text-anchor="middle" font-size="7" font-weight="600" fill="#1a1a1a">Teams</text>
+  <text x="170" y="793" text-anchor="middle" font-size="6.5" fill="#666">Add to channels</text>
+
+  <rect x="238" y="752" width="80" height="48" rx="5" fill="#0078d4" fill-opacity="0.05" stroke="#0078d4" stroke-width="1"/>
+  <text x="278" y="768" text-anchor="middle" font-size="8">&#x1F4C1;</text>
+  <text x="278" y="781" text-anchor="middle" font-size="7" font-weight="600" fill="#1a1a1a">OneDrive</text>
+  <text x="278" y="793" text-anchor="middle" font-size="6.5" fill="#666">Folder structure</text>
+
+  <rect x="344" y="752" width="80" height="48" rx="5" fill="#0072c6" fill-opacity="0.05" stroke="#0072c6" stroke-width="1"/>
+  <text x="384" y="768" text-anchor="middle" font-size="8">&#x2709;&#xFE0F;</text>
+  <text x="384" y="781" text-anchor="middle" font-size="7" font-weight="600" fill="#1a1a1a">Outlook</text>
+  <text x="384" y="793" text-anchor="middle" font-size="6.5" fill="#666">Welcome email</text>
+
+  <rect x="450" y="752" width="80" height="48" rx="5" fill="#505ac9" fill-opacity="0.05" stroke="#505ac9" stroke-width="1"/>
+  <text x="490" y="768" text-anchor="middle" font-size="8">&#x1F514;</text>
+  <text x="490" y="781" text-anchor="middle" font-size="7" font-weight="600" fill="#1a1a1a">Teams DM</text>
+  <text x="490" y="793" text-anchor="middle" font-size="6.5" fill="#666">Notify manager</text>
+
+  <rect x="558" y="752" width="80" height="48" rx="5" fill="#31752f" fill-opacity="0.06" stroke="#31752f" stroke-width="1"/>
+  <text x="598" y="768" text-anchor="middle" font-size="8">&#x2705;</text>
+  <text x="598" y="781" text-anchor="middle" font-size="7" font-weight="600" fill="#1a1a1a">Planner</text>
+  <text x="598" y="793" text-anchor="middle" font-size="6.5" fill="#666">IT tracking tasks</text>
+
+  <line x1="62" y1="800" x2="62" y2="808" stroke="#666" stroke-width="1"/>
+  <line x1="170" y1="800" x2="170" y2="808" stroke="#666" stroke-width="1"/>
+  <line x1="278" y1="800" x2="278" y2="808" stroke="#666" stroke-width="1"/>
+  <line x1="384" y1="800" x2="384" y2="808" stroke="#666" stroke-width="1"/>
+  <line x1="490" y1="800" x2="490" y2="808" stroke="#666" stroke-width="1"/>
+  <line x1="598" y1="800" x2="598" y2="808" stroke="#666" stroke-width="1"/>
+  <line x1="62" y1="808" x2="598" y2="808" stroke="#666" stroke-width="1.5"/>
+  <line x1="330" y1="808" x2="330" y2="819" stroke="#666" stroke-width="1" marker-end="url(#arrow)"/>
+
+  <rect x="245" y="821" width="170" height="22" rx="5" fill="#038387" fill-opacity="0.06" stroke="#038387" stroke-width="1"/>
+  <text x="330" y="836" text-anchor="middle" font-size="7.5" font-weight="600" fill="#038387">&#x1F4CB; SharePoint &#8212; Audit log</text>
+
+  <text x="42" y="858" font-size="8" fill="#666">6 tool calls &#8226; 8 connectors &#8226; 6 parallel branches &#8226; ~30 seconds</text>
+
+  <!-- ========================================== -->
+  <!-- PHASES -->
+  <!-- ========================================== -->
+  <line x1="30" y1="880" x2="670" y2="880" stroke="#e0e0e0" stroke-width="1" stroke-dasharray="4,4"/>
+  <text x="350" y="905" text-anchor="middle" font-size="13" font-weight="600" fill="#1a1a1a">MCP Execution Phases</text>
+
+  <rect x="30" y="920" width="125" height="72" rx="8" fill="#f5f5f5" stroke="#e0e0e0" stroke-width="1"/>
+  <text x="92" y="941" text-anchor="middle" font-size="13">&#x1F510;</text>
+  <text x="92" y="958" text-anchor="middle" font-size="9.5" font-weight="700" fill="#1a1a1a">Authenticate</text>
+  <text x="92" y="972" text-anchor="middle" font-size="8" fill="#666">OAuth2 / MSAL</text>
+  <text x="92" y="984" text-anchor="middle" font-size="8" fill="#666">Token acquire + refresh</text>
+
+  <line x1="155" y1="956" x2="168" y2="956" stroke="#666" stroke-width="1" marker-end="url(#arrow)"/>
+
+  <rect x="170" y="920" width="125" height="72" rx="8" fill="#f5f5f5" stroke="#e0e0e0" stroke-width="1"/>
+  <text x="232" y="941" text-anchor="middle" font-size="13">&#x2705;</text>
+  <text x="232" y="958" text-anchor="middle" font-size="9.5" font-weight="700" fill="#1a1a1a">Validate</text>
+  <text x="232" y="972" text-anchor="middle" font-size="8" fill="#666">Zod schema check</text>
+  <text x="232" y="984" text-anchor="middle" font-size="8" fill="#666">Input params verified</text>
+
+  <line x1="295" y1="956" x2="308" y2="956" stroke="#666" stroke-width="1" marker-end="url(#arrow)"/>
+
+  <rect x="310" y="920" width="125" height="72" rx="8" fill="#f5f5f5" stroke="#e0e0e0" stroke-width="1"/>
+  <text x="372" y="941" text-anchor="middle" font-size="13">&#x1F504;</text>
+  <text x="372" y="958" text-anchor="middle" font-size="9.5" font-weight="700" fill="#1a1a1a">Translate</text>
+  <text x="372" y="972" text-anchor="middle" font-size="8" fill="#666">Tool call &#8594; REST</text>
+  <text x="372" y="984" text-anchor="middle" font-size="8" fill="#666">Flow JSON definition</text>
+
+  <line x1="435" y1="956" x2="448" y2="956" stroke="#666" stroke-width="1" marker-end="url(#arrow)"/>
+
+  <rect x="450" y="920" width="125" height="72" rx="8" fill="#2563eb" fill-opacity="0.06" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="512" y="941" text-anchor="middle" font-size="13">&#x1F680;</text>
+  <text x="512" y="958" text-anchor="middle" font-size="9.5" font-weight="700" fill="#1a1a1a">Execute</text>
+  <text x="512" y="972" text-anchor="middle" font-size="8" fill="#666">Deploy + test run</text>
+  <text x="512" y="984" text-anchor="middle" font-size="8" fill="#666">Diagnose if failed</text>
+
+  <line x1="575" y1="956" x2="588" y2="956" stroke="#666" stroke-width="1" marker-end="url(#arrow)"/>
+
+  <rect x="590" y="920" width="80" height="72" rx="8" fill="#f5f5f5" stroke="#e0e0e0" stroke-width="1"/>
+  <text x="630" y="941" text-anchor="middle" font-size="13">&#x1F4E4;</text>
+  <text x="630" y="958" text-anchor="middle" font-size="9.5" font-weight="700" fill="#1a1a1a">Return</text>
+  <text x="630" y="972" text-anchor="middle" font-size="8" fill="#666">Structured result</text>
+  <text x="630" y="984" text-anchor="middle" font-size="8" fill="#666">back to LLM</text>
+
+  <!-- Bottom stats -->
+  <rect x="30" y="1015" width="640" height="55" rx="10" fill="#2563eb" fill-opacity="0.05" stroke="#2563eb" stroke-width="1"/>
+  <text x="140" y="1040" text-anchor="middle" font-size="20" font-weight="700" fill="#2563eb">121</text>
+  <text x="140" y="1057" text-anchor="middle" font-size="9" fill="#666">Tools Available</text>
+  <text x="350" y="1040" text-anchor="middle" font-size="20" font-weight="700" fill="#742774">1</text>
+  <text x="350" y="1057" text-anchor="middle" font-size="9" fill="#666">Prompt Required</text>
+  <text x="560" y="1040" text-anchor="middle" font-size="20" font-weight="700" fill="#0b556a">0</text>
+  <text x="560" y="1057" text-anchor="middle" font-size="9" fill="#666">Screens to Click Through</text>
+
+</svg>

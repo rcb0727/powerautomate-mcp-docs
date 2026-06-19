@@ -148,79 +148,9 @@ powerautomate-mcp [options]
 
 ## How It Works
 
-```
-User  →  LLM  →  MCP Server  →  Power Platform APIs
-         (prompt)   (tool calls)   (auth, validate,     (Automate, Dataverse,
-                                    execute)              Pages, Apps, Admin)
-```
-
-You type a natural language prompt. The LLM reads it, picks the right tools from the 121 available, and sends tool calls to the MCP server. The server handles OAuth2 auth, validates inputs, translates to REST calls, and fires them against the Power Platform APIs. Results flow back the same path — one prompt can fan out to multiple services.
-
-### Example Scenarios
-
-#### Simple — Dataverse + Power Pages
-
-```
-"Add a Contact table to Dataverse and show it as a list on my Power Pages site"
-```
-
-**What the MCP does:**
-1. **Dataverse** — Creates the Contact table with FullName (text), Email (email), Phone (phone) columns
-2. **Power Pages** — Adds a list component bound to the new table, auto-configures table permissions and site map entry
-
-> 2 tool calls · 2 services · ~10 seconds
-
-#### Moderate — Contract Routing + Compliance Check
-
-```
-"When a signed contract is uploaded to SharePoint, extract the client name and type,
-merge it with our master tracking list, auto-file it into the right department folder,
-and if the NDA or insurance cert is missing, alert legal in Teams."
-```
-
-**What the MCP builds:**
-1. **SharePoint trigger** — Fires when a file is uploaded to the Contracts library
-2. **Extract metadata** — Reads client name and contract type from file properties
-3. **Update tracker** — Merges the contract into the master tracking list
-4. **Auto-file** — Moves the document into the correct department folder based on type
-5. **Compliance check** — Scans the client's folder for required documents (NDA, insurance cert)
-6. **Teams alert** — If anything is missing, posts to the Legal channel with what's needed and a link to the folder
-
-> Contracts filed instantly, tracker always current, legal only pinged when something's actually missing.
->
-> 5 tool calls · 2 connectors · conditional compliance check · ~15 seconds
-
-#### Complex — Employee Onboarding Automation
-
-```
-"When a new employee is added to our HR SharePoint list, provision their M365 account,
-add them to Teams channels by department, create OneDrive folders, send welcome email,
-notify their manager, and log everything to Planner for IT tracking."
-```
-
-**What the MCP builds — a single flow with 6 parallel branches:**
-1. **SharePoint trigger** — New item in the HR list
-2. **Entra ID** — Provisions user account, assigns M365 license
-3. **Teams** — Adds to department channels (Engineering, Sales, etc.)
-4. **OneDrive** — Creates standard folder structure from template
-5. **Outlook** — Sends welcome email with onboarding doc links
-6. **Teams DM** — Notifies the manager that their new hire is set up
-7. **Planner** — Creates tracking tasks for IT to verify provisioning
-8. **SharePoint** — Logs all results as an audit trail
-
-> 6 tool calls · 8 connectors · 6 parallel branches · ~30 seconds
-
-### MCP Execution Phases
-
-Every tool call goes through 5 phases:
-
-| Phase | What happens |
-|-------|-------------|
-| **Authenticate** | OAuth2 / MSAL token acquire + refresh |
-| **Validate** | Zod schema check — input params verified before anything fires |
-| **Translate** | Tool call → REST request (headers, body, endpoint) or flow JSON definition |
-| **Execute** | Call the Power Platform API, handle retries + errors |
-| **Return** | Structured result back to the LLM for next step or user response |
+<p align="center">
+  <img src="images/how-it-works.svg" alt="PowerPlatform MCP — architecture flow, three example scenarios (simple, moderate, complex), and execution phases" width="700" />
+</p>
 
 ---
 
