@@ -240,6 +240,8 @@ What parameters does the "Send an email (V2)" action need?
 
 </details>
 
+<p align="right"><a href="#power-automate-mcp-server">↑ Back to top</a></p>
+
 ---
 
 ## Available Tools (121 total)
@@ -436,6 +438,8 @@ Auto-detects each site's data model (standard `adx_*` vs enhanced `mspp_*` table
 
 </details>
 
+<p align="right"><a href="#power-automate-mcp-server">↑ Back to top</a></p>
+
 ## Security
 
 This server implements defense-in-depth security hardened through 3 rounds of penetration testing:
@@ -452,6 +456,8 @@ This server implements defense-in-depth security hardened through 3 rounds of pe
 - **Resource Limits**: 2MB input size limit, 20-level depth limit, 50MB JSON response limit, 100MB binary download limit
 - **Config Hardening**: File permissions (0o600), symlink rejection, world-readable warnings
 - **Auth Safety**: Token refresh mutex, MSAL PII filtering, MSAL verbose/trace suppression, silent-only mode in server
+
+<p align="right"><a href="#power-automate-mcp-server">↑ Back to top</a></p>
 
 ## Architecture
 
