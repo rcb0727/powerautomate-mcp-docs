@@ -240,7 +240,11 @@ What parameters does the "Send an email (V2)" action need?
 
 </details>
 
+---
+
 ## Available Tools (121 total)
+
+> Flows, Dataverse, SharePoint, Power Apps, Power Pages, environment admin, DLP, solutions — every tool the server exposes, grouped by service.
 
 <details>
 <summary>Core Flow Operations (7 tools)</summary>
