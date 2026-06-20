@@ -8,6 +8,7 @@
 
 | Version | Date | Highlights |
 |---------|------|------------|
+| [0.10.2](#0102---2026-06-19) | 2026-06-19 | **Security** — `undici` 6.25→6.27 (4 CVEs: CRLF injection, resource exhaustion, permissive inputs, TOCTOU), `ajv` 8.17→8.20 (ReDoS), `hono` 4.11→4.12 (directory traversal), `@hono/node-server` 1.19.9→1.19.14 (URL encoding bypass) |
 | [0.10.1](#0101---2026-06-15) | 2026-06-15 | **Security** — Dataverse API error bodies sanitized before reaching tool output; record GUIDs, user emails, and credentials no longer leak in error messages |
 | [0.10.0](#0100---2026-06-15) | 2026-06-15 | **Power Pages** — 12 new tools: Dataverse site config (pages, web roles, table permissions, snippets, templates) with standard/enhanced data-model auto-routing, plus site management (provision/restart/delete) via the Power Platform API |
 | [0.9.4](#094---2026-06-11) | 2026-06-11 | `get_run_actions`/`diagnose_flow` payload fetches unblocked — `*.powerplatformusercontent.com` added to resource-link allowlist ([#12](https://github.com/rcb0727/powerautomate-mcp-docs/issues/12)) |
@@ -22,6 +23,17 @@
 | [0.7.6](#076---2026-04-23) | 2026-04-23 | Dataverse URL auto-resolution, flow run-ID validation, `$orderby` fix ([#6](https://github.com/rcb0727/powerautomate-mcp-docs/issues/6), [#7](https://github.com/rcb0727/powerautomate-mcp-docs/issues/7), [#8](https://github.com/rcb0727/powerautomate-mcp-docs/issues/8)) |
 
 Older releases are documented below in full.
+
+## [0.10.2] - 2026-06-19
+
+### Security
+- **`undici` 6.25.0 → 6.27.0** — closes 4 CVEs: CRLF injection in `parseSetCookie` (CVSSv4 9.2), allocation without limits via WebSocket fragments (CVSSv4 8.7), permissive `SameSite` attribute parsing (CVSSv4 8.3), and TOCTOU race on keep-alive sockets (CVSSv4 6.3). Direct dependency.
+- **`ajv` 8.17.1 → 8.20.0** — closes ReDoS via `$data`-referenced `pattern` keyword (CVSSv4 8.2). Transitive through `@modelcontextprotocol/sdk`.
+- **`hono` 4.11.7 → 4.12.26** — closes directory traversal via encoded backslash on Windows hosts (CVSSv4 8.7). Transitive through `@modelcontextprotocol/sdk`.
+- **`@hono/node-server` 1.19.9 → 1.19.14** — closes URL encoding bypass allowing access to protected static paths (CVSSv4 6.9). Transitive through `@modelcontextprotocol/sdk`.
+
+### Upgrade Notes
+- `npm install -g powerautomate-mcp@latest`. No configuration, permission, or workflow changes required.
 
 ## [0.10.1] - 2026-06-15
 
