@@ -8,6 +8,7 @@
 
 | Version | Date | Highlights |
 |---------|------|------------|
+| [0.10.3](#0103---2026-06-20) | 2026-06-20 | **Security** — `qs` 6.15.1→6.15.2 (NULL deref), `fast-uri` 3.1.0→3.1.2 (directory traversal + host interpretation conflict), `ip-address` 10.1.0→10.2.0 (XSS); pinned via npm `overrides` (deep transitive deps of the MCP SDK) |
 | [0.10.2](#0102---2026-06-19) | 2026-06-19 | **Security** — `undici` 6.25→6.27 (4 CVEs: CRLF injection, resource exhaustion, permissive inputs, TOCTOU), `ajv` 8.17→8.20 (ReDoS), `hono` 4.11→4.12 (directory traversal), `@hono/node-server` 1.19.9→1.19.14 (URL encoding bypass) |
 | [0.10.1](#0101---2026-06-15) | 2026-06-15 | **Security** — Dataverse API error bodies sanitized before reaching tool output; record GUIDs, user emails, and credentials no longer leak in error messages |
 | [0.10.0](#0100---2026-06-15) | 2026-06-15 | **Power Pages** — 12 new tools: Dataverse site config (pages, web roles, table permissions, snippets, templates) with standard/enhanced data-model auto-routing, plus site management (provision/restart/delete) via the Power Platform API |
@@ -23,6 +24,17 @@
 | [0.7.6](#076---2026-04-23) | 2026-04-23 | Dataverse URL auto-resolution, flow run-ID validation, `$orderby` fix ([#6](https://github.com/rcb0727/powerautomate-mcp-docs/issues/6), [#7](https://github.com/rcb0727/powerautomate-mcp-docs/issues/7), [#8](https://github.com/rcb0727/powerautomate-mcp-docs/issues/8)) |
 
 Older releases are documented below in full.
+
+## [0.10.3] - 2026-06-20
+
+### Security
+- **`qs` 6.15.1 → 6.15.2** — closes NULL pointer dereference in `stringify()` when `arrayFormat: 'comma'` + `encodeValuesOnly: true` process arrays containing `null`/`undefined` elements (CVSSv4 6.9). Transitive via `@modelcontextprotocol/sdk` › `express` (and `body-parser`).
+- **`fast-uri` 3.1.0 → 3.1.2** — closes directory traversal in `normalize()`/`equal()` via crafted percent-encoded/dot segments (CVSSv4 8.7) and host-component interpretation conflict during URI serialization that could bypass host allowlist/redirect checks (CVSSv4 8.7). Transitive via `@modelcontextprotocol/sdk` › `ajv`.
+- **`ip-address` 10.1.0 → 10.2.0** — closes XSS via `group`/`link`/`spanAll` and the `parseMessage` field of thrown errors (CVSSv4 5.3). Transitive via `@modelcontextprotocol/sdk` › `express-rate-limit`.
+- Pinned through an `overrides` block in `package.json` — `express-rate-limit` pins `ip-address` to an exact version, so a plain reinstall would not have upgraded it. Build, typecheck, and the full test suite pass against the overridden versions.
+
+### Upgrade Notes
+- `npm install -g powerautomate-mcp@latest`. No configuration, permission, or workflow changes required.
 
 ## [0.10.2] - 2026-06-19
 
