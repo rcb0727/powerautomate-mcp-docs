@@ -247,199 +247,281 @@ What parameters does the "Send an email (V2)" action need?
 
 ## Available Tools (121 total)
 
-> Flows, Dataverse, SharePoint, Power Apps, Power Pages, environment admin, DLP, solutions — every tool the server exposes, grouped by service.
+> Every tool the server exposes, grouped by service. All 121 are listed here.
 
 <details>
-<summary>Core Flow Operations (7 tools)</summary>
+<summary><strong>Core Flow Operations</strong> (11 tools)</summary>
 
 | Tool | Description |
 |------|-------------|
-| `list_flows` | List flows. `scope: "owned" \| "shared" \| "all"` filters by ownership; `includeOwner` shows the creator + `[owned]`/`[shared]` tag |
-| `get_flow` | Get flow definition. `format: "summary" \| "json" \| "both"` — use `json`/`both` to capture nested actions inside Switch/If/Foreach/Scope |
-| `create_flow` | Create a new flow (supports optional `description`) |
-| `update_flow` | Modify an existing flow. Three modes: full replace (default), `mergeActions: true` (deep-merge — preserves siblings), or `patchActions: { "path": value }` (surgical, smallest payload). Also supports `description` |
-| `delete_flow` | Delete a flow |
-| `toggle_flow` | Enable or disable a flow |
-| `clone_flow` | Copy a flow (optionally to another environment; defaults to the same one) |
+| `list_flows` | List Power Automate flows in an environment |
+| `get_flow` | Get the complete definition of a Power Automate flow including triggers, actions, connection refe… |
+| `create_flow` | Create a new Power Automate flow |
+| `update_flow` | Update an existing Power Automate flow |
+| `delete_flow` | Delete a Power Automate flow permanently |
+| `toggle_flow` | Enable or disable a Power Automate flow |
+| `clone_flow` | Clone an existing Power Automate flow to create a copy with a new name |
+| `export_flow` | Export a flow as a package |
+| `share_flow` | Share a flow with users, groups, or service principals |
+| `get_flow_permissions` | Get the list of users, groups, and service principals that have access to a flow |
+| `list_flow_versions` | List all versions of a flow |
 
 </details>
 
 <details>
-<summary>Testing & Debugging (7 tools)</summary>
+<summary><strong>Testing & Debugging</strong> (9 tools)</summary>
 
 | Tool | Description |
 |------|-------------|
-| `test_flow` | Run flow with automatic diagnosis |
-| `run_flow` | Trigger a manual flow |
-| `get_runs` | Get flow run history |
-| `get_run_actions` | Action-level debugging with full I/O visibility. Fetches inputs/outputs for failed actions by default; `includeInputs`/`includeOutputs` for all; `actionName` to drill into one action; `failedOnly` to filter |
-| `get_run_action_repetitions` | Loop iteration drill-down for `Apply_to_each`/`Do_until`. Shows per-iteration status, inputs, outputs, errors. `failedOnly` + `maxIterations` for large loops |
-| `diagnose_flow` | Analyze failures with fix suggestions |
-| `validate_flow` | Validate with best practices score |
+| `test_flow` | Test a Power Automate flow with guided feedback |
+| `run_flow` | Trigger a Power Automate flow to run immediately |
+| `get_runs` | Get the execution history of a Power Automate flow |
+| `get_run_actions` | Get detailed action-level information for a flow run |
+| `get_run_action_repetitions` | Get iteration-level details for a for_each or do_until loop action in a flow run |
+| `diagnose_flow` | Diagnose issues with a Power Automate flow |
+| `validate_flow` | Validate a Power Automate flow definition for errors |
+| `resubmit_run` | Resubmit a failed or cancelled flow run |
+| `cancel_run` | Cancel a currently running flow execution |
 
 </details>
 
 <details>
-<summary>Planning & Help (5 tools)</summary>
+<summary><strong>Planning & Help</strong> (5 tools)</summary>
 
 | Tool | Description |
 |------|-------------|
 | `plan_flow` | Interactive flow planning wizard |
-| `build_flow` | Simple flow builder from description |
-| `get_expression_help` | Expression syntax reference |
-| `search_connectors` | Find connectors by name |
-| `get_action_schema` | Get connector action parameters |
+| `build_flow` | Build a Power Automate flow from a description |
+| `get_expression_help` | Get help with Power Automate expressions |
+| `search_connectors` | Search for Power Automate connectors by name, description, or category |
+| `get_action_schema` | Get the schema and parameters for a connector's actions/triggers |
 
 </details>
 
 <details>
-<summary>Dataverse CRUD (7 tools)</summary>
+<summary><strong>Connections & Custom Connectors</strong> (8 tools)</summary>
 
 | Tool | Description |
 |------|-------------|
-| `list_dataverse_tables` | List all tables (entities) in the environment |
-| `get_dataverse_table` | Get table schema with column definitions |
-| `query_dataverse_rows` | Query rows with OData filter/select/orderby |
-| `get_dataverse_row` | Get a single row by ID |
-| `create_dataverse_row` | Create a new row |
-| `update_dataverse_row` | Update an existing row |
-| `delete_dataverse_row` | Delete a row (with confirmation) |
+| `list_connections` | List all connections in an environment |
+| `list_custom_connectors` | List all custom connectors in the environment |
+| `get_custom_connector` | Get detailed information about a custom connector including its OpenAPI definition and all operat… |
+| `create_custom_connector` | Create a custom connector for any REST API |
+| `update_custom_connector` | Update a custom connector |
+| `delete_custom_connector` | Delete a custom connector |
+| `plan_custom_connector` | Get guidance on creating a custom connector |
+| `import_openapi_connector` | Create a custom connector by importing an OpenAPI/Swagger specification |
 
 </details>
 
 <details>
-<summary>SharePoint (11 tools)</summary>
+<summary><strong>Approvals</strong> (3 tools)</summary>
 
 | Tool | Description |
 |------|-------------|
-| `search_sharepoint_sites` | Search for SharePoint sites |
-| `get_sharepoint_site` | Get site by ID or URL |
-| `list_sharepoint_lists` | List all lists in a site |
-| `get_sharepoint_list_columns` | Get column definitions for a list |
-| `list_sharepoint_items` | Get list items with filtering |
-| `create_sharepoint_item` | Create a new list item |
-| `update_sharepoint_item` | Update a list item |
-| `delete_sharepoint_item` | Delete a list item (with confirmation) |
-| `list_sharepoint_files` | List files in a document library |
-| `upload_sharepoint_file` | Upload a file (up to 4MB) |
-| `get_sharepoint_file_content` | Download file content |
+| `list_approvals` | List pending approvals in the environment |
+| `list_approvals_dataverse` | List pending approval requests from Dataverse |
+| `respond_approval` | Respond to a pending approval request |
 
 </details>
 
 <details>
-<summary>Power Apps (10 tools)</summary>
+<summary><strong>Dataverse CRUD</strong> (7 tools)</summary>
 
 | Tool | Description |
 |------|-------------|
-| `list_canvas_apps` | List canvas apps |
-| `get_canvas_app` | Get app details |
-| `publish_canvas_app` | Publish an app |
-| `list_model_driven_apps` | List model-driven apps |
-| `get_model_driven_app` | Get model-driven app details |
-| `list_app_versions` | List app version history |
-| `get_app_permissions` | Get app permissions |
-| `share_app` | Share an app with users/groups |
-| `remove_app_permission` | Remove app access |
-| `set_app_owner` | Transfer app ownership |
+| `list_dataverse_tables` | List Dataverse tables (entities) in the environment |
+| `get_dataverse_table` | Get detailed metadata for a Dataverse table including all column definitions |
+| `query_dataverse_rows` | Query rows from a Dataverse table with OData filtering, selecting, and ordering |
+| `get_dataverse_row` | Get a single Dataverse row by its ID |
+| `create_dataverse_row` | Create a new row in a Dataverse table |
+| `update_dataverse_row` | Update an existing Dataverse row |
+| `delete_dataverse_row` | Delete a Dataverse row permanently |
 
 </details>
 
 <details>
-<summary>Power Pages — Site Configuration (7 tools)</summary>
-
-Auto-detects each site's data model (standard `adx_*` vs enhanced `mspp_*` tables) and routes to the right tables. Requires a Dataverse-enabled environment.
+<summary><strong>SharePoint</strong> (11 tools)</summary>
 
 | Tool | Description |
 |------|-------------|
-| `list_powerpages_sites` | List Power Pages sites in Dataverse, tagged by data model, with the site id for the tools below |
-| `get_powerpages_site` | Get a site's Dataverse record + detected data model |
-| `list_powerpages_components` | List a site's config components. `component`: `webpage`, `webrole`, `tablepermission`, `contentsnippet`, `webtemplate`, `pagetemplate`, `sitesetting`, `sitemarker`, `weblinkset`, `webfile`, `list`, `basicform`, `advancedform` |
-| `get_powerpages_component` | Get a single config component by record id |
-| `create_powerpages_component` | Create a config component (site link added automatically via `@odata.bind`) |
-| `update_powerpages_component` | Update a config component |
-| `delete_powerpages_component` | Delete a config component (with confirmation) |
+| `search_sharepoint_sites` | Search for SharePoint sites by name or keyword |
+| `get_sharepoint_site` | Get a SharePoint site by its ID or by hostname and path |
+| `list_sharepoint_lists` | List all lists and libraries in a SharePoint site |
+| `get_sharepoint_list_columns` | Get column definitions for a SharePoint list |
+| `list_sharepoint_items` | Get items from a SharePoint list with optional filtering and sorting |
+| `create_sharepoint_item` | Create a new item in a SharePoint list |
+| `update_sharepoint_item` | Update an existing SharePoint list item |
+| `delete_sharepoint_item` | Delete a SharePoint list item permanently |
+| `list_sharepoint_files` | List files in a SharePoint document library |
+| `upload_sharepoint_file` | Upload a file to a SharePoint document library |
+| `get_sharepoint_file_content` | Download a file's content from a SharePoint document library |
 
 </details>
 
 <details>
-<summary>Power Pages — Site Management (5 tools)</summary>
-
-> Requires the **Power Platform API** delegated permission on the app registration (see [App Registration](#microsoft-entra-app-registration)) and a Power Pages / Power Platform admin role.
+<summary><strong>Excel (OneDrive)</strong> (2 tools)</summary>
 
 | Tool | Description |
 |------|-------------|
-| `list_powerpages_websites` | List hosted websites (status, public URL, data model, type) |
-| `get_powerpages_website` | Get a website's hosting details |
-| `create_powerpages_website` | Provision a new website (asynchronous; `confirm` required) |
-| `delete_powerpages_website` | Delete a website (`confirm` required) |
-| `restart_powerpages_website` | Restart a website to apply Dataverse config changes (the API equivalent of the studio "Sync") |
+| `search_excel_files` | Search for Excel files in OneDrive by name |
+| `inspect_excel_file` | Inspect an Excel file to find tables and columns |
 
 </details>
 
 <details>
-<summary>Environment Administration (8 tools)</summary>
+<summary><strong>Power Apps</strong> (13 tools)</summary>
+
+| Tool | Description |
+|------|-------------|
+| `list_powerapps` | List Power Apps canvas apps in an environment |
+| `list_canvas_apps` | List Power Apps canvas apps stored in Dataverse |
+| `get_powerapp` | Get detailed information about a Power App including owner, connections, and app URIs |
+| `list_model_driven_apps` | List model-driven apps from Dataverse |
+| `publish_powerapp` | Publish a Power App to make the latest version available to users |
+| `get_powerapp_versions` | Get version history for a Power App |
+| `restore_powerapp_version` | Restore a Power App to a previous version |
+| `get_powerapp_permissions` | Get the list of users, groups, and service principals that have access to a Power App |
+| `share_powerapp` | Share a Power App with a user, group, or service principal |
+| `unshare_powerapp` | Remove a user or group's access to a Power App |
+| `set_powerapp_owner` | Transfer ownership of a Power App to another user |
+| `set_powerapp_display_name` | Change the display name of a Power App |
+| `delete_powerapp` | Delete a Power App permanently |
+
+</details>
+
+<details>
+<summary><strong>Power Apps Administration</strong> (4 tools)</summary>
+
+| Tool | Description |
+|------|-------------|
+| `list_powerapps_admin` | List all Power Apps in an environment as admin |
+| `get_powerapp_admin` | Get Power App details as admin |
+| `delete_powerapp_admin` | Delete a Power App as admin |
+| `quarantine_powerapp` | Quarantine or unquarantine a Power App |
+
+</details>
+
+<details>
+<summary><strong>Power Pages — Site Configuration</strong> (7 tools)</summary>
+
+| Tool | Description |
+|------|-------------|
+| `list_powerpages_sites` | List Power Pages sites as stored in Dataverse (the configuration plane) |
+| `get_powerpages_site` | Get a Power Pages site's Dataverse record and detected data model (standard vs enhanced) by its s… |
+| `list_powerpages_components` | List configuration components of a Power Pages site (web pages, web roles, table permissions, con… |
+| `get_powerpages_component` | Get a single Power Pages configuration component row by its record id. siteId selects the data model |
+| `create_powerpages_component` | Create a Power Pages configuration component (e.g. a web page or content snippet) |
+| `update_powerpages_component` | Update a Power Pages configuration component row |
+| `delete_powerpages_component` | Delete a Power Pages configuration component row permanently |
+
+</details>
+
+<details>
+<summary><strong>Power Pages — Site Management</strong> (5 tools)</summary>
+
+| Tool | Description |
+|------|-------------|
+| `list_powerpages_websites` | List Power Pages websites in an environment via the Power Platform management API |
+| `get_powerpages_website` | Get a Power Pages website's hosting details (status, URL, data model) by id, via the management API |
+| `create_powerpages_website` | Provision a new Power Pages website (management API) |
+| `delete_powerpages_website` | Delete a Power Pages website (management API) |
+| `restart_powerpages_website` | Restart a Power Pages website (management API) |
+
+</details>
+
+<details>
+<summary><strong>Environment Administration</strong> (10 tools)</summary>
 
 > Requires **Power Platform Admin**, **Dynamics 365 Admin**, or **Global Admin** role.
 
 | Tool | Description |
 |------|-------------|
-| `list_environments` | List all environments |
-| `get_environment` | Get environment details |
-| `create_environment` | Create a new environment |
-| `delete_environment` | Delete an environment |
-| `copy_environment` | Copy an environment |
-| `reset_environment` | Reset an environment |
-| `backup_environment` | Create a backup |
-| `restore_environment` | Restore from backup |
+| `list_environments` | List all Power Platform environments accessible to the current user |
+| `get_environment` | Get detailed information about a Power Platform environment including Dataverse URL, region, and SKU |
+| `create_environment` | Create a new Power Platform environment |
+| `delete_environment` | Delete a Power Platform environment permanently |
+| `copy_environment` | Copy a Power Platform environment to create a new one |
+| `reset_environment` | Reset a Power Platform environment to its initial state |
+| `backup_environment` | Create a backup of a Power Platform environment |
+| `restore_environment` | Restore a Power Platform environment from a backup |
+| `list_environment_backups` | List available backups for a Power Platform environment |
+| `get_environment_capacity` | Get capacity consumption for a specific environment |
 
 </details>
 
 <details>
-<summary>DLP Policies (6 tools)</summary>
+<summary><strong>DLP Policies</strong> (6 tools)</summary>
 
 > Requires **Power Platform Admin**, **Dynamics 365 Admin**, or **Global Admin** role.
 
 | Tool | Description |
 |------|-------------|
-| `list_dlp_policies` | List data loss prevention policies |
-| `get_dlp_policy` | Get policy details |
+| `list_dlp_policies` | List all Data Loss Prevention (DLP) policies in the tenant |
+| `get_dlp_policy` | Get details of a DLP policy including connector group assignments |
 | `create_dlp_policy` | Create a new DLP policy |
-| `update_dlp_policy` | Update an existing policy |
-| `delete_dlp_policy` | Delete a policy |
-| `list_policy_connectors` | List connectors by policy group |
+| `update_dlp_policy` | Update an existing DLP policy |
+| `delete_dlp_policy` | Delete a DLP policy |
+| `get_dlp_connector_configs` | Get connector-level configurations for a DLP policy (endpoint filtering, etc.) |
 
 </details>
 
 <details>
-<summary>Solutions ALM (6 tools)</summary>
+<summary><strong>Solutions ALM</strong> (8 tools)</summary>
 
 | Tool | Description |
 |------|-------------|
-| `list_solutions` | List Dataverse solutions |
-| `get_solution` | Get solution details |
-| `export_solution` | Export a solution |
-| `import_solution` | Import a solution |
-| `list_solution_components` | List components in a solution |
-| `add_solution_component` | Add a component to a solution |
+| `list_solutions` | List Dataverse solutions in the environment |
+| `export_solution` | Export a Dataverse solution as a zip file (base64-encoded) |
+| `import_solution` | Import a Dataverse solution from a base64-encoded zip file |
+| `clone_solution` | Clone an unmanaged Dataverse solution to create a new version |
+| `add_solution_component` | Add a component (table, flow, etc.) to an unmanaged Dataverse solution |
+| `remove_solution_component` | Remove a component from an unmanaged Dataverse solution |
+| `list_solution_flows` | List flows stored in Dataverse solutions |
+| `publish_all_customizations` | Publish all pending customizations in Dataverse |
 
 </details>
 
 <details>
-<summary>Managed Environments & Capacity (5 tools)</summary>
+<summary><strong>Managed Environments & Capacity</strong> (6 tools)</summary>
 
 > Requires **Power Platform Admin**, **Dynamics 365 Admin**, or **Global Admin** role.
 
 | Tool | Description |
 |------|-------------|
-| `enable_managed_environment` | Enable managed environment |
-| `disable_managed_environment` | Disable managed environment |
-| `get_governance_settings` | Get governance configuration |
-| `get_tenant_capacity` | Get tenant-level capacity |
-| `get_capacity_alerts` | Get capacity alert notifications |
+| `enable_managed_environment` | Enable managed environment features |
+| `disable_managed_environment` | Disable managed environment features |
+| `get_managed_environment_settings` | Get the governance configuration for a managed environment |
+| `update_managed_environment_settings` | Update governance settings for a managed environment |
+| `get_tenant_capacity` | Get storage and API capacity usage for the tenant |
+| `get_api_request_summary` | Get API request consumption summary for the tenant |
+
+</details>
+
+<details>
+<summary><strong>Desktop Flows / RPA</strong> (3 tools)</summary>
+
+| Tool | Description |
+|------|-------------|
+| `list_desktop_flows` | List desktop flows (UI flows) in the environment |
+| `list_machines` | List registered machines for desktop flows (RPA) |
+| `list_machine_groups` | List machine groups for desktop flows |
+
+</details>
+
+<details>
+<summary><strong>Billing & AI Builder</strong> (3 tools)</summary>
+
+| Tool | Description |
+|------|-------------|
+| `list_billing_policies` | List pay-as-you-go billing policies for the tenant |
+| `get_billing_policy` | Get details of a specific billing policy |
+| `list_ai_models` | List AI Builder models in the environment |
 
 </details>
 
 <p align="right"><a href="#power-automate-mcp-server">↑ Back to top</a></p>
+
 
 ## Security
 

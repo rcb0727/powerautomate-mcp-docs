@@ -41,6 +41,9 @@ Focused on making installation work for everyone, not just developers.
 - **Tightened README Quick Start** to the new three commands (install → setup → doctor) and documented the new flags in the CLI reference.
 - Setup wizard is now 6 steps (was 5); the final "next steps" point you to `--doctor`.
 
+### Fixed
+- **Tool documentation now matches the server exactly — all 121 tools listed, zero fabricated names.** The README/CLAUDE tool tables previously listed 84 entries, 13 of which were names the server never registered (e.g. `get_canvas_app`, `share_app`, `get_solution`, `get_governance_settings`) — an AI told to call them would fail. Regenerated every tool table from the source registry: the 13 invalid names are corrected to their real equivalents (`get_powerapp`, `share_powerapp`, `get_managed_environment_settings`, `get_dlp_connector_configs`, …), the ~37 previously-undocumented tools (custom connectors, approvals, Excel, RPA/desktop flows, billing, AI Builder, admin variants, etc.) are now documented, and the "121 total" count is accurate. On Windows, generated client configs now wrap the launch command in `cmd /c` so the server actually starts.
+
 ### Upgrade Notes
 - `npm install -g powerautomate-mcp@latest`. No configuration or permission changes required. Existing installs keep working unchanged; the new flags are additive. To let setup wire your client, just run `powerautomate-mcp --setup` again (it merges, it won't clobber other servers).
 
