@@ -99,7 +99,7 @@ A wizard starts and walks you through six steps. Here's what it asks and what yo
 
 Power Automate MCP needs a one-time approval ("admin consent") for your organization. **Most employees aren't admins** — that's expected. The wizard shows a link; copy it and email your IT helpdesk:
 
-> *Hi — I'm setting up a Microsoft-approved tool that connects to Power Automate. Could an administrator approve this consent link for our organization? [paste the link]*
+> *Hi — I'm setting up a Microsoft tool that connects to Power Automate. Could an administrator approve this consent link for our organization? [paste the link]*
 
 Once IT confirms it's approved, run `powerautomate-mcp --setup` again — it picks up where it left off. (Only a Global, Application, Cloud Application, or Privileged Role admin can approve — IT will know who that is.)
 
