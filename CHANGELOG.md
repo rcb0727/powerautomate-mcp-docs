@@ -8,6 +8,7 @@
 
 | Version | Date | Highlights |
 |---------|------|------------|
+| [0.11.0](#0110---2026-06-24) | 2026-06-24 | **Easier install** — `--setup` now connects your AI app for you (auto-writes/merges the client config, no hand-editing JSON); new `--doctor` health check; new `--client <name>` and `--npx` flags; rewritten install guide with an Easy Path, troubleshooting FAQ, and glossary |
 | [0.10.3](#0103---2026-06-20) | 2026-06-20 | **Security** — `qs` 6.15.1→6.15.2 (NULL deref), `fast-uri` 3.1.0→3.1.2 (directory traversal + host interpretation conflict), `ip-address` 10.1.0→10.2.0 (XSS); pinned via npm `overrides` (deep transitive deps of the MCP SDK) |
 | [0.10.2](#0102---2026-06-19) | 2026-06-19 | **Security** — `undici` 6.25→6.27 (4 CVEs: CRLF injection, resource exhaustion, permissive inputs, TOCTOU), `ajv` 8.17→8.20 (ReDoS), `hono` 4.11→4.12 (directory traversal), `@hono/node-server` 1.19.9→1.19.14 (URL encoding bypass) |
 | [0.10.1](#0101---2026-06-15) | 2026-06-15 | **Security** — Dataverse API error bodies sanitized before reaching tool output; record GUIDs, user emails, and credentials no longer leak in error messages |
@@ -24,6 +25,24 @@
 | [0.7.6](#076---2026-04-23) | 2026-04-23 | Dataverse URL auto-resolution, flow run-ID validation, `$orderby` fix ([#6](https://github.com/rcb0727/powerautomate-mcp-docs/issues/6), [#7](https://github.com/rcb0727/powerautomate-mcp-docs/issues/7), [#8](https://github.com/rcb0727/powerautomate-mcp-docs/issues/8)) |
 
 Older releases are documented below in full.
+
+## [0.11.0] - 2026-06-24
+
+Focused on making installation work for everyone, not just developers.
+
+### Added
+- **`--setup` now connects your AI app automatically.** A new final step writes/merges the `powerautomate` server into your client's config so you never hand-edit JSON. Supports Claude Desktop, Cursor, VS Code (Copilot), Gemini CLI, and Windsurf via a safe JSON merge (existing servers and settings are preserved), and Claude Code via its official `claude mcp add` CLI. Pick from a menu, or pre-select with `--client <name>`.
+- **`--doctor` — a friendly health check.** Verifies Node.js version, install/update status, config, sign-in, Power Platform connectivity, and which AI apps are wired up — then prints the exact next step in plain English. Exit code reflects whether the essentials pass.
+- **`--client <name>` flag.** Wire (or re-wire) an app's config any time without re-running auth: `powerautomate-mcp --client cursor`. Names: `claude`, `claude-code`, `cursor`, `vscode`, `gemini`, `windsurf` (aliases accepted).
+- **`--npx` flag.** With `--setup`/`--client`, configures the app to launch the server via `npx -y powerautomate-mcp@latest` — no global install required (handy when `npm install -g` hits permission errors).
+
+### Changed
+- **Rewritten installation guide.** Adds a "choose your path" router (non-technical / developer / admin), foolproof prerequisites (per-OS Node install, how to open a terminal, version checks), a 3-step Easy Path with "what you should see" checkpoints, a troubleshooting FAQ keyed to real error messages (`EACCES`, `command not found`, `AADSTS65001`, "tools don't appear", libsecret), and a plain-English glossary.
+- **Tightened README Quick Start** to the new three commands (install → setup → doctor) and documented the new flags in the CLI reference.
+- Setup wizard is now 6 steps (was 5); the final "next steps" point you to `--doctor`.
+
+### Upgrade Notes
+- `npm install -g powerautomate-mcp@latest`. No configuration or permission changes required. Existing installs keep working unchanged; the new flags are additive. To let setup wire your client, just run `powerautomate-mcp --setup` again (it merges, it won't clobber other servers).
 
 ## [0.10.3] - 2026-06-20
 

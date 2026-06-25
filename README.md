@@ -11,7 +11,7 @@ Works with any MCP-compatible AI client: **Claude Desktop**, **Claude Code**, **
 | Page | What you'll find |
 |------|------------------|
 | **README** (this page) | [Features](#features) · [Quick Start](#quick-start) · [App Registration](#microsoft-entra-app-registration) · [CLI Reference](#cli-reference) · [How It Works](#how-it-works) · [All 121 Tools](#available-tools-121-total) · [Security](#security) · [Architecture](#architecture) |
-| [Installation Guide](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md) | [Prerequisites](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#prerequisites) · [Install](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#install-from-npm) · [**Updating safely**](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#updating) · per-client setup ([Claude Desktop](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#claude-desktop), [Claude Code](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#claude-code-cli), [VS Code](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#vs-code-github-copilot), [Cursor](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#cursor), [Gemini CLI](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#google-gemini-cli), [ChatGPT](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#chatgpt-openai)) · [Enterprise consent](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#enterprise-tenants-with-strict-consent-policies) |
+| [Installation Guide](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md) | [Choose your path](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#choose-your-path) · [Easy Path](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#easy-path-3-steps) · [Fast Path](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#fast-path-developers) · [Connect your AI app](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#connecting-your-ai-app) · [**Updating**](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#updating) · [Troubleshooting](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#troubleshooting) · [Glossary](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#glossary) · [Admin & enterprise](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#admin--enterprise-setup) |
 | [Changelog](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/CHANGELOG.md) | Release history with per-version upgrade notes |
 | [Issues](https://github.com/rcb0727/powerautomate-mcp-docs/issues) | Bug reports and feature requests — every one gets read |
 
@@ -34,28 +34,26 @@ Works with any MCP-compatible AI client: **Claude Desktop**, **Claude Code**, **
 
 ## Quick Start
 
+Three commands — run them in a terminal:
+
 ```bash
-npm install -g powerautomate-mcp
-powerautomate-mcp --setup
+npm install -g powerautomate-mcp   # 1. install
+powerautomate-mcp --setup          # 2. sign in + connect your AI app
+powerautomate-mcp --doctor         # 3. confirm everything works
 ```
 
-The setup wizard handles everything automatically:
-1. Creates the app registration in your tenant via Azure CLI (or prompts you to provide one)
-2. Opens your browser to sign in
-3. Presents the admin consent URL (auto-opens in browser)
-4. Discovers your environments and lets you select one
-5. Saves your configuration
+The `--setup` wizard does it all: creates the Entra app registration (or takes one you provide), signs you in, handles admin consent, picks your environment, **and wires the server into your AI app for you** — no hand-editing JSON. Then restart your app and ask it to build a flow.
 
-Then configure your AI client. See the **[Installation Guide](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md)** for platform-specific setup:
+**Not very technical?** Follow the step-by-step **[Easy Path](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#easy-path-3-steps)** with checkpoints.
 
-| Client | Config |
-|--------|--------|
-| Claude Desktop | `claude_desktop_config.json` |
-| Claude Code | `claude mcp add powerautomate` |
-| VS Code Copilot | `.vscode/mcp.json` |
-| Cursor | `~/.cursor/mcp.json` |
-| Gemini CLI | `~/.gemini/settings.json` |
-| ChatGPT | `--http` flag + tunnel (see [guide](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#chatgpt-openai)) |
+| Want to… | Do this |
+|----------|---------|
+| Connect a specific app during setup | `powerautomate-mcp --setup --client claude` |
+| Connect an app later (or a second one) | `powerautomate-mcp --client cursor` |
+| Skip the global install | `npx -y powerautomate-mcp@latest --setup` (add `--npx` so your app uses npx too) |
+| Configure your app by hand | [Manual client configs](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#connect-your-ai-app-manually) |
+
+Supported apps: **Claude Desktop**, **Claude Code**, **Cursor**, **VS Code (Copilot)**, **Gemini CLI**, **Windsurf**, **ChatGPT** (via `--http`).
 
 ---
 
@@ -127,8 +125,11 @@ powerautomate-mcp [options]
 
 | Flag | Description |
 |------|-------------|
-| `--setup`, `-s` | Run the interactive setup wizard |
+| `--setup`, `-s` | Run the interactive setup wizard (signs in + connects your AI app) |
+| `--doctor` | Check your setup and print exactly what to fix, then exit |
 | `--validate` | Verify config, auth, and API connectivity then exit |
+| `--client <name>` | Wire an AI app's config to this server, then exit (`claude`, `claude-code`, `cursor`, `vscode`, `gemini`, `windsurf`) |
+| `--npx` | With `--setup`/`--client`, configure the app to run via `npx` (no global install) |
 | `--update` | Check for updates and install the latest version |
 | `--version`, `-v` | Print version and exit |
 | `--http` | Start with Streamable HTTP transport |
