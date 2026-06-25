@@ -260,7 +260,7 @@ What parameters does the "Send an email (V2)" action need?
 | `update_flow` | Modify an existing flow. Three modes: full replace (default), `mergeActions: true` (deep-merge — preserves siblings), or `patchActions: { "path": value }` (surgical, smallest payload). Also supports `description` |
 | `delete_flow` | Delete a flow |
 | `toggle_flow` | Enable or disable a flow |
-| `clone_flow` | Copy flow to another environment |
+| `clone_flow` | Copy a flow (optionally to another environment; defaults to the same one) |
 
 </details>
 

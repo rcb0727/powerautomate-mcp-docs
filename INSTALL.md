@@ -19,33 +19,41 @@ New to any of this? The [Glossary](#glossary) explains MCP, app registration, te
 
 ## Before you start
 
+**This takes about 10 minutes.** One step (admin consent) may need a quick approval from your IT department — skim [Step 2](#step-2--run-setup) before you begin so nothing catches you off guard.
+
 You need three things. The Easy Path checks all of them for you, but here's the full list:
 
-1. **A Microsoft 365 *work* account** with Power Automate access (your work email — not a personal @outlook.com).
-2. **An AI app that supports MCP** — Claude Desktop, Claude Code, Cursor, VS Code (Copilot), Gemini CLI, or ChatGPT. If you have one open right now, you're set.
-3. **Node.js 20 or newer** — this is the engine the server runs on. Install steps below.
+1. **A Microsoft 365 *work* account** with Power Automate access — the same email and password you use for Outlook, Teams, and Office at work. (Not a personal @outlook.com / @gmail account. You don't need to create anything new.)
+2. **An AI app that supports MCP** — Claude Desktop, Claude Code, Cursor, VS Code (Copilot), Gemini CLI, Windsurf, or ChatGPT. If you have one open right now, you're set.
+3. **Node.js 20 or newer** — the engine the server runs on. Install steps below.
 
-### Install Node.js (one-time)
+### Step A — Open a terminal
 
-**Check if you already have it.** Open a terminal (see below) and run:
+The terminal is the app where you type the commands in this guide.
+
+- **Windows:** click **Start**, type **PowerShell**, press Enter.
+- **macOS:** press **Cmd + Space**, type **Terminal**, press Enter.
+- **Linux:** press **Ctrl + Alt + T**, or search **Terminal** in your apps.
+
+To run any command below: click in the terminal, **paste** it, press **Enter**, and wait for it to finish before the next one.
+
+### Step B — Install Node.js (one-time)
+
+**First check if you already have it.** In the terminal, paste this and press Enter:
 
 ```bash
 node --version
 ```
 
-If it prints `v20.x.x` or higher, skip ahead. If it says "command not found" or a number below 20:
+- If the first number is **20 or bigger** (e.g. `v20.11.0`, `v22.3.0`), you're done — go to [Easy Path Step 1](#step-1--install-the-server).
+- If it says **"command not found"** or a smaller number (like `v18`), install Node:
+  - **Windows & macOS:** go to [nodejs.org](https://nodejs.org) and click the big green button labeled **LTS** (the "Recommended for most users" one — *not* "Current"). Run the installer and click through the defaults.
+  - **macOS, only if you already use Homebrew:** `brew install node`
+  - **Linux:** [nodejs.org](https://nodejs.org), your distro's package manager, or [nvm](https://github.com/nvm-sh/nvm).
 
-- **Windows & macOS:** download the **LTS** installer from [nodejs.org](https://nodejs.org) and run it. Click through the defaults.
-- **macOS with Homebrew:** `brew install node`
-- **Linux:** use [nodejs.org](https://nodejs.org), your distro's package manager, or [nvm](https://github.com/nvm-sh/nvm).
+  Then close and reopen the terminal and run `node --version` again to confirm.
 
-### How to open a terminal
-
-- **Windows:** press the **Start** button, type **PowerShell**, press Enter.
-- **macOS:** press **Cmd + Space**, type **Terminal**, press Enter.
-- **Linux:** press **Ctrl + Alt + T**, or search **Terminal** in your apps.
-
-> **Linux only — secure password storage:** install libsecret so your sign-in token is stored safely.
+> **Linux only — secure password storage:** install libsecret so your sign-in token is stored safely. (Windows and macOS users: skip this.)
 > ```bash
 > sudo apt-get install libsecret-1-0 gnome-keyring   # Ubuntu/Debian
 > sudo dnf install libsecret gnome-keyring           # Fedora/RHEL
@@ -56,7 +64,7 @@ If it prints `v20.x.x` or higher, skip ahead. If it says "command not found" or 
 
 ## Easy Path (3 steps)
 
-Open a terminal and run these one at a time.
+In your terminal, paste each command, press **Enter**, and let it finish before the next one. When the tool *asks* you something, type your answer (or the number next to your choice) and press Enter.
 
 ### Step 1 — Install the server
 
@@ -64,9 +72,9 @@ Open a terminal and run these one at a time.
 npm install -g powerautomate-mcp
 ```
 
-✅ **You should see** a few lines ending in something like `added 1 package`. No red `ERR!` lines.
+✅ **You should see** a few lines ending in something like `added 1 package`. Yellow `WARN` lines are normal and safe to ignore — only red `ERR!` means a real problem.
 
-> Hit a permission error (`EACCES`) or `command not found` afterward? Skip the global install and use the no-install option instead — jump to [Troubleshooting → install problems](#install-problems). Everything below still works.
+> **If that fails** with `command not found`, `EACCES`, or a permission error, don't worry — you don't need the global install. Just use `npx` instead: everywhere below, replace `powerautomate-mcp` with `npx -y powerautomate-mcp@latest`. So Step 2 becomes `npx -y powerautomate-mcp@latest --setup`. That's the only change — skip the rest of this step.
 
 ### Step 2 — Run setup
 
@@ -74,19 +82,30 @@ npm install -g powerautomate-mcp
 powerautomate-mcp --setup
 ```
 
-This wizard walks you through everything:
+A wizard starts and walks you through six steps. Here's what it asks and what you do:
 
-1. **App registration** — created automatically, or paste one if your admin gave you a Client ID
-2. **Sign in** — opens your browser; log in with your work account
-3. **Admin consent** — opens the approval page (if you're not an admin, send the link it shows to your admin)
-4. **Pick your environment** — choose from the list (the recommended one is marked ⭐)
-5. **Save** — writes your settings
-6. **Connect your AI app** — pick your app from a menu and it wires itself up automatically
+1. **App registration** — it tries to create this for you automatically. **Heads-up:** the automatic path needs a developer tool called *Azure CLI*. If you don't have it (most people don't), the wizard will ask you to paste a **Client ID** instead — a code like `1234abcd-…` that your IT department creates once. If you don't have one, [ask IT first](#getting-a-client-id-from-it) and come back.
+2. **Sign in** — your browser opens. Log in with your **work** account. If it shows an account picker, choose your company email (e.g. `you@yourcompany.com`), not a personal one.
+3. **Admin consent** — it opens an approval page. If you're an admin, approve it. **If you're not** (most people), see [Admin consent: what to do](#admin-consent-what-to-do) — you'll send a link to IT and re-run setup once they approve.
+4. **Pick your environment** — type the number next to the one you want (the recommended one is marked ⭐) and press Enter.
+5. **Save** — it writes your settings automatically.
+6. **Connect your AI app** — type the number for the app you use (Claude Desktop, Claude Code, Cursor, VS Code, Gemini, Windsurf). It wires itself up — no JSON editing.
 
-✅ **You should see** a green **Setup Complete!** banner, and your AI app listed as connected.
+✅ **You should see** a green **Setup Complete!** banner with your AI app listed as connected.
 
-> Want to skip the menu? Add your app to the command:
-> `powerautomate-mcp --setup --client claude` (or `cursor`, `vscode`, `gemini`, `claude-code`, `windsurf`).
+> Want to skip the app menu? Name it on the command: `powerautomate-mcp --setup --client claude` (or `cursor`, `vscode`, `gemini`, `claude-code`, `windsurf`). Either way works — without `--client`, you just pick from the menu.
+
+#### Admin consent: what to do
+
+Power Automate MCP needs a one-time approval ("admin consent") for your organization. **Most employees aren't admins** — that's expected. The wizard shows a link; copy it and email your IT helpdesk:
+
+> *Hi — I'm setting up a Microsoft-approved tool that connects to Power Automate. Could an administrator approve this consent link for our organization? [paste the link]*
+
+Once IT confirms it's approved, run `powerautomate-mcp --setup` again — it picks up where it left off. (Only a Global, Application, Cloud Application, or Privileged Role admin can approve — IT will know who that is.)
+
+#### Getting a Client ID from IT
+
+If the wizard asks for a **Client ID** and you don't have one, your tenant requires an admin to register the app first. Send your IT department to [Admin & enterprise setup](#admin--enterprise-setup) — they create the app registration once and give you the Client ID (and grant consent). Then run `powerautomate-mcp --setup` and paste it when asked.
 
 ### Step 3 — Confirm it works
 
@@ -96,11 +115,15 @@ powerautomate-mcp --doctor
 
 ✅ **You should see** green checks for Node, version, config, sign-in, "Power Platform reachable," and your AI app "connected." If anything is red, `--doctor` tells you the exact fix.
 
-**Then:** fully **restart your AI app** (quit and reopen) so it loads the new tools — and just ask it:
+**Then fully restart your AI app** so it loads the new tools:
+- **macOS:** closing the window isn't enough — press **Cmd + Q** with the app focused (or right-click its Dock icon → **Quit**), then reopen it.
+- **Windows/Linux:** close the app completely and reopen it.
+
+Now just ask it:
 
 > *"List my Power Automate flows."*
 
-That's it. 🎉
+If it lists your flows — or says you don't have any yet — it's working. 🎉 (If it says it has no Power Automate tool, redo the restart above.)
 
 ---
 
@@ -186,7 +209,13 @@ Or add to your project's `.mcp.json`:
 <details>
 <summary><strong>VS Code (GitHub Copilot)</strong></summary>
 
-Open the Command Palette (`Ctrl/Cmd+Shift+P`) → **MCP: Open User Configuration**, or edit `mcp.json` directly:
+Open the Command Palette (`Ctrl/Cmd+Shift+P`) → **MCP: Open User Configuration**, or edit the file directly:
+
+| OS | Path |
+|----|------|
+| macOS | `~/Library/Application Support/Code/User/mcp.json` |
+| Windows | `%APPDATA%\Code\User\mcp.json` |
+| Linux | `~/.config/Code/User/mcp.json` |
 
 ```json
 {
@@ -305,7 +334,7 @@ Run **`powerautomate-mcp --doctor`** first — it pinpoints most problems and pr
 | `npm ERR! code EACCES` during `npm install -g` | A permissions issue. **Don't use `sudo`.** Use the [npx option](#option-b-no-global-install-npx), or set npm's prefix to a folder you own, or install Node via [nvm](https://github.com/nvm-sh/nvm). |
 | `EBUSY` / `EPERM` on Windows during upgrade | An app is still running the server. Quit all AI apps and `--http` servers, then upgrade again. |
 | `Node.js … (need 20+)` from `--doctor` | Upgrade Node from [nodejs.org](https://nodejs.org) (install the LTS). |
-| Linux: `libsecret-1.so.0: cannot open shared object file` | Install libsecret — see the [Linux note](#how-to-open-a-terminal). |
+| Linux: `libsecret-1.so.0: cannot open shared object file` | Install libsecret — see the Linux note under [Before you start](#before-you-start). |
 
 ### Setup & sign-in problems
 
