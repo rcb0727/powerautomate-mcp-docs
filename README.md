@@ -1,8 +1,8 @@
-# Power Automate MCP Server
+# Power Platform MCP Server
 
 **Docs:** **Overview** · [Installation & Upgrading](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md) · [Changelog](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/CHANGELOG.md) · [Report an issue](https://github.com/rcb0727/powerautomate-mcp-docs/issues)
 
-An MCP (Model Context Protocol) server for Microsoft Power Automate. Create, manage, and deploy Power Automate flows using natural language.
+An MCP (Model Context Protocol) server for Microsoft Power Platform. Create, manage, and deploy Power Automate flows using natural language amd more. 
 
 Works with any MCP-compatible AI client: **Claude Desktop**, **Claude Code**, **VS Code Copilot**, **Cursor**, **Google Gemini CLI**, and more.
 
