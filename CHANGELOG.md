@@ -8,6 +8,7 @@
 
 | Version | Date | Highlights |
 |---------|------|------------|
+| [0.11.1](#0111---2026-07-01) | 2026-07-01 | **Security** — `fast-uri` 3.1.2→3.1.3 (CVE / CWE-436 interpretation conflict: Unicode/fullwidth hostnames like `http://127。0。0。1/` left unconverted, could steer host-based security checks). Override floor raised from `^3.1.2` to `^3.1.3` so the patched build is actually locked in |
 | [0.11.0](#0110---2026-06-24) | 2026-06-24 | **Easier install** — `--setup` now connects your AI app for you (auto-writes/merges the client config, no hand-editing JSON); new `--doctor` health check; new `--client <name>` and `--npx` flags; rewritten install guide with an Easy Path, troubleshooting FAQ, and glossary |
 | [0.10.3](#0103---2026-06-20) | 2026-06-20 | **Security** — `qs` 6.15.1→6.15.2 (NULL deref), `fast-uri` 3.1.0→3.1.2 (directory traversal + host interpretation conflict), `ip-address` 10.1.0→10.2.0 (XSS); pinned via npm `overrides` (deep transitive deps of the MCP SDK) |
 | [0.10.2](#0102---2026-06-19) | 2026-06-19 | **Security** — `undici` 6.25→6.27 (4 CVEs: CRLF injection, resource exhaustion, permissive inputs, TOCTOU), `ajv` 8.17→8.20 (ReDoS), `hono` 4.11→4.12 (directory traversal), `@hono/node-server` 1.19.9→1.19.14 (URL encoding bypass) |
@@ -25,6 +26,15 @@
 | [0.7.6](#076---2026-04-23) | 2026-04-23 | Dataverse URL auto-resolution, flow run-ID validation, `$orderby` fix ([#6](https://github.com/rcb0727/powerautomate-mcp-docs/issues/6), [#7](https://github.com/rcb0727/powerautomate-mcp-docs/issues/7), [#8](https://github.com/rcb0727/powerautomate-mcp-docs/issues/8)) |
 
 Older releases are documented below in full.
+
+## [0.11.1] - 2026-07-01
+
+Security patch for a transitive dependency of the MCP SDK.
+
+### Security
+- **`fast-uri` 3.1.2 → 3.1.3** (High). Addresses an interpretation-conflict flaw (CWE-436) in `fast-uri`'s `parse()`/`normalize()`/`equal()`: a `TypeError` from the missing `URL.domainToASCII()` was silently swallowed, leaving internationalized/fullwidth hostnames (e.g. `http://127。0。0。1/`) in their unconverted Unicode form. Where a host string is used for security decisions (denylists, loopback filtering, redirect/proxy validation) before a downstream consumer canonicalizes it differently, this could route to an unintended destination.
+- **Root cause of the miss:** the existing override pinned `fast-uri: ^3.1.2`, which is *satisfied* by the vulnerable 3.1.2, so npm never advanced the lockfile to the patched 3.1.3. The override floor is now `^3.1.3`, and the lockfile is regenerated to lock `fast-uri@3.1.3`.
+- **Provenance:** `fast-uri` is pulled in transitively via `@modelcontextprotocol/sdk` → `ajv` / `ajv-formats`; there is no direct dependency to bump, hence the npm `overrides` approach.
 
 ## [0.11.0] - 2026-06-24
 
