@@ -8,6 +8,7 @@
 
 | Version | Date | Highlights |
 |---------|------|------------|
+| [0.12.0](#0120---2026-07-05) | 2026-07-05 | **Least-privilege setup** — `--setup` now lets users choose exactly which tool surfaces to enable; app registrations request only selected scopes, skipped tools are hidden, and `--doctor` / `--validate` no longer fail on intentionally skipped permissions |
 | [0.11.1](#0111---2026-07-01) | 2026-07-01 | **Security** — `fast-uri` 3.1.2→3.1.3 (CVE / CWE-436 interpretation conflict: Unicode/fullwidth hostnames like `http://127。0。0。1/` left unconverted, could steer host-based security checks). Override floor raised from `^3.1.2` to `^3.1.3` so the patched build is actually locked in |
 | [0.11.0](#0110---2026-06-24) | 2026-06-24 | **Easier install** — `--setup` now connects your AI app for you (auto-writes/merges the client config, no hand-editing JSON); new `--doctor` health check; new `--client <name>` and `--npx` flags; rewritten install guide with an Easy Path, troubleshooting FAQ, and glossary |
 | [0.10.3](#0103---2026-06-20) | 2026-06-20 | **Security** — `qs` 6.15.1→6.15.2 (NULL deref), `fast-uri` 3.1.0→3.1.2 (directory traversal + host interpretation conflict), `ip-address` 10.1.0→10.2.0 (XSS); pinned via npm `overrides` (deep transitive deps of the MCP SDK) |
@@ -26,6 +27,28 @@
 | [0.7.6](#076---2026-04-23) | 2026-04-23 | Dataverse URL auto-resolution, flow run-ID validation, `$orderby` fix ([#6](https://github.com/rcb0727/powerautomate-mcp-docs/issues/6), [#7](https://github.com/rcb0727/powerautomate-mcp-docs/issues/7), [#8](https://github.com/rcb0727/powerautomate-mcp-docs/issues/8)) |
 
 Older releases are documented below in full.
+
+## [0.12.0] - 2026-07-05
+
+Least-privilege setup and tenant-validation improvements.
+
+### Added
+- **Permission presets in `--setup`.** Users can now choose **All tool surfaces**, **Power Automate only**, **Power Automate + connectors**, **Dataverse**, **Power Pages**, or **Custom** before app registration creation. Power Automate remains the base scope; optional Graph, PowerApps Service, BAP Admin API, Dynamics CRM, and Power Platform API surfaces are only requested when selected.
+- **Feature-aware config.** Setup writes `features.enabled` so the selected tool surfaces are explicit and repeatable. Existing configs remain backwards-compatible and default to the historical "all tools" behavior.
+- **Feature-aware tool advertising.** MCP clients no longer see tools for permission surfaces the user skipped. Calling a disabled tool returns guidance to re-run setup with the matching feature enabled.
+- **Feature-aware health checks.** `--doctor` and `--validate` now check only selected secondary APIs. A Power Automate-only install no longer fails because Graph, PowerApps, Dataverse, admin, or Power Pages permissions were intentionally omitted.
+
+### Changed
+- **App registration generation is least-privilege.** Azure CLI-created app registrations now build `requiredResourceAccess` from the selected feature set instead of always asking for every standard permission.
+- **Manual/enterprise docs now list scopes by feature.** The README and install guide call out when PowerApps Service, BAP Admin API, Dynamics CRM, and the optional Power Platform API are needed.
+- **Power Pages hosting remains manual for the Power Platform API permission.** That API exposes feature-scoped delegated permissions, so the automatic app-registration path still avoids guessing a scope ID.
+
+### Fixed
+- **BAP Admin API consent is now surfaced clearly.** Live tenant validation can distinguish "PowerApps Service is authorized" from "BAP Admin API is missing," which keeps Dataverse URL discovery/admin failures actionable.
+
+### Upgrade Notes
+- `npm install -g powerautomate-mcp@latest`.
+- Existing configs continue to work as "all tool surfaces" until you re-run setup. To reduce requested scopes, run `powerautomate-mcp --setup`, choose a narrower permission set, and remove any no-longer-needed API permissions from the app registration in Microsoft Entra.
 
 ## [0.11.1] - 2026-07-01
 

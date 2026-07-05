@@ -42,7 +42,7 @@ powerautomate-mcp --setup          # 2. sign in + connect your AI app
 powerautomate-mcp --doctor         # 3. confirm everything works
 ```
 
-The `--setup` wizard does it all: creates the Entra app registration (or takes one you provide), signs you in, handles admin consent, picks your environment, **and wires the server into your AI app for you** — no hand-editing JSON. Then restart your app and ask it to build a flow.
+The `--setup` wizard does it all: lets you choose a least-privilege permission set, creates the Entra app registration (or takes one you provide), signs you in, handles admin consent, picks your environment, **and wires the server into your AI app for you** — no hand-editing JSON. Then restart your app and ask it to build a flow.
 
 **Not very technical?** Follow the step-by-step **[Easy Path](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#easy-path-3-steps)** with checkpoints.
 
@@ -97,19 +97,23 @@ If you prefer to create the app registration manually:
 3. After creation, go to **Authentication** and enable:
    - **Allow public client flows**: Yes
 
-4. Go to **API permissions** > **Add a permission** and add:
+4. Go to **API permissions** > **Add a permission** and add only the permissions for the tool surfaces you want to enable. The setup wizard offers presets for **All tool surfaces**, **Power Automate only**, **Power Automate + connectors**, **Dataverse**, **Power Pages**, and **Custom**.
 
    | API | Permission | Type | Used For |
    |-----|------------|------|----------|
-   | Microsoft Graph | `User.Read` | Delegated | User profile |
-   | Microsoft Graph | `Sites.ReadWrite.All` | Delegated | SharePoint sites, lists, files |
-   | Microsoft Graph | `Files.ReadWrite.All` | Delegated | OneDrive/SharePoint file operations |
    | Power Automate (Flow Service) | `Flows.Read.All` | Delegated | Read flows |
    | Power Automate (Flow Service) | `Flows.Manage.All` | Delegated | Create/update/delete flows |
    | Power Automate (Flow Service) | `Activity.Read.All` | Delegated | Flow run history |
    | Power Automate (Flow Service) | `Approvals.Manage.All` | Delegated | Approval management |
-   | Dynamics CRM | `user_impersonation` | Delegated | Dataverse table/row CRUD |
-   | Power Platform API | delegated permission | Delegated | Power Pages **site management** (Tier 2 — optional; see note below) |
+   | Microsoft Graph | `User.Read`, `Sites.ReadWrite.All`, `Files.ReadWrite.All` | Delegated | Optional: SharePoint, OneDrive, and Excel helpers |
+   | PowerApps Service | `User` | Delegated | Optional: connections, connector metadata, custom connectors, and Power Apps maker APIs |
+   | BAP Admin API | `user_impersonation` | Delegated | Optional: admin tools, Dataverse URL discovery, and Power Pages configuration |
+   | Dynamics CRM | `user_impersonation` | Delegated | Optional: Dataverse table/row CRUD and Power Pages configuration |
+   | Power Platform API | delegated permission | Delegated | Optional: Power Pages **site management** (Tier 2 — see note below) |
+
+   > **Least privilege:** Power Automate-only setups need only the Flow Service permissions. Skipped feature scopes are saved in `features.enabled`, hidden from the advertised MCP tool list, and skipped by `--doctor` / `--validate`.
+
+   > **Dataverse and admin tools** require the BAP Admin API delegated permission (appId `0e0bf3cc-3078-4fd4-9ef3-cb6dc0245b10`). Without it, the server cannot resolve the real Dataverse org URL and falls back to a guessed `*.crm.dynamics.com` hostname that often fails DNS.
 
    > **Power Pages site-management tools (Tier 2)** call `https://api.powerplatform.com` and need the "Power Platform API" delegated permission (appId `8578e004-a5c6-46e7-913e-12f58912df43`). It is **not** added by the automatic `--setup` app creation because that API exposes only feature-scoped permissions and the auto-creator can't safely guess the scope. Add it manually here if you want Tier 2; the Power Pages **config** tools (Dataverse) work without it. After adding, re-run `--setup` — the wizard reports whether the Power Platform API authorized.
 

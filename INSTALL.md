@@ -82,14 +82,15 @@ npm install -g powerautomate-mcp
 powerautomate-mcp --setup
 ```
 
-A wizard starts and walks you through six steps. Here's what it asks and what you do:
+A wizard starts and walks you through seven steps. Here's what it asks and what you do:
 
-1. **App registration** — it tries to create this for you automatically. **Heads-up:** the automatic path needs a developer tool called *Azure CLI*. If you don't have it (most people don't), the wizard will ask you to paste a **Client ID** instead — a code like `1234abcd-…` that your IT department creates once. If you don't have one, [ask IT first](#getting-a-client-id-from-it) and come back.
-2. **Sign in** — your browser opens. Log in with your **work** account. If it shows an account picker, choose your company email (e.g. `you@yourcompany.com`), not a personal one.
-3. **Admin consent** — it opens an approval page. If you're an admin, approve it. **If you're not** (most people), see [Admin consent: what to do](#admin-consent-what-to-do) — you'll send a link to IT and re-run setup once they approve.
-4. **Pick your environment** — type the number next to the one you want (the recommended one is marked ⭐) and press Enter.
-5. **Save** — it writes your settings automatically.
-6. **Connect your AI app** — type the number for the app you use (Claude Desktop, Claude Code, Cursor, VS Code, Gemini, Windsurf). It wires itself up — no JSON editing.
+1. **Choose permissions** — pick a preset: all tools, Power Automate only, Power Automate + connectors, Dataverse, Power Pages, or Custom. Choose only what you plan to use; you can run setup again later to add more.
+2. **App registration** — it tries to create this for you automatically with only the selected permissions. **Heads-up:** the automatic path needs a developer tool called *Azure CLI*. If you don't have it (most people don't), the wizard will ask you to paste a **Client ID** instead — a code like `1234abcd-…` that your IT department creates once. If you don't have one, [ask IT first](#getting-a-client-id-from-it) and come back.
+3. **Sign in** — your browser opens. Log in with your **work** account. If it shows an account picker, choose your company email (e.g. `you@yourcompany.com`), not a personal one.
+4. **Admin consent** — it opens an approval page for the permissions you selected. If you're an admin, approve it. **If you're not** (most people), see [Admin consent: what to do](#admin-consent-what-to-do) — you'll send a link to IT and re-run setup once they approve.
+5. **Pick your environment** — type the number next to the one you want (the recommended one is marked ⭐) and press Enter.
+6. **Save** — it writes your settings automatically, including which feature scopes are enabled.
+7. **Connect your AI app** — type the number for the app you use (Claude Desktop, Claude Code, Cursor, VS Code, Gemini, Windsurf). It wires itself up — no JSON editing.
 
 ✅ **You should see** a green **Setup Complete!** banner with your AI app listed as connected.
 
@@ -343,7 +344,7 @@ Run **`powerautomate-mcp --doctor`** first — it pinpoints most problems and pr
 | `AADSTS65001` / "admin consent not granted" | An admin must approve the consent URL the wizard shows. Send it to your Global/Application/Cloud-App/Privileged-Role admin, then re-run `--setup`. |
 | "No environments found" | The account you signed in with has no Power Automate access — sign in with your work account, or ask IT to grant access. |
 | Wizard can't create an app registration | You're not an Entra admin and don't have Azure CLI. Ask an admin for a **Client ID** and paste it when prompted (or set `PA_MCP_CLIENT_ID`). See [Admin & enterprise setup](#admin--enterprise-setup). |
-| Some tools fail with `AADSTS65001` after setup | A required permission wasn't consented (often PowerApps Service). See [enterprise permissions](#admin--enterprise-setup). |
+| Some tools fail with `AADSTS65001` after setup | A permission for that feature wasn't consented. Run `powerautomate-mcp --doctor` to see the exact API, then see [enterprise permissions](#admin--enterprise-setup). |
 
 ### "It installed but my AI app doesn't see the tools"
 
@@ -375,18 +376,19 @@ Still stuck? [Open an issue](https://github.com/rcb0727/powerautomate-mcp-docs/i
 
 If your tenant **requires admin consent for all applications** (most enterprises do), the per-user wizard can't self-approve. As an admin:
 
-1. **Add the API permissions to the app registration** in Microsoft Entra (the wizard's auto-created app already has these; add them manually only if you create the app yourself):
-   - Microsoft Graph: `User.Read`, `Sites.ReadWrite.All`, `Files.ReadWrite.All`
+1. **Add only the API permissions for the feature set you selected** in Microsoft Entra. A Power Automate-only setup needs only the Flow Service permissions; add the optional APIs only when users need those tools:
    - Flow Service (`7df0a125-d3be-4c96-aa54-591f83ff541c`): `Flows.Read.All`, `Flows.Manage.All`, `Activity.Read.All`, `Approvals.Manage.All`
-   - PowerApps Service (`475226c6-020e-4fb2-8a90-7a972cbfc1d4`): `User`
-   - Dynamics CRM (`00000007-0000-0000-c000-000000000000`): `user_impersonation`
+   - Optional SharePoint/Excel helpers: Microsoft Graph `User.Read`, `Sites.ReadWrite.All`, `Files.ReadWrite.All`
+   - Optional connections/connectors/Power Apps: PowerApps Service (`475226c6-020e-4fb2-8a90-7a972cbfc1d4`) `User`
+   - Optional Dataverse/admin/Power Pages config: BAP Admin API (`0e0bf3cc-3078-4fd4-9ef3-cb6dc0245b10`) `user_impersonation`
+   - Optional Dataverse/Power Pages config: Dynamics CRM (`00000007-0000-0000-c000-000000000000`) `user_impersonation`
    - Power Platform API (`8578e004-a5c6-46e7-913e-12f58912df43`): a delegated permission — **optional**, only for the Power Pages site-management tools. The Power Pages config tools (Dataverse) don't need it.
 
-2. **Grant admin consent** for all permissions:
+2. **Grant admin consent** for the selected permissions:
    ```
    https://login.microsoftonline.com/{tenant-id}/adminconsent?client_id={your-client-id}
    ```
 
 3. Have users run `powerautomate-mcp --setup`. Distribute the Client ID via the `PA_MCP_CLIENT_ID` environment variable so they don't have to paste it.
 
-Without the PowerApps Service permission, `list_connections` and other connector tools fail with `AADSTS65001`.
+Skipped feature scopes are recorded in `features.enabled`; their tools are hidden and their auth checks are skipped. Without the PowerApps Service permission, connector and Power Apps tools are unavailable. Without the BAP Admin API permission, admin tools and Dataverse URL auto-discovery are unavailable.
