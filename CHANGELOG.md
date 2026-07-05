@@ -55,7 +55,6 @@ Least-privilege setup plus the full 0.12 release train from the source PR and is
 - **`list_approvals` works in real tenants.** The tool now sends the owner `$filter` required by the approvals API, using the signed-in token's object ID.
 - **Consent failures are actionable.** `AADSTS65001` no longer masquerades as "no cached credentials"; the error now names the exact unconsented scope/resource.
 - **BAP Admin API consent is now surfaced clearly.** Live tenant validation can distinguish "PowerApps Service is authorized" from "BAP Admin API is missing," which keeps Dataverse URL discovery/admin failures actionable.
-- **npm audit is clean for the release lockfile.** Remaining transitive advisories were cleared or pinned through overrides, including the `uuid` floor.
 
 ### Upgrade Notes
 - Requires Node.js 22.19 or newer.
