@@ -37,16 +37,12 @@ Least-privilege setup plus the full 0.12 release train from the source PR and is
 - **Feature-aware config.** Setup writes `features.enabled` so the selected tool surfaces are explicit and repeatable. Existing configs remain backwards-compatible and default to the historical "all tools" behavior.
 - **Feature-aware tool advertising.** MCP clients no longer see tools for permission surfaces the user skipped. Calling a disabled tool returns guidance to re-run setup with the matching feature enabled.
 - **Feature-aware health checks.** `--doctor` and `--validate` now check only selected secondary APIs. A Power Automate-only install no longer fails because Graph, PowerApps, Dataverse, admin, or Power Pages permissions were intentionally omitted.
-- **Generated tool documentation and drift checks.** Tool tables are generated from the source registry and checked in CI so docs stay aligned with the 121 registered tools.
 - **Pagination and structured MCP output improvements.** `list_flows` supports live `skipToken` pagination plus opt-in `fetchAll`, and structuredContent coverage expanded across key read tools including flow/run diagnostics, environments, approvals, permissions, versions, connections, and solutions.
-- **Reusable integration-test infrastructure.** The release adds a MockAgent-based harness, sanitized recorded-response fixtures, schema/cache/API coverage, CLI coverage, and an enforced coverage floor.
+
 
 
 ### Changed
 - **App registration generation is least-privilege.** Azure CLI-created app registrations now build `requiredResourceAccess` from the selected feature set instead of always asking for every standard permission.
-- **Manual/enterprise docs now list scopes by feature.** The README and install guide call out when PowerApps Service, BAP Admin API, Dynamics CRM, and the optional Power Platform API are needed.
-- **Power Pages hosting remains manual for the Power Platform API permission.** That API exposes feature-scoped delegated permissions, so the automatic app-registration path still avoids guessing a scope ID.
-- **Node.js baseline is now 22.19+.** Node 20 support was dropped with the undici 8 upgrade path.
 - **HTTP and API resilience improved.** Idempotent GETs now retry transient 429s with backoff, `update_flow` uses opportunistic ETag/If-Match concurrency when available, and Streamable HTTP is hardened with per-session servers, Origin checks, bearer auth, and session caps.
 - **Core dispatch and safety code was tightened.** The large tool-dispatch switch was replaced with a data-driven handler map, runtime JSON escaping/brace matching was fixed, sanitizer edge cases were covered, and `http://` token/resource paths are rejected.
 - **Dependency/tooling refresh.** Updated undici 8.7.0, zod 4.4.3, TypeScript 6.0.3, ESLint 10.6.0, Vitest/coverage 4.1.9, pino 10.3.1, rimraf 6.1.3, setup-node 6, checkout 7, upload-artifact 6, and pinned `uuid >=12.0.1`.
