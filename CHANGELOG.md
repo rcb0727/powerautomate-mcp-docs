@@ -59,8 +59,8 @@ Least-privilege setup plus the full 0.12 release train from the source PR and is
 - **npm audit is clean for the release lockfile.** Remaining transitive advisories were cleared or pinned through overrides, including the `uuid` floor.
 
 ### Source PR / Issue Coverage
-- Includes the source PR work from #13-#16 and #21, plus #26-#45.
-- Closes the source release issues for dependency vulnerability cleanup (#4), docs-from-code (#6), 429 retry (#7), ETag concurrency (#8), integration-test coverage (#9), Streamable HTTP (#10), pagination/structured output/telemetry (#11), and Scorecard (#12).
+- Includes private source PRs 13-16, 21, and 26-45.
+- Closes the private source release issues for dependency vulnerability cleanup, docs-from-code, 429 retry, ETag concurrency, integration-test coverage, Streamable HTTP, pagination/structured output/telemetry, and Scorecard.
 - Leaves the major MSAL migrations open for a future release.
 
 ### Upgrade Notes
