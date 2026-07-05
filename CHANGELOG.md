@@ -8,7 +8,7 @@
 
 | Version | Date | Highlights |
 |---------|------|------------|
-| [0.12.0](#0120---2026-07-05) | 2026-07-05 | **Least-privilege setup** — `--setup` now lets users choose exactly which tool surfaces to enable; app registrations request only selected scopes, skipped tools are hidden, and `--doctor` / `--validate` no longer fail on intentionally skipped permissions |
+| [0.12.0](#0120---2026-07-05) | 2026-07-05 | **Least privilege + hardening release** — permission presets, feature-aware tool filtering and health checks, live-tenant fixes for approvals/consent errors, structuredContent expansion, pagination/retry/ETag improvements, hardened Streamable HTTP, coverage/Scorecard gates, dependency/security updates, and a Node.js 22.19+ baseline |
 | [0.11.1](#0111---2026-07-01) | 2026-07-01 | **Security** — `fast-uri` 3.1.2→3.1.3 (CVE / CWE-436 interpretation conflict: Unicode/fullwidth hostnames like `http://127。0。0。1/` left unconverted, could steer host-based security checks). Override floor raised from `^3.1.2` to `^3.1.3` so the patched build is actually locked in |
 | [0.11.0](#0110---2026-06-24) | 2026-06-24 | **Easier install** — `--setup` now connects your AI app for you (auto-writes/merges the client config, no hand-editing JSON); new `--doctor` health check; new `--client <name>` and `--npx` flags; rewritten install guide with an Easy Path, troubleshooting FAQ, and glossary |
 | [0.10.3](#0103---2026-06-20) | 2026-06-20 | **Security** — `qs` 6.15.1→6.15.2 (NULL deref), `fast-uri` 3.1.0→3.1.2 (directory traversal + host interpretation conflict), `ip-address` 10.1.0→10.2.0 (XSS); pinned via npm `overrides` (deep transitive deps of the MCP SDK) |
@@ -30,24 +30,42 @@ Older releases are documented below in full.
 
 ## [0.12.0] - 2026-07-05
 
-Least-privilege setup and tenant-validation improvements.
+Least-privilege setup plus the full 0.12 release train from the source PR and issue sweep.
 
 ### Added
 - **Permission presets in `--setup`.** Users can now choose **All tool surfaces**, **Power Automate only**, **Power Automate + connectors**, **Dataverse**, **Power Pages**, or **Custom** before app registration creation. Power Automate remains the base scope; optional Graph, PowerApps Service, BAP Admin API, Dynamics CRM, and Power Platform API surfaces are only requested when selected.
 - **Feature-aware config.** Setup writes `features.enabled` so the selected tool surfaces are explicit and repeatable. Existing configs remain backwards-compatible and default to the historical "all tools" behavior.
 - **Feature-aware tool advertising.** MCP clients no longer see tools for permission surfaces the user skipped. Calling a disabled tool returns guidance to re-run setup with the matching feature enabled.
 - **Feature-aware health checks.** `--doctor` and `--validate` now check only selected secondary APIs. A Power Automate-only install no longer fails because Graph, PowerApps, Dataverse, admin, or Power Pages permissions were intentionally omitted.
+- **Generated tool documentation and drift checks.** Tool tables are generated from the source registry and checked in CI so docs stay aligned with the 121 registered tools.
+- **Pagination and structured MCP output improvements.** `list_flows` supports live `skipToken` pagination plus opt-in `fetchAll`, and structuredContent coverage expanded across key read tools including flow/run diagnostics, environments, approvals, permissions, versions, connections, and solutions.
+- **Reusable integration-test infrastructure.** The release adds a MockAgent-based harness, sanitized recorded-response fixtures, schema/cache/API coverage, CLI coverage, and an enforced coverage floor.
+- **OpenSSF Scorecard workflow.** The private source workflow now records Scorecard output as a job summary and artifact.
 
 ### Changed
 - **App registration generation is least-privilege.** Azure CLI-created app registrations now build `requiredResourceAccess` from the selected feature set instead of always asking for every standard permission.
 - **Manual/enterprise docs now list scopes by feature.** The README and install guide call out when PowerApps Service, BAP Admin API, Dynamics CRM, and the optional Power Platform API are needed.
 - **Power Pages hosting remains manual for the Power Platform API permission.** That API exposes feature-scoped delegated permissions, so the automatic app-registration path still avoids guessing a scope ID.
+- **Node.js baseline is now 22.19+.** Node 20 support was dropped with the undici 8 upgrade path.
+- **HTTP and API resilience improved.** Idempotent GETs now retry transient 429s with backoff, `update_flow` uses opportunistic ETag/If-Match concurrency when available, and Streamable HTTP is hardened with per-session servers, Origin checks, bearer auth, and session caps.
+- **Core dispatch and safety code was tightened.** The large tool-dispatch switch was replaced with a data-driven handler map, runtime JSON escaping/brace matching was fixed, sanitizer edge cases were covered, and `http://` token/resource paths are rejected.
+- **Dependency/tooling refresh.** Updated undici 8.7.0, zod 4.4.3, TypeScript 6.0.3, ESLint 10.6.0, Vitest/coverage 4.1.9, pino 10.3.1, rimraf 6.1.3, setup-node 6, checkout 7, upload-artifact 6, and pinned `uuid >=12.0.1`.
 
 ### Fixed
+- **`list_approvals` works in real tenants.** The tool now sends the owner `$filter` required by the approvals API, using the signed-in token's object ID.
+- **Consent failures are actionable.** `AADSTS65001` no longer masquerades as "no cached credentials"; the error now names the exact unconsented scope/resource.
 - **BAP Admin API consent is now surfaced clearly.** Live tenant validation can distinguish "PowerApps Service is authorized" from "BAP Admin API is missing," which keeps Dataverse URL discovery/admin failures actionable.
+- **Private-repo Scorecard workflow issues are fixed.** The workflow now uses the correct read scopes and artifact path instead of attempting public code-scanning publication.
+- **npm audit is clean for the release lockfile.** Remaining transitive advisories were cleared or pinned through overrides, including the `uuid` floor.
+
+### Source PR / Issue Coverage
+- Includes the source PR work from #13-#16 and #21, plus #26-#45.
+- Closes the source release issues for dependency vulnerability cleanup (#4), docs-from-code (#6), 429 retry (#7), ETag concurrency (#8), integration-test coverage (#9), Streamable HTTP (#10), pagination/structured output/telemetry (#11), and Scorecard (#12).
+- Leaves the major MSAL migrations open for a future release.
 
 ### Upgrade Notes
-- `npm install -g powerautomate-mcp@latest`.
+- Requires Node.js 22.19 or newer.
+- Upgrade with `npm install -g powerautomate-mcp@latest`.
 - Existing configs continue to work as "all tool surfaces" until you re-run setup. To reduce requested scopes, run `powerautomate-mcp --setup`, choose a narrower permission set, and remove any no-longer-needed API permissions from the app registration in Microsoft Entra.
 
 ## [0.11.1] - 2026-07-01

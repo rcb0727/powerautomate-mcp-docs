@@ -25,7 +25,7 @@ You need three things. The Easy Path checks all of them for you, but here's the 
 
 1. **A Microsoft 365 *work* account** with Power Automate access — the same email and password you use for Outlook, Teams, and Office at work. (Not a personal @outlook.com / @gmail account. You don't need to create anything new.)
 2. **An AI app that supports MCP** — Claude Desktop, Claude Code, Cursor, VS Code (Copilot), Gemini CLI, Windsurf, or ChatGPT. If you have one open right now, you're set.
-3. **Node.js 20 or newer** — the engine the server runs on. Install steps below.
+3. **Node.js 22.19 or newer** — the engine the server runs on. Install steps below.
 
 ### Step A — Open a terminal
 
@@ -45,8 +45,8 @@ To run any command below: click in the terminal, **paste** it, press **Enter**, 
 node --version
 ```
 
-- If the first number is **20 or bigger** (e.g. `v20.11.0`, `v22.3.0`), you're done — go to [Easy Path Step 1](#step-1--install-the-server).
-- If it says **"command not found"** or a smaller number (like `v18`), install Node:
+- If it prints **`v22.19.0` or newer** (for example `v22.19.x`, `v24.x`, or later), you're done — go to [Easy Path Step 1](#step-1--install-the-server).
+- If it says **"command not found"**, `v18`, `v20`, or a `v22` version below `v22.19.0`, install Node:
   - **Windows & macOS:** go to [nodejs.org](https://nodejs.org) and click the big green button labeled **LTS** (the "Recommended for most users" one — *not* "Current"). Run the installer and click through the defaults.
   - **macOS, only if you already use Homebrew:** `brew install node`
   - **Linux:** [nodejs.org](https://nodejs.org), your distro's package manager, or [nvm](https://github.com/nvm-sh/nvm).
@@ -334,7 +334,7 @@ Run **`powerautomate-mcp --doctor`** first — it pinpoints most problems and pr
 | `command not found: powerautomate-mcp` after install | npm's global folder isn't on your PATH. Easiest fix: use the [npx option](#option-b-no-global-install-npx) instead. Or check `npm config get prefix` and add its `bin` folder to PATH. |
 | `npm ERR! code EACCES` during `npm install -g` | A permissions issue. **Don't use `sudo`.** Use the [npx option](#option-b-no-global-install-npx), or set npm's prefix to a folder you own, or install Node via [nvm](https://github.com/nvm-sh/nvm). |
 | `EBUSY` / `EPERM` on Windows during upgrade | An app is still running the server. Quit all AI apps and `--http` servers, then upgrade again. |
-| `Node.js … (need 20+)` from `--doctor` | Upgrade Node from [nodejs.org](https://nodejs.org) (install the LTS). |
+| `Node.js … (need 22.19+)` from `--doctor` | Upgrade Node from [nodejs.org](https://nodejs.org) (install the LTS). |
 | Linux: `libsecret-1.so.0: cannot open shared object file` | Install libsecret — see the Linux note under [Before you start](#before-you-start). |
 
 ### Setup & sign-in problems
