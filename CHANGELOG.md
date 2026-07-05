@@ -40,7 +40,7 @@ Least-privilege setup plus the full 0.12 release train from the source PR and is
 - **Generated tool documentation and drift checks.** Tool tables are generated from the source registry and checked in CI so docs stay aligned with the 121 registered tools.
 - **Pagination and structured MCP output improvements.** `list_flows` supports live `skipToken` pagination plus opt-in `fetchAll`, and structuredContent coverage expanded across key read tools including flow/run diagnostics, environments, approvals, permissions, versions, connections, and solutions.
 - **Reusable integration-test infrastructure.** The release adds a MockAgent-based harness, sanitized recorded-response fixtures, schema/cache/API coverage, CLI coverage, and an enforced coverage floor.
-- **OpenSSF Scorecard workflow.** The private source workflow now records Scorecard output as a job summary and artifact.
+
 
 ### Changed
 - **App registration generation is least-privilege.** Azure CLI-created app registrations now build `requiredResourceAccess` from the selected feature set instead of always asking for every standard permission.
@@ -55,13 +55,7 @@ Least-privilege setup plus the full 0.12 release train from the source PR and is
 - **`list_approvals` works in real tenants.** The tool now sends the owner `$filter` required by the approvals API, using the signed-in token's object ID.
 - **Consent failures are actionable.** `AADSTS65001` no longer masquerades as "no cached credentials"; the error now names the exact unconsented scope/resource.
 - **BAP Admin API consent is now surfaced clearly.** Live tenant validation can distinguish "PowerApps Service is authorized" from "BAP Admin API is missing," which keeps Dataverse URL discovery/admin failures actionable.
-- **Private-repo Scorecard workflow issues are fixed.** The workflow now uses the correct read scopes and artifact path instead of attempting public code-scanning publication.
 - **npm audit is clean for the release lockfile.** Remaining transitive advisories were cleared or pinned through overrides, including the `uuid` floor.
-
-### Source PR / Issue Coverage
-- Includes private source PRs 13-16, 21, and 26-45.
-- Closes the private source release issues for dependency vulnerability cleanup, docs-from-code, 429 retry, ETag concurrency, integration-test coverage, Streamable HTTP, pagination/structured output/telemetry, and Scorecard.
-- Leaves the major MSAL migrations open for a future release.
 
 ### Upgrade Notes
 - Requires Node.js 22.19 or newer.
