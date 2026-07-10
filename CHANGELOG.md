@@ -8,6 +8,7 @@
 
 | Version | Date | Highlights |
 |---------|------|------------|
+| [0.13.0](#0130---2026-07-09) | 2026-07-09 | **`update_flow` fixes + fresh-tenant setup** — description-only updates work (no more `properties.description` rejection or false connection-reference blocks, [#15](https://github.com/rcb0727/powerautomate-mcp-docs/issues/15)); `--setup` now succeeds in tenants that never used Power Platform (auto-creates service principals, resolves tenant-local permission ids); msal-node 5; `npm audit` 0 vulnerabilities |
 | [0.12.0](#0120---2026-07-05) | 2026-07-05 | **Least privilege + hardening release** — permission presets, feature-aware tool filtering and health checks, live-tenant fixes for approvals/consent errors, structuredContent expansion, pagination/retry/ETag improvements, hardened Streamable HTTP, coverage/Scorecard gates, dependency/security updates, and a Node.js 22.19+ baseline |
 | [0.11.1](#0111---2026-07-01) | 2026-07-01 | **Security** — `fast-uri` 3.1.2→3.1.3 (CVE / CWE-436 interpretation conflict: Unicode/fullwidth hostnames like `http://127。0。0。1/` left unconverted, could steer host-based security checks). Override floor raised from `^3.1.2` to `^3.1.3` so the patched build is actually locked in |
 | [0.11.0](#0110---2026-06-24) | 2026-06-24 | **Easier install** — `--setup` now connects your AI app for you (auto-writes/merges the client config, no hand-editing JSON); new `--doctor` health check; new `--client <name>` and `--npx` flags; rewritten install guide with an Easy Path, troubleshooting FAQ, and glossary |
@@ -27,6 +28,33 @@
 | [0.7.6](#076---2026-04-23) | 2026-04-23 | Dataverse URL auto-resolution, flow run-ID validation, `$orderby` fix ([#6](https://github.com/rcb0727/powerautomate-mcp-docs/issues/6), [#7](https://github.com/rcb0727/powerautomate-mcp-docs/issues/7), [#8](https://github.com/rcb0727/powerautomate-mcp-docs/issues/8)) |
 
 Older releases are documented below in full.
+
+## [0.13.0] - 2026-07-09
+
+`update_flow` reliability fixes plus a setup overhaul that makes `--setup` work in brand-new tenants.
+
+### Fixed
+- **Updating only a flow's description works.** ([#15](https://github.com/rcb0727/powerautomate-mcp-docs/issues/15)) Two separate causes, both closed:
+  - The flows API rejects `properties.description` on write ("The request content was invalid ... Invalid JSON at path 'properties.description'"). Descriptions now travel inside the workflow definition (`definition.description`), where the service actually stores them. `get_flow` surfaces the definition-level description too.
+  - With `validateBeforeUpdate: true`, the pre-update validation ran structure checks (`connectionName`/`id`/`source`) against connection references merely **carried over unchanged** from the live flow. Flows built in the Power Automate designer store references in a modern shape without those fields, so a description-only update was blocked with "Connection reference missing connectionName". Carried-over references are now exempt from structure checks; references you supply in the call are still fully validated, and missing/unused-connection checks still run in both cases.
+- Friendlier error when an environment has no Dataverse organization instead of a raw API failure.
+
+### Added
+- **Fresh-tenant setup hardening.** `--setup` previously assumed the first-party resource service principals (Environment Service, PowerApps Service, ...) already exist in your tenant and publish their permission scopes under well-known ids — true only in tenants that already used Power Platform. In new tenants setup failed with `AADSTS650052` (missing service principal) and then `AADSTS65006` (permission ids not found). Setup now: creates any missing service principals (the app's own and each resource's), reads each live service principal's published scopes and resolves permission ids by **scope value** for your tenant, re-applies the public-client flag, waits out Entra propagation (with automatic sign-in retries labeled as propagation, not failure), and offers to grant admin consent directly through the Azure CLI. A created app's client ID is also saved immediately, so a failed run resumes with the same app instead of piling up orphan registrations.
+- After device-code sign-in, the wizard now tells you the leftover browser tab (including the `.../wrongplace` page) is normal and safe to close.
+- `--validate` gives exact Azure CLI/portal steps for the manual Power Platform API (Power Pages Tier 2) permission instead of a generic pointer.
+
+### Changed
+- **Auth stack upgraded: `@azure/msal-node` 2 → 5.3.1** (with matching msal-node-extensions). Token cache and sign-in flows are unchanged from a user's perspective.
+- Test suite grew from ~630 to 1,274 tests (statement coverage 48% → 84%) and CI now also runs on Windows.
+
+### Security
+- `hono` (transitive via the MCP SDK) pinned to ≥ 4.12.27 (resolves 4.12.28), closing three advisories including an SSR request-context race. `npm audit` reports **0 vulnerabilities**.
+
+### Upgrade Notes
+- Requires Node.js 22.19 or newer (unchanged since 0.12.0).
+- Upgrade with `npm install -g powerautomate-mcp@latest` (quit your AI clients first).
+- If setup previously failed in your tenant with `AADSTS650052` or `AADSTS65006`, re-run `powerautomate-mcp --setup` — it now repairs the app registration in place.
 
 ## [0.12.0] - 2026-07-05
 

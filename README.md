@@ -61,6 +61,8 @@ Supported apps: **Claude Desktop**, **Claude Code**, **Cursor**, **VS Code (Copi
 
 The setup wizard (`--setup`) creates the app registration automatically if you have Azure CLI installed. No manual steps required for most users.
 
+> **New tenants work too** (v0.13.0+): if your tenant has never used Power Platform, setup creates the missing first-party service principals and resolves the permission ids your tenant actually publishes — the old `AADSTS650052` / `AADSTS65006` sign-in failures repair themselves on a re-run of `--setup`.
+
 ### Who Needs to Do What?
 
 | Role | Action |
@@ -74,7 +76,7 @@ The setup wizard (`--setup`) creates the app registration automatically if you h
 
 ### Admin Consent
 
-The setup wizard presents the admin consent URL and auto-opens it in your browser. Any of these Entra ID roles can grant consent: **Global Administrator**, **Application Administrator**, **Cloud Application Administrator**, or **Privileged Role Administrator**. If you don't have one of these roles, share the URL with your admin:
+When the Azure CLI is signed in as an admin, the wizard offers to grant tenant-wide consent directly (v0.13.0+) — no browser round-trip. Otherwise it presents the admin consent URL and auto-opens it in your browser. Any of these Entra ID roles can grant consent: **Global Administrator**, **Application Administrator**, **Cloud Application Administrator**, or **Privileged Role Administrator**. If you don't have one of these roles, share the URL with your admin:
 
 ```
 https://login.microsoftonline.com/{tenant-id}/adminconsent?client_id=YOUR_CLIENT_ID
