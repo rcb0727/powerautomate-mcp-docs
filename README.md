@@ -150,6 +150,7 @@ powerautomate-mcp [options]
 |----------|-------------|
 | `PA_MCP_CLIENT_ID` | Microsoft Entra app client ID (overrides config file) |
 | `PA_CONFIG_PATH` | Custom path to config.json |
+| `PA_MCP_HTTP_TOKEN` | With `--http`: require `Authorization: Bearer <token>` on every MCP request. Protects the HTTP endpoint itself (the tools run with *your* signed-in account) — required whenever the server is exposed beyond your own machine. See [Installation → ChatGPT](INSTALL.md) |
 
 ---
 

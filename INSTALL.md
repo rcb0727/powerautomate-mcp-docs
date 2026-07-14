@@ -267,11 +267,15 @@ Edit `~/.gemini/settings.json`:
 
 ChatGPT can only reach a remote HTTPS MCP endpoint, so you expose the local server through a tunnel.
 
-**1. Start in HTTP mode:**
+**1. Start in HTTP mode — with an access token:**
 ```bash
-powerautomate-mcp --http --port 3000
+PA_MCP_HTTP_TOKEN="pick-a-long-random-secret" powerautomate-mcp --http --port 3000
 ```
 Serves Streamable HTTP at `http://localhost:3000/mcp`.
+
+**Why the token matters:** in the normal (stdio) mode there is nothing to protect — your AI app talks to the server through a private pipe on your machine. In `--http` mode the server is a web service, and **anyone who can reach the port can run every tool with your signed-in Power Platform account** — create, share, and delete flows as you. `PA_MCP_HTTP_TOKEN` locks the door: requests must send a matching `Authorization: Bearer <token>` header or they're rejected with 401. The server only listens on `127.0.0.1` (your own machine) by default — but the moment you tunnel it to the internet (step 2), the token is the *only* thing standing between the public URL and your tenant. Never expose the server without one.
+
+(Windows PowerShell: `$env:PA_MCP_HTTP_TOKEN="pick-a-long-random-secret"; powerautomate-mcp --http --port 3000`)
 
 **2. Expose it (pick one):**
 ```bash
@@ -280,9 +284,9 @@ ngrok http 3000
 cloudflared tunnel --url http://localhost:3000
 ```
 
-**3. In ChatGPT:** Settings → MCP Servers → **Add Server** → enter `https://your-tunnel-url/mcp` → Save.
+**3. In ChatGPT:** Settings → MCP Servers → **Add Server** → enter `https://your-tunnel-url/mcp`, set the **Authorization / Bearer token** field to the same secret from step 1 → Save.
 
-> **Security:** the tunnel exposes your local server to the internet. Only run it while using ChatGPT, and stop the server and tunnel when done.
+> **Security:** the tunnel exposes your local server to the internet. Always set `PA_MCP_HTTP_TOKEN` before tunneling, only run it while using ChatGPT, and stop the server and tunnel when done.
 </details>
 
 ### Option B: no global install (npx)
