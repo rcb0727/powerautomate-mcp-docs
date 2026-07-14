@@ -8,6 +8,7 @@
 
 | Version | Date | Highlights |
 |---------|------|------------|
+| [0.13.1](#0131---2026-07-13) | 2026-07-13 | **Security patch** — `body-parser` 2.2.2→2.3.0 (CWE-770 body-size limit bypass, transitive via the MCP SDK); MSAL patch updates; `npm audit` 0 vulnerabilities |
 | [0.13.0](#0130---2026-07-09) | 2026-07-09 | **`update_flow` fixes + fresh-tenant setup** — description-only updates work (no more `properties.description` rejection or false connection-reference blocks, [#15](https://github.com/rcb0727/powerautomate-mcp-docs/issues/15)); `--setup` now succeeds in tenants that never used Power Platform (auto-creates service principals, resolves tenant-local permission ids); msal-node 5; `npm audit` 0 vulnerabilities |
 | [0.12.0](#0120---2026-07-05) | 2026-07-05 | **Least privilege + hardening release** — permission presets, feature-aware tool filtering and health checks, live-tenant fixes for approvals/consent errors, structuredContent expansion, pagination/retry/ETag improvements, hardened Streamable HTTP, coverage/Scorecard gates, dependency/security updates, and a Node.js 22.19+ baseline |
 | [0.11.1](#0111---2026-07-01) | 2026-07-01 | **Security** — `fast-uri` 3.1.2→3.1.3 (CVE / CWE-436 interpretation conflict: Unicode/fullwidth hostnames like `http://127。0。0。1/` left unconverted, could steer host-based security checks). Override floor raised from `^3.1.2` to `^3.1.3` so the patched build is actually locked in |
@@ -28,6 +29,17 @@
 | [0.7.6](#076---2026-04-23) | 2026-04-23 | Dataverse URL auto-resolution, flow run-ID validation, `$orderby` fix ([#6](https://github.com/rcb0727/powerautomate-mcp-docs/issues/6), [#7](https://github.com/rcb0727/powerautomate-mcp-docs/issues/7), [#8](https://github.com/rcb0727/powerautomate-mcp-docs/issues/8)) |
 
 Older releases are documented below in full.
+
+## [0.13.1] - 2026-07-13
+
+Security patch for a transitive dependency of the MCP SDK, plus routine dependency updates. No feature or behavior changes — safe drop-in upgrade.
+
+### Security
+- **`body-parser` 2.2.2 → 2.3.0** (Medium, CWE-770 — Allocation of Resources Without Limits or Throttling). Affected versions mishandle an invalid `limit` option: a value that parses to `null` (an unparseable string or `NaN`) silently disables request-body size enforcement, so a client can send arbitrarily large payloads and exhaust memory/CPU. This server never configures a custom `limit`, so the vulnerable path isn't exercised here — the update closes the scanner finding and keeps the packaged dependency tree clean.
+- **Provenance:** `body-parser` is pulled in transitively via `@modelcontextprotocol/sdk` → `express` 5; express's existing version range already allowed the fix, so this is a lockfile-only relock (no overrides needed). `npm audit`: 0 vulnerabilities.
+
+### Changed
+- Dependency updates: `@azure/msal-node` 5.4.0, `@azure/msal-node-extensions` 5.3.2, `@azure/msal-common` 16.11.1, plus development-tooling refreshes. Full test gate green (1,274 tests).
 
 ## [0.13.0] - 2026-07-09
 
