@@ -8,6 +8,7 @@
 
 | Version | Date | Highlights |
 |---------|------|------------|
+| [0.13.2](#0132---2026-07-14) | 2026-07-14 | **Flows without connections** — `build_flow` now creates your flow even when a connection isn't set up yet (left stopped, with clear finish-up steps) · **Setup** — recovers automatically when your configured app registration was deleted, instead of failing at sign-in with a confusing error |
 | [0.13.1](#0131---2026-07-13) | 2026-07-13 | **Security patch** — `body-parser` 2.2.2→2.3.0 (CWE-770 body-size limit bypass, transitive via the MCP SDK); MSAL patch updates; `npm audit` 0 vulnerabilities |
 | [0.13.0](#0130---2026-07-09) | 2026-07-09 | **`update_flow` fixes + fresh-tenant setup** — description-only updates work (no more `properties.description` rejection or false connection-reference blocks, [#15](https://github.com/rcb0727/powerautomate-mcp-docs/issues/15)); `--setup` now succeeds in tenants that never used Power Platform (auto-creates service principals, resolves tenant-local permission ids); msal-node 5; `npm audit` 0 vulnerabilities |
 | [0.12.0](#0120---2026-07-05) | 2026-07-05 | **Least privilege + hardening release** — permission presets, feature-aware tool filtering and health checks, live-tenant fixes for approvals/consent errors, structuredContent expansion, pagination/retry/ETag improvements, hardened Streamable HTTP, coverage/Scorecard gates, dependency/security updates, and a Node.js 22.19+ baseline |
@@ -29,6 +30,16 @@
 | [0.7.6](#076---2026-04-23) | 2026-04-23 | Dataverse URL auto-resolution, flow run-ID validation, `$orderby` fix ([#6](https://github.com/rcb0727/powerautomate-mcp-docs/issues/6), [#7](https://github.com/rcb0727/powerautomate-mcp-docs/issues/7), [#8](https://github.com/rcb0727/powerautomate-mcp-docs/issues/8)) |
 
 Older releases are documented below in full.
+
+## [0.13.2] - 2026-07-14
+
+Flows no longer wait on connections, and setup recovers from deleted app registrations.
+
+### Added
+- **`build_flow` creates your flow even when connections aren't configured yet.** Previously a missing connection stopped everything with "Missing connections: … Create them first." Now the flow is built and saved anyway — left **stopped** so it can't run and fail — and the response tells you exactly what's left: create the connection at make.powerautomate.com > Data > Connections, assign it to the flow's steps in the designer, then start the flow. If a connection exists but is broken (expired sign-in, error state), it's used and flagged for repair with its current status. Already-connected connectors work exactly as before. In environments that refuse to save flows with pending connections, you get the full setup list and can simply re-run the same request afterward.
+
+### Fixed
+- **Setup no longer dead-ends when your app registration was deleted.** If an admin removed the app your config points at, setup used to reuse the dead ID and then fail at sign-in with misleading guidance about Conditional Access or proxies. The wizard now checks the app still exists up front; if it's gone, it says so plainly and moves on to creating (or asking you for) a new one. Sign-in failures also now show the actual error from Microsoft instead of guesses.
 
 ## [0.13.1] - 2026-07-13
 
