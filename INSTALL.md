@@ -338,6 +338,7 @@ Run **`powerautomate-mcp --doctor`** first — it pinpoints most problems and pr
 | `command not found: powerautomate-mcp` after install | npm's global folder isn't on your PATH. Easiest fix: use the [npx option](#option-b-no-global-install-npx) instead. Or check `npm config get prefix` and add its `bin` folder to PATH. |
 | `npm ERR! code EACCES` during `npm install -g` | A permissions issue. **Don't use `sudo`.** Use the [npx option](#option-b-no-global-install-npx), or set npm's prefix to a folder you own, or install Node via [nvm](https://github.com/nvm-sh/nvm). |
 | `EBUSY` / `EPERM` on Windows during upgrade | An app is still running the server. Quit all AI apps and `--http` servers, then upgrade again. |
+| `npm warn deprecated prebuild-install@…: No longer maintained` during install | **Harmless — ignore it.** `prebuild-install` is an install-time helper that downloads prebuilt native modules; it comes from two upstream dependencies (the SQLite cache library and Microsoft's authentication library) and never runs as part of the server. Its author retired the package, so npm warns on every install until those upstreams migrate off it. Nothing on your machine is broken or insecure. |
 | `Node.js … (need 22.19+)` from `--doctor` | Upgrade Node from [nodejs.org](https://nodejs.org) (install the LTS). |
 | Linux: `libsecret-1.so.0: cannot open shared object file` | Install libsecret — see the Linux note under [Before you start](#before-you-start). |
 
