@@ -8,6 +8,7 @@
 
 | Version | Date | Highlights |
 |---------|------|------------|
+| [0.13.3](#0133---2026-07-15) | 2026-07-15 | **`build_flow` reliability** — email/connector-triggered flows save correctly now (required polling interval was missing) · clear guidance when a goal needs specifics the tool can't guess (which file, site, channel) |
 | [0.13.2](#0132---2026-07-14) | 2026-07-14 | **Flows without connections** — `build_flow` now creates your flow even when a connection isn't set up yet (left stopped, with clear finish-up steps) · **Setup** — recovers automatically when your configured app registration was deleted, instead of failing at sign-in with a confusing error |
 | [0.13.1](#0131---2026-07-13) | 2026-07-13 | **Security patch** — `body-parser` 2.2.2→2.3.0 (CWE-770 body-size limit bypass, transitive via the MCP SDK); MSAL patch updates; `npm audit` 0 vulnerabilities |
 | [0.13.0](#0130---2026-07-09) | 2026-07-09 | **`update_flow` fixes + fresh-tenant setup** — description-only updates work (no more `properties.description` rejection or false connection-reference blocks, [#15](https://github.com/rcb0727/powerautomate-mcp-docs/issues/15)); `--setup` now succeeds in tenants that never used Power Platform (auto-creates service principals, resolves tenant-local permission ids); msal-node 5; `npm audit` 0 vulnerabilities |
@@ -30,6 +31,14 @@
 | [0.7.6](#076---2026-04-23) | 2026-04-23 | Dataverse URL auto-resolution, flow run-ID validation, `$orderby` fix ([#6](https://github.com/rcb0727/powerautomate-mcp-docs/issues/6), [#7](https://github.com/rcb0727/powerautomate-mcp-docs/issues/7), [#8](https://github.com/rcb0727/powerautomate-mcp-docs/issues/8)) |
 
 Older releases are documented below in full.
+
+## [0.13.3] - 2026-07-15
+
+Reliability fixes for `build_flow`, found by exercising it against a real tenant.
+
+### Fixed
+- **Flows with connector triggers (like "when email arrives") save correctly now.** The Power Automate service requires a polling interval on this kind of trigger, and `build_flow` wasn't including one — so these flows failed at save with a confusing template error. They're now created with the designer's default 3-minute polling interval.
+- **Clear guidance when your goal needs specifics.** Some actions need details `build_flow` can't guess from a sentence — which Excel file, which SharePoint site, which Teams channel. That used to surface as a raw API error dump. Now you get a plain explanation of what's missing and a pointer to the `plan_flow` → `create_flow` route, which gathers those specifics properly.
 
 ## [0.13.2] - 2026-07-14
 
