@@ -8,6 +8,7 @@
 
 | Version | Date | Highlights |
 |---------|------|------------|
+| [0.13.4](#0134---2026-07-17) | 2026-07-17 | **Admin & DLP tools fixed** — Microsoft retired the API version these tools used, so environment, capacity, billing, and Data Loss Prevention (DLP) commands were all failing; now updated and working, with DLP policy details and connector configs reading correctly ([#16](https://github.com/rcb0727/powerautomate-mcp-docs/issues/16)) |
 | [0.13.3](#0133---2026-07-15) | 2026-07-15 | **`build_flow` reliability** — email/connector-triggered flows save correctly now (required polling interval was missing) · clear guidance when a goal needs specifics the tool can't guess (which file, site, channel) |
 | [0.13.2](#0132---2026-07-14) | 2026-07-14 | **Flows without connections** — `build_flow` now creates your flow even when a connection isn't set up yet (left stopped, with clear finish-up steps) · **Setup** — recovers automatically when your configured app registration was deleted, instead of failing at sign-in with a confusing error |
 | [0.13.1](#0131---2026-07-13) | 2026-07-13 | **Security patch** — `body-parser` 2.2.2→2.3.0 (CWE-770 body-size limit bypass, transitive via the MCP SDK); MSAL patch updates; `npm audit` 0 vulnerabilities |
@@ -31,6 +32,23 @@
 | [0.7.6](#076---2026-04-23) | 2026-04-23 | Dataverse URL auto-resolution, flow run-ID validation, `$orderby` fix ([#6](https://github.com/rcb0727/powerautomate-mcp-docs/issues/6), [#7](https://github.com/rcb0727/powerautomate-mcp-docs/issues/7), [#8](https://github.com/rcb0727/powerautomate-mcp-docs/issues/8)) |
 
 Older releases are documented below in full.
+
+## [0.13.4] - 2026-07-17
+
+Fixes the Power Platform admin tools, including all Data Loss Prevention (DLP) commands.
+
+### Fixed
+- **Admin tools were failing across the board** ([#16](https://github.com/rcb0727/powerautomate-mcp-docs/issues/16)). Microsoft retired the API version these tools relied on, so every admin request — listing environments, checking capacity and billing, managed-environment governance, and all DLP commands — returned an "invalid API version" error before it could even run. Updated to the current version; these tools work again.
+- **DLP policy tools now return the right details.** `get_dlp_policy` was showing a blank scope and no connector groups, and `get_dlp_connector_configs` always errored. Both read correctly now, and creating, updating, and deleting DLP policies works against Microsoft's current governance API.
+
+Big thanks to **@Chris-Coombes**, who reported this with a full root-cause analysis and a verified fix. The issue is being kept open so the fix can be confirmed on their end.
+
+### Upgrading
+Quit your AI clients so no `powerautomate-mcp` process is running, then:
+```
+npm install -g powerautomate-mcp@latest
+```
+Requires Node.js 22.19+.
 
 ## [0.13.3] - 2026-07-15
 
