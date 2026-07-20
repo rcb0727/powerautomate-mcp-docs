@@ -2,7 +2,8 @@
 
 **Docs:** **Overview** · [Installation & Upgrading](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md) · [Changelog](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/CHANGELOG.md) · [Report an issue](https://github.com/rcb0727/powerautomate-mcp-docs/issues)
 
-An MCP (Model Context Protocol) server for Microsoft Power Platform. Create, manage, and deploy Power Automate flows using natural language amd more. 
+An MCP (Model Context Protocol) server for Microsoft Power Platform — **122 tools** spanning Power Automate flows, SharePoint, Excel, Dataverse/Dynamics 365, Power Apps, Power Pages, and tenant administration. Build, run, diagnose, and govern automations in natural language.
+
 
 Works with any MCP-compatible AI client: **Claude Desktop**, **Claude Code**, **VS Code Copilot**, **Cursor**, **Google Gemini CLI**, and more.
 
@@ -18,20 +19,24 @@ Works with any MCP-compatible AI client: **Claude Desktop**, **Claude Code**, **
 
 ## Features
 
-- **Create Flows** - Build flows from natural language descriptions with guided wizard
-- **Test & Debug** - Automatic testing with intelligent error diagnosis
-- **Validate** - Pre-flight checks with best practices scoring (0-100)
-- **Manage Flows** - List, update, clone, and delete flows
-- **Power Apps** - Manage canvas and model-driven apps, permissions, versions
-- **Power Pages** - Configure sites (pages, web roles, table permissions, snippets, templates) and manage hosting (provision, restart, delete)
-- **Environment Admin** - Create, copy, backup, restore environments
-- **DLP Policies** - Create and manage data loss prevention policies
-- **Solutions ALM** - Export, import, and manage Dataverse solutions
-- **Dataverse CRUD** - Full table/row operations via OData Web API
-- **SharePoint** - Sites, lists, items, and files via Microsoft Graph
-- **Expression Help** - Interactive Power Automate expression reference
-- **Connector Intelligence** - Full knowledge of 400+ connectors and schemas
-- **Cross-Platform** - Works on Windows, macOS, and Linux
+**122 tools, 19 surfaces — everything at a glance** (full list with descriptions: [Available Tools](#available-tools-122-total)):
+
+| | | |
+|---|---|---|
+| **Flows** — create, update, clone, share, export (11) | **Testing & Debugging** — run, diagnose, drill into failed steps (9) | **Planning & Help** — guided wizard, validation, expression help (5) |
+| **Connections & Connectors** — 400+ connector catalog, custom connectors (8) | **Approvals** — list and respond (3) | **Dataverse / Dynamics 365** — query, create, update, delete rows (7) |
+| **SharePoint** — sites, lists, items, files (11) | **Excel** — find and inspect workbooks (2) | **Power Apps** — apps, versions, sharing + admin (17) |
+| **Power Pages** — site config + hosting (12) | **Environments** — create, copy, backup, restore + managed-env governance (16) | **DLP Policies** — full policy lifecycle (6) |
+| **Solutions ALM** — export, import, components (8) | **Desktop Flows / RPA** — machines and runs (3) | **Billing, AI Builder & Sign-in** (4) |
+
+
+Beyond the tool count:
+
+- **Natural-language flow building** — describe the automation; `plan_flow` gathers the specifics, `build_flow` creates it (even before its connections are configured), and pre-flight validation scores it against best practices (0–100)
+- **Real diagnosis, not error dumps** — failed runs are drilled to the failing step with the actual API error and a proposed fix
+- **Sign in from the chat** — the `sign_in` tool completes Microsoft device-code auth without a terminal; every action runs under your own work account
+- **Everything annotated** — all 122 tools declare read-only/destructive hints, so AI hosts can apply the right guardrails
+- **Cross-platform** — Windows, macOS, and Linux
 
 ## Quick Start
 
