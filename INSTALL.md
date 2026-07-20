@@ -82,31 +82,31 @@ npm install -g powerautomate-mcp
 powerautomate-mcp --setup
 ```
 
-A wizard starts and walks you through seven steps. Here's what it asks and what you do:
+A wizard starts and walks you through seven steps. For most people it's three answers: pick a permission preset (or press Enter), sign in, and confirm your AI app. Here's the full picture:
 
-1. **Choose permissions** — pick a preset: all tools, Power Automate only, Power Automate + connectors, Dataverse, Power Pages, or Custom. Choose only what you plan to use; you can run setup again later to add more.
-2. **App registration** — it tries to create this for you automatically with only the selected permissions. **Heads-up:** the automatic path needs a developer tool called *Azure CLI*. If you don't have it (most people don't), the wizard will ask you to paste a **Client ID** instead — a code like `1234abcd-…` that your IT department creates once. If you don't have one, [ask IT first](#getting-a-client-id-from-it) and come back.
+1. **Choose permissions** — plain-language presets: **Everyday automation** (recommended — flows, connections, SharePoint/Excel files), **Everything**, **Flows only**, **Everyday + Dynamics 365 data**, **Power Pages**, or **Custom**. Pick only what you'll use — smaller presets mean a smaller approval for your IT admin. You can run setup again later to add more.
+2. **App registration** — it tries to create this for you automatically with only the selected permissions. **Heads-up:** the automatic path needs a developer tool called *Azure CLI*. If you don't have it (most people don't), the wizard asks whether you already have a **Client ID** from IT. If you don't, it prints a ready-to-send message for your IT team and exits cleanly — your progress is saved, and re-running setup picks up where you left off.
 3. **Sign in** — your browser opens. Log in with your **work** account. If it shows an account picker, choose your company email (e.g. `you@yourcompany.com`), not a personal one.
-4. **Admin consent** — it opens an approval page for the permissions you selected. If you're an admin, approve it. **If you're not** (most people), see [Admin consent: what to do](#admin-consent-what-to-do) — you'll send a link to IT and re-run setup once they approve.
-5. **Pick your environment** — type the number next to the one you want (the recommended one is marked ⭐) and press Enter.
+4. **Admin consent** — the wizard asks whether you can approve it yourself. Admins get the approval page in their browser; everyone else gets a copy-paste request for IT, and the wizard can re-check on the spot once IT approves (or exit cleanly and resume later).
+5. **Pick your environment** — if you only have one (most people), it's selected automatically. Otherwise type the number next to the one you want (the recommended one is marked ⭐).
 6. **Save** — it writes your settings automatically, including which feature scopes are enabled.
-7. **Connect your AI app** — type the number for the app you use (Claude Desktop, Claude Code, Cursor, VS Code, Gemini, Windsurf). It wires itself up — no JSON editing.
+7. **Connect your AI app** — the wizard looks for AI apps installed on your machine. If it finds exactly one, it's a single yes/no; otherwise detected apps are listed first (marked "detected") — type a number. It wires itself up — no JSON editing.
 
-✅ **You should see** a green **Setup Complete!** banner with your AI app listed as connected.
+Setup finishes by **verifying everything end to end** — config, persisted sign-in, and a live Power Automate call — before showing the banner.
 
-> Want to skip the app menu? Name it on the command: `powerautomate-mcp --setup --client claude` (or `cursor`, `vscode`, `gemini`, `claude-code`, `windsurf`). Either way works — without `--client`, you just pick from the menu.
+✅ **You should see** `Verified — config valid, sign-in persisted, Power Automate reachable` and a green **Setup Complete!** banner.
+
+> Want to skip the app menu? Name it on the command: `powerautomate-mcp --setup --client claude` (or `cursor`, `vscode`, `gemini`, `claude-code`, `codex`, `windsurf`). Either way works — without `--client`, the wizard detects what's installed.
 
 #### Admin consent: what to do
 
-Power Automate MCP needs a one-time approval ("admin consent") for your organization. **Most employees aren't admins** — that's expected. The wizard shows a link; copy it and email your IT helpdesk:
+Power Automate MCP needs a one-time approval ("admin consent") for your organization. **Most employees aren't admins** — that's expected, and the wizard is built for it: tell it you can't approve, and it prints a ready-to-send message for your IT helpdesk with the approval link included. You can wait in the wizard and press Enter to re-check the moment IT says it's done, or type `q` to finish later — your progress is saved either way, and re-running `powerautomate-mcp --setup` picks up where you left off.
 
-> *Hi — I'm setting up a Microsoft tool that connects to Power Automate. Could an administrator approve this consent link for our organization? [paste the link]*
-
-Once IT confirms it's approved, run `powerautomate-mcp --setup` again — it picks up where it left off. (Only a Global, Application, Cloud Application, or Privileged Role admin can approve — IT will know who that is.)
+(Only a Global, Application, Cloud Application, or Privileged Role admin can approve — IT will know who that is.)
 
 #### Getting a Client ID from IT
 
-If the wizard asks for a **Client ID** and you don't have one, your tenant requires an admin to register the app first. Send your IT department to [Admin & enterprise setup](#admin--enterprise-setup) — they create the app registration once and give you the Client ID (and grant consent). Then run `powerautomate-mcp --setup` and paste it when asked.
+If the wizard asks whether you have a **Client ID** and you don't, answer "no" — it prints a ready-to-send message for your IT department covering everything they need to do (create the app registration, send you the Client ID, grant consent), with a pointer to [Admin & enterprise setup](#admin--enterprise-setup). Once IT sends you the ID, run `powerautomate-mcp --setup` again and paste it when asked.
 
 ### Step 3 — Confirm it works
 
@@ -324,6 +324,17 @@ If `npm install -g` causes permission headaches, skip it entirely. Configure you
 4. Reopen your AI app — it picks up the new version automatically.
 
 `powerautomate-mcp --update` does the npm upgrade for you (same rule: close apps first). The [Changelog](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/CHANGELOG.md) lists what changed and any version-specific notes.
+
+---
+
+## Signing in again
+
+Sign-ins don't last forever — tokens expire after long inactivity, and IT policy changes (like new MFA rules) can invalidate them. When tools start reporting missing credentials, you don't need to re-run setup:
+
+- **In chat:** ask your AI assistant to *"sign in to Power Platform"* — the `sign_in` tool returns a code and link right in the conversation.
+- **In a terminal:** `powerautomate-mcp --login` — signs you in again using your existing setup, then verifies it worked.
+
+Both use Microsoft's standard sign-in page in your own browser, MFA included. Nothing ever asks for your password outside microsoft.com.
 
 ---
 

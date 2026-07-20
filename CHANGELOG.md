@@ -8,6 +8,7 @@
 
 | Version | Date | Highlights |
 |---------|------|------------|
+| [0.14.0](#0140---2026-07-20) | 2026-07-20 | **Setup, overhauled** — sign in from the chat with the new `sign_in` tool · `--login` for quick re-auth · setup hands you a ready-to-send IT request when you need an admin · plain-language permission choices · your AI app auto-detected · setup verifies itself before saying done · no more silent startup hangs · Codex/ChatGPT CLI support · full IDs in list output |
 | [0.13.4](#0134---2026-07-17) | 2026-07-17 | **Admin & DLP tools fixed** — Microsoft retired the API version these tools used, so environment, capacity, billing, and Data Loss Prevention (DLP) commands were all failing; now updated and working, with DLP policy details and connector configs reading correctly ([#16](https://github.com/rcb0727/powerautomate-mcp-docs/issues/16)) |
 | [0.13.3](#0133---2026-07-15) | 2026-07-15 | **`build_flow` reliability** — email/connector-triggered flows save correctly now (required polling interval was missing) · clear guidance when a goal needs specifics the tool can't guess (which file, site, channel) |
 | [0.13.2](#0132---2026-07-14) | 2026-07-14 | **Flows without connections** — `build_flow` now creates your flow even when a connection isn't set up yet (left stopped, with clear finish-up steps) · **Setup** — recovers automatically when your configured app registration was deleted, instead of failing at sign-in with a confusing error |
@@ -32,6 +33,32 @@
 | [0.7.6](#076---2026-04-23) | 2026-04-23 | Dataverse URL auto-resolution, flow run-ID validation, `$orderby` fix ([#6](https://github.com/rcb0727/powerautomate-mcp-docs/issues/6), [#7](https://github.com/rcb0727/powerautomate-mcp-docs/issues/7), [#8](https://github.com/rcb0727/powerautomate-mcp-docs/issues/8)) |
 
 Older releases are documented below in full.
+
+## [0.14.0] - 2026-07-20
+
+Setup and sign-in, overhauled end to end — plus quality-of-life and reliability fixes throughout.
+
+### Added
+- **Sign in from the chat.** New `sign_in` tool: when Power Platform tools report missing credentials, just ask your AI assistant to sign you in — it gives you a code and a microsoft.com link right in the conversation. Open the link, enter the code, sign in with your work account (MFA as normal), done. The tool only ever *shows* you the code; it never asks for or handles your password, and sign-in happens entirely on microsoft.com in your own browser.
+- **`powerautomate-mcp --login`** — sign in again without re-running the wizard. For when tokens expire or your organization changes sign-in policy.
+- **OpenAI Codex / ChatGPT CLI support** — `--setup` can now wire the server into Codex (`--client codex` or `chatgpt`), including when the CLI ships inside the ChatGPT desktop app rather than on your PATH.
+
+### Changed
+- **Setup speaks plain language.** Permission presets are now "Everyday automation (recommended)", "Everything", "Flows only", "Everyday + Dynamics 365 data", "Power Pages", and "Custom" — and the recommended choice requests fewer permissions, meaning a smaller approval for your IT admin.
+- **Setup finds your AI app.** The connect step detects which AI apps are installed: one found → a single yes/no; several → detected apps listed first.
+- **Setup no longer dead-ends when you need IT.** If you don't have a Client ID, or can't approve admin consent yourself, the wizard prints a ready-to-send message for your IT team and exits cleanly with your progress saved. For consent it can also wait and re-check the moment IT approves.
+- **Setup proves itself before "Setup Complete"** — it reloads your saved config and makes a live Power Automate call the exact way your AI app will, so problems surface immediately instead of later in your AI app.
+- **List commands print full IDs** (`list_dlp_policies`, billing policies, Power Apps) so their output can go straight into get/update/delete commands ([#16](https://github.com/rcb0727/powerautomate-mcp-docs/issues/16) follow-up — thanks @Chris-Coombes).
+
+### Fixed
+- **No more silent hangs at startup.** If the operating system's secure storage blocks (for example, a keychain authorization prompt that can't be shown), the server now fails within seconds with instructions instead of hanging forever — and it recovers automatically from lock files left behind by a killed process.
+
+### Upgrading
+Quit your AI clients so no `powerautomate-mcp` process is running, then:
+```
+npm install -g powerautomate-mcp@latest
+```
+Requires Node.js 22.19+.
 
 ## [0.13.4] - 2026-07-17
 
