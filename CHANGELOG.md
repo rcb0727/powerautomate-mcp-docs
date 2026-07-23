@@ -8,6 +8,7 @@
 
 | Version | Date | Highlights |
 |---------|------|------------|
+| [0.15.0](#0150---2026-07-21) | 2026-07-21 | **122 → 188 tools** — author canvas app source live in Power Apps Studio (preview) · full model-driven app lifecycle (create, components, validate, publish, roles) · complete Power Pages management (domains, certificates, SSL, WAF, security scans, lifecycle) · `pac pages` command wrappers · real Solution ALM operations · **Security** — `fast-uri` patched (host-check bypass) |
 | [0.14.0](#0140---2026-07-20) | 2026-07-20 | **Setup, overhauled** — sign in from the chat with the new `sign_in` tool · `--login` for quick re-auth · setup hands you a ready-to-send IT request when you need an admin · plain-language permission choices · your AI app auto-detected · setup verifies itself before saying done · no more silent startup hangs · Codex/ChatGPT CLI support · full IDs in list output |
 | [0.13.4](#0134---2026-07-17) | 2026-07-17 | **Admin & DLP tools fixed** — Microsoft retired the API version these tools used, so environment, capacity, billing, and Data Loss Prevention (DLP) commands were all failing; now updated and working, with DLP policy details and connector configs reading correctly ([#16](https://github.com/rcb0727/powerautomate-mcp-docs/issues/16)) |
 | [0.13.3](#0133---2026-07-15) | 2026-07-15 | **`build_flow` reliability** — email/connector-triggered flows save correctly now (required polling interval was missing) · clear guidance when a goal needs specifics the tool can't guess (which file, site, channel) |
@@ -33,6 +34,26 @@
 | [0.7.6](#076---2026-04-23) | 2026-04-23 | Dataverse URL auto-resolution, flow run-ID validation, `$orderby` fix ([#6](https://github.com/rcb0727/powerautomate-mcp-docs/issues/6), [#7](https://github.com/rcb0727/powerautomate-mcp-docs/issues/7), [#8](https://github.com/rcb0727/powerautomate-mcp-docs/issues/8)) |
 
 Older releases are documented below in full.
+
+## [0.15.0] - 2026-07-21
+
+The toolset grows from 122 to 188 — canvas apps, model-driven apps, and the full Power Pages management surface.
+
+### Added
+- **Canvas app source authoring (13 tools, preview).** Work on a canvas app's source code (`.pa.yaml`) with your AI assistant: connect to a live Power Apps Studio coauthoring session, explore available controls, connectors, and data sources, edit source files locally with strict safety checks, and sync/compile changes back into the open app (with confirmation). Requires the .NET 10 SDK and an app open in Studio with coauthoring enabled — this edits an existing app; it doesn't create one from nothing (Microsoft doesn't offer an API for that).
+- **Model-driven apps — full lifecycle (13 tools).** Create, update, and delete apps, manage their components, validate, publish, and grant/revoke security roles — all via Microsoft's documented Dataverse operations.
+- **Power Pages — complete management (53 tools total).** Custom domains, certificates, SSL bindings, Web Application Firewall with security scans, IP allow lists, start/stop/restart, trial-to-production conversion, site visibility, and more — plus eight `pac pages` command wrappers (download/upload, code sites, clone, migrations) that use your own `pac auth` sign-in.
+- **Solution ALM, for real.** Export/import with progress polling and safe local ZIP handling; add/remove components, clone, and publish-all now invoke the documented Dataverse actions.
+
+### Fixed
+- **Security:** patched a transitive dependency (`fast-uri`) whose URL parsing could be tricked into approving a hostile host (CWE-436). `npm audit`: 0 vulnerabilities.
+
+### Upgrading
+Quit your AI clients so no `powerautomate-mcp` process is running, then:
+```
+npm install -g powerautomate-mcp@latest
+```
+Requires Node.js 22.19+. The canvas authoring tools additionally need the .NET 10 SDK.
 
 ## [0.14.0] - 2026-07-20
 

@@ -2,7 +2,7 @@
 
 **Docs:** **Overview** · [Installation & Upgrading](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md) · [Changelog](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/CHANGELOG.md) · [Report an issue](https://github.com/rcb0727/powerautomate-mcp-docs/issues)
 
-An MCP (Model Context Protocol) server for Microsoft Power Platform — **122 tools** spanning Power Automate flows, SharePoint, Excel, Dataverse/Dynamics 365, Power Apps, Power Pages, and tenant administration. Build, run, diagnose, and govern automations in natural language.
+An MCP (Model Context Protocol) server for Microsoft Power Platform — **188 tools** spanning Power Automate flows, canvas app authoring, model-driven apps, SharePoint, Excel, Dataverse/Dynamics 365, Power Pages, and tenant administration. Build, run, diagnose, and govern automations in natural language.
 
 
 Works with any MCP-compatible AI client: **Claude Desktop**, **Claude Code**, **VS Code Copilot**, **Cursor**, **Google Gemini CLI**, and more.
@@ -11,7 +11,7 @@ Works with any MCP-compatible AI client: **Claude Desktop**, **Claude Code**, **
 
 | Page | What you'll find |
 |------|------------------|
-| **README** (this page) | [Features](#features) · [Quick Start](#quick-start) · [App Registration](#microsoft-entra-app-registration) · [CLI Reference](#cli-reference) · [How It Works](#how-it-works) · [All 122 Tools](#available-tools-122-total) · [Security](#security) · [Architecture](#architecture) |
+| **README** (this page) | [Features](#features) · [Quick Start](#quick-start) · [App Registration](#microsoft-entra-app-registration) · [CLI Reference](#cli-reference) · [How It Works](#how-it-works) · [All 188 Tools](#available-tools-188-total) · [Security](#security) · [Architecture](#architecture) |
 | [Installation Guide](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md) | [Choose your path](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#choose-your-path) · [Easy Path](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#easy-path-3-steps) · [Fast Path](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#fast-path-developers) · [Connect your AI app](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#connecting-your-ai-app) · [**Updating**](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#updating) · [Troubleshooting](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#troubleshooting) · [Glossary](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#glossary) · [Admin & enterprise](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#admin--enterprise-setup) |
 | [Changelog](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/CHANGELOG.md) | Release history with per-version upgrade notes |
 | [Privacy Policy](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/PRIVACY.md) | What runs locally, what talks to Microsoft, what we collect (nothing) |
@@ -19,23 +19,30 @@ Works with any MCP-compatible AI client: **Claude Desktop**, **Claude Code**, **
 
 ## Features
 
-**122 tools, 19 surfaces — everything at a glance** (full list with descriptions: [Available Tools](#available-tools-122-total)):
+**188 tools, 22 groups — everything at a glance** (full list with descriptions: [Available Tools](#available-tools-188-total)):
 
 | | | |
 |---|---|---|
-| **Flows** — create, update, clone, share, export (11) | **Testing & Debugging** — run, diagnose, drill into failed steps (9) | **Planning & Help** — guided wizard, validation, expression help (5) |
-| **Connections & Connectors** — 400+ connector catalog, custom connectors (8) | **Approvals** — list and respond (3) | **Dataverse / Dynamics 365** — query, create, update, delete rows (7) |
-| **SharePoint** — sites, lists, items, files (11) | **Excel** — find and inspect workbooks (2) | **Power Apps** — apps, versions, sharing + admin (17) |
-| **Power Pages** — site config + hosting (12) | **Environments** — create, copy, backup, restore + managed-env governance (16) | **DLP Policies** — full policy lifecycle (6) |
-| **Solutions ALM** — export, import, components (8) | **Desktop Flows / RPA** — machines and runs (3) | **Billing, AI Builder & Sign-in** (4) |
+| **Setup & Authentication** (1) | **Core Flow Operations** (11) | **Testing & Debugging** (9) |
+| **Planning & Help** (5) | **Connections & Custom Connectors** (8) | **Approvals** (3) |
+| **Dataverse CRUD** (7) | **SharePoint** (11) | **Excel** (2) |
+| **Power Apps** (12) | **Canvas App Authoring (Preview)** (13) | **Model-driven Apps** (13) |
+| **Power Apps Administration** (4) | **Power Pages Configuration** (9) | **Power Pages Management** (36) |
+| **Power Pages PAC CLI** (8) | **Environment Administration** (10) | **DLP Policies** (6) |
+| **Solutions ALM** (8) | **Managed Environments & Capacity** (6) | **Desktop Flows / RPA** (3) |
+| **Billing & AI Builder** (3) | | |
 
 
 Beyond the tool count:
 
 - **Natural-language flow building** — describe the automation; `plan_flow` gathers the specifics, `build_flow` creates it (even before its connections are configured), and pre-flight validation scores it against best practices (0–100)
 - **Real diagnosis, not error dumps** — failed runs are drilled to the failing step with the actual API error and a proposed fix
+- **Complete model-driven app lifecycle** — create AppModules, add or remove components, validate, publish, and manage security-role access through documented Dataverse operations
+- **Canvas source authoring (preview)** — create and edit supported `.pa.yaml` source, discover live controls/APIs/data sources, synchronize from Studio, and compile back through Microsoft's official Canvas Authoring MCP server
+- **Power Pages from content to hosting** — edit Dataverse configuration, provision and poll websites, manage domains/certificates/WAF/security, and run supported `pac pages` deployment workflows
+- **Real Solution ALM** — asynchronous solution export/import, component add/remove, clone, and publish-all operations use documented Dataverse actions instead of placeholders
 - **Sign in from the chat** — the `sign_in` tool completes Microsoft device-code auth without a terminal; every action runs under your own work account
-- **Everything annotated** — all 122 tools declare read-only/destructive hints, so AI hosts can apply the right guardrails
+- **Everything annotated** — all 188 tools declare read-only/destructive hints, so AI hosts can apply the right guardrails
 - **Cross-platform** — Windows, macOS, and Linux
 
 ## Quick Start
@@ -262,9 +269,9 @@ What parameters does the "Send an email (V2)" action need?
 
 ---
 
-## Available Tools (122 total)
+## Available Tools (188 total)
 
-> Every tool the server exposes, grouped by service. All 122 are listed here.
+> Every tool the server exposes, grouped by service. All 188 are listed here.
 
 <details>
 <summary><strong>Setup & Authentication</strong> (1 tools)</summary>
@@ -396,14 +403,13 @@ What parameters does the "Send an email (V2)" action need?
 </details>
 
 <details>
-<summary><strong>Power Apps</strong> (13 tools)</summary>
+<summary><strong>Power Apps</strong> (12 tools)</summary>
 
 | Tool | Description |
 |------|-------------|
 | `list_powerapps` | List Power Apps canvas apps in an environment. Returns app names, IDs, owners, and last modified dat… |
 | `list_canvas_apps` | List Power Apps canvas apps stored in Dataverse. Shows app names, versions, and status. |
 | `get_powerapp` | Get detailed information about a Power App including owner, connections, and app URIs. |
-| `list_model_driven_apps` | List model-driven apps from Dataverse. Requires a Dataverse-enabled environment. |
 | `publish_powerapp` | Publish a Power App to make the latest version available to users. |
 | `get_powerapp_versions` | Get version history for a Power App. Shows all saved versions with dates. |
 | `restore_powerapp_version` | Restore a Power App to a previous version. |
@@ -413,6 +419,48 @@ What parameters does the "Send an email (V2)" action need?
 | `set_powerapp_owner` | Transfer ownership of a Power App to another user. Requires Power Platform admin role. |
 | `set_powerapp_display_name` | Change the display name of a Power App. |
 | `delete_powerapp` | Delete a Power App permanently. This action cannot be undone. Set confirm=true to proceed. |
+
+</details>
+
+<details>
+<summary><strong>Canvas App Authoring (Preview)</strong> (13 tools)</summary>
+
+| Tool | Description |
+|------|-------------|
+| `connect_canvas_authoring` | Connect the preview Canvas authoring service to an existing app whose Power Apps Studio tab is open… |
+| `list_canvas_controls` | List controls supported by the connected Canvas authoring session. |
+| `describe_canvas_control` | Describe one Canvas control and its authoring properties. |
+| `list_canvas_apis` | List connector APIs visible to the connected Canvas authoring session. |
+| `describe_canvas_api` | Describe one connector API visible to the connected Canvas app. |
+| `list_canvas_data_sources` | List data sources already present in the connected Canvas app. |
+| `get_canvas_data_source_schema` | Get the schema of a data source already present in the connected Canvas app. |
+| `sync_canvas_source` | Sync the connected live Canvas app into an existing local source directory. This can overwrite local… |
+| `compile_canvas_source` | Compile the local .pa.yaml workspace into the connected live Canvas app. This is a destructive tenan… |
+| `list_canvas_source_files` | List safe .pa.yaml files in an existing local Canvas source directory, including size and SHA-256. |
+| `read_canvas_source_file` | Read one safe UTF-8 .pa.yaml file (maximum 1 MiB) and return its content, size, and SHA-256. |
+| `write_canvas_source_file` | Create one safe UTF-8 .pa.yaml file (maximum 1 MiB). Existing files are preserved unless overwrite=t… |
+| `delete_canvas_source_file` | Delete one safe local .pa.yaml file. Requires confirm=true; expectedSha256 can prevent deleting a ch… |
+
+</details>
+
+<details>
+<summary><strong>Model-driven Apps</strong> (13 tools)</summary>
+
+| Tool | Description |
+|------|-------------|
+| `list_model_driven_apps` | List published or unpublished model-driven Power Apps from Dataverse, including AppModule IDs and un… |
+| `get_model_driven_app` | Get a model-driven app's published or unpublished AppModule record. Optionally includes the complete… |
+| `create_model_driven_app` | Create a real model-driven AppModule in Dataverse. This creates the app shell; add components, valid… |
+| `update_model_driven_app` | Update supported properties on a published model-driven AppModule, creating unpublished changes. A n… |
+| `delete_model_driven_app` | Permanently delete a model-driven AppModule. Requires confirm=true. |
+| `get_model_driven_app_components` | Retrieve all components currently included in a published model-driven app. |
+| `add_model_driven_app_components` | Add Dataverse components such as views, forms, workflows, dashboards, and sitemaps to a model-driven… |
+| `remove_model_driven_app_components` | Remove one or more Dataverse components from a model-driven app through RemoveAppComponents. |
+| `validate_model_driven_app` | Run Dataverse ValidateApp and return dependency errors and warnings before publishing. |
+| `publish_model_driven_app` | Validate and publish one model-driven app via PublishXml. Validation blocks publishing unless skipVa… |
+| `list_model_driven_app_roles` | List Dataverse security roles associated with a model-driven app. |
+| `grant_model_driven_app_role` | Associate a Dataverse security role with a model-driven app to grant access. |
+| `revoke_model_driven_app_role` | Disassociate a Dataverse security role from a model-driven app. |
 
 </details>
 
@@ -429,22 +477,24 @@ What parameters does the "Send an email (V2)" action need?
 </details>
 
 <details>
-<summary><strong>Power Pages — Site Configuration</strong> (7 tools)</summary>
+<summary><strong>Power Pages — Site Configuration</strong> (9 tools)</summary>
 
 | Tool | Description |
 |------|-------------|
 | `list_powerpages_sites` | List Power Pages sites as stored in Dataverse (the configuration plane). Returns enhanced-model site… |
 | `get_powerpages_site` | Get a Power Pages site's Dataverse record and detected data model (standard vs enhanced) by its site… |
-| `list_powerpages_components` | List configuration components of a Power Pages site (web pages, web roles, table permissions, conten… |
+| `list_powerpages_components` | List configuration components of a Power Pages site across the standard and enhanced data models. Di… |
 | `get_powerpages_component` | Get a single Power Pages configuration component row by its record id. siteId selects the data model… |
-| `create_powerpages_component` | Create a Power Pages configuration component (e.g. a web page or content snippet). The site associat… |
+| `create_powerpages_component` | Create a Power Pages configuration component. Directly site-scoped types receive the website @odata.… |
 | `update_powerpages_component` | Update a Power Pages configuration component row. Only include columns you want to change in `data`. |
 | `delete_powerpages_component` | Delete a Power Pages configuration component row permanently. Set confirm=true to proceed. |
+| `manage_powerpages_relationship` | Associate or disassociate a Power Pages security/configuration record with a web role using a docume… |
+| `upload_powerpages_webfile_content` | Attach local file bytes to a standard-model Power Pages web-file record using the documented newest-… |
 
 </details>
 
 <details>
-<summary><strong>Power Pages — Site Management</strong> (5 tools)</summary>
+<summary><strong>Power Pages — Site Management</strong> (36 tools)</summary>
 
 | Tool | Description |
 |------|-------------|
@@ -453,6 +503,53 @@ What parameters does the "Send an email (V2)" action need?
 | `create_powerpages_website` | Provision a new Power Pages website (management API). Asynchronous — returns a tracking URL; provisi… |
 | `delete_powerpages_website` | Delete a Power Pages website (management API). This cannot be undone. Set confirm=true to proceed. |
 | `restart_powerpages_website` | Restart a Power Pages website (management API). Recycles the site so it picks up Dataverse config ch… |
+| `get_powerpages_operation_status` | Get or boundedly wait for a Power Pages Operation-Location result. Only authenticated HTTPS URLs on… |
+| `get_powerpages_allowed_ip_addresses` | Get the website IP allow list. |
+| `add_powerpages_allowed_ip_addresses` | Add IPv4/IPv6 addresses or CIDR ranges to the website allow list. Set confirm=true. |
+| `remove_powerpages_allowed_ip_addresses` | Remove IPv4/IPv6 addresses or CIDR ranges from the website allow list. Set confirm=true. |
+| `list_powerpages_custom_domains` | List custom domains configured for a website. |
+| `create_powerpages_custom_domain` | Add a custom domain to a website. DNS validation still applies. Set confirm=true. |
+| `delete_powerpages_custom_domain` | Remove a custom domain from a website. Set confirm=true. |
+| `list_powerpages_certificates` | List SSL or managed certificates for a website. |
+| `upload_powerpages_certificate` | Upload a local PFX certificate using multipart form data. Reads an absolute canonical path (max 16 M… |
+| `delete_powerpages_certificate` | Delete a certificate by thumbprint and type. Set confirm=true. |
+| `list_powerpages_ssl_bindings` | List SSL bindings for a custom hostname. |
+| `add_powerpages_ssl_binding` | Bind a certificate thumbprint to a custom hostname. Set confirm=true. |
+| `delete_powerpages_ssl_binding` | Delete an SSL binding by hostname and thumbprint. Set confirm=true. |
+| `get_powerpages_waf_status` | Get the website web application firewall status. |
+| `get_powerpages_waf_rules` | Get managed and custom web application firewall rules. |
+| `enable_powerpages_waf` | Enable the website web application firewall. Set confirm=true. |
+| `disable_powerpages_waf` | Disable the website web application firewall. Set confirm=true. |
+| `create_powerpages_waf_rules` | Create or update managed/custom WAF rules using the published 2024-10-01 contract. Set confirm=true. |
+| `delete_powerpages_waf_custom_rules` | Delete named custom WAF rules. Set confirm=true. |
+| `start_powerpages_quick_scan` | Start a quick website security scan. Set confirm=true. |
+| `start_powerpages_deep_scan` | Start a deep website security scan. Set confirm=true. |
+| `get_powerpages_security_scan_report` | Get the latest completed deep security-scan report. |
+| `get_powerpages_security_scan_score` | Get the latest deep security-scan score. |
+| `start_powerpages_website` | Start a stopped Power Pages website. Set confirm=true. |
+| `stop_powerpages_website` | Stop a Power Pages website and make it unavailable. Set confirm=true. |
+| `convert_powerpages_trial_to_production` | Convert a trial website to production and optionally enable CDN/WAF. Licensing implications apply. S… |
+| `enable_powerpages_bootstrap_v5` | Stamp Bootstrap 5 enabled for a website. Set confirm=true. |
+| `set_powerpages_data_model_version` | Set whether the website uses the enhanced data model. Set confirm=true. |
+| `toggle_powerpages_afd_routing` | Enable or disable Azure Front Door traffic routing. Set confirm=true. |
+| `update_powerpages_security_group` | Set or clear the Entra security group controlling private-site visibility. Set confirm=true. |
+| `update_powerpages_site_visibility` | Set website visibility to public or private. Set confirm=true. |
+
+</details>
+
+<details>
+<summary><strong>Power Pages — PAC CLI</strong> (8 tools)</summary>
+
+| Tool | Description |
+|------|-------------|
+| `pac_pages_bootstrap_migrate` | Migrate downloaded website HTML from Bootstrap 3 to Bootstrap 5 in place. Runs the installed pac exe… |
+| `pac_pages_clone` | Clone local Power Pages website content into a new output directory. Runs the installed pac executab… |
+| `pac_pages_download` | Download a standard or enhanced Power Pages site from Dataverse. Runs the installed pac executable w… |
+| `pac_pages_download_code_site` | Download a Power Pages code site from Dataverse. Runs the installed pac executable without a shell a… |
+| `pac_pages_list` | List websites from the current or specified PAC Dataverse environment. Runs the installed pac execut… |
+| `pac_pages_migrate_datamodel` | Start, inspect, reset, or revert a Power Pages data-model migration. Runs the installed pac executab… |
+| `pac_pages_upload` | Upload downloaded website configuration to Dataverse. Runs the installed pac executable without a sh… |
+| `pac_pages_upload_code_site` | Upload compiled code to a Power Pages code site. Runs the installed pac executable without a shell a… |
 
 </details>
 
@@ -494,13 +591,13 @@ What parameters does the "Send an email (V2)" action need?
 | Tool | Description |
 |------|-------------|
 | `list_solutions` | List Dataverse solutions in the environment. Solutions are containers for flows, apps, and other com… |
-| `export_solution` | Export a Dataverse solution as a zip file (base64-encoded). Requires Dataverse. |
-| `import_solution` | Import a Dataverse solution from a base64-encoded zip file. Requires Dataverse. |
-| `clone_solution` | Clone an unmanaged Dataverse solution to create a new version. |
-| `add_solution_component` | Add a component (table, flow, etc.) to an unmanaged Dataverse solution. |
-| `remove_solution_component` | Remove a component from an unmanaged Dataverse solution. |
+| `export_solution` | Export a Dataverse solution as a base64-encoded zip, or resume an earlier asynchronous export by exp… |
+| `import_solution` | Import a base64-encoded Dataverse solution zip. This changes the environment and requires confirm=tr… |
+| `clone_solution` | Clone an unmanaged Dataverse solution and consolidate its patches into a new version. |
+| `add_solution_component` | Add an existing component to an unmanaged Dataverse solution. |
+| `remove_solution_component` | Remove a component from an unmanaged Dataverse solution. Requires confirm=true. |
 | `list_solution_flows` | List flows stored in Dataverse solutions. These are 'solution-aware' flows that can be exported and… |
-| `publish_all_customizations` | Publish all pending customizations in Dataverse. Requires Dataverse. |
+| `publish_all_customizations` | Publish every pending Dataverse customization. This can affect live apps and requires confirm=true. |
 
 </details>
 
