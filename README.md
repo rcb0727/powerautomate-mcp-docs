@@ -174,7 +174,7 @@ powerautomate-mcp [options]
 ## How It Works
 
 <p align="center">
-  <img src="images/how-it-works.svg" alt="PowerPlatform MCP — architecture flow, three example scenarios (simple, moderate, complex), and execution phases" width="700" />
+  <img src="images/how-it-works.svg?v=188" alt="PowerPlatform MCP — architecture flow, three example scenarios (simple, moderate, complex), and execution phases" width="700" />
 </p>
 
 ---
