@@ -262,7 +262,7 @@
 
   <!-- Bottom stats -->
   <rect x="30" y="1015" width="640" height="55" rx="10" fill="#2563eb" fill-opacity="0.05" stroke="#2563eb" stroke-width="1"/>
-  <text x="140" y="1040" text-anchor="middle" font-size="20" font-weight="700" fill="#2563eb">121</text>
+  <text x="140" y="1040" text-anchor="middle" font-size="20" font-weight="700" fill="#2563eb">188</text>
   <text x="140" y="1057" text-anchor="middle" font-size="9" fill="#666">Tools Available</text>
   <text x="350" y="1040" text-anchor="middle" font-size="20" font-weight="700" fill="#742774">1</text>
   <text x="350" y="1057" text-anchor="middle" font-size="9" fill="#666">Prompt Required</text>
