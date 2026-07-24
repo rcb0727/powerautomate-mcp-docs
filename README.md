@@ -179,6 +179,12 @@ powerautomate-mcp [options]
 
 ---
 
+### Canvas source authoring (preview)
+
+Canvas source authoring uses Microsoft's official prerelease Canvas Authoring MCP as an isolated child process. Install the [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0), open an existing blank or editable canvas app in Power Apps Studio, enable **Settings → Updates → Coauthoring**, and keep that Studio tab open. Then call `connect_canvas_authoring` with the Studio Designer URL before using discovery, sync, or compile tools.
+
+The AI assistant creates or edits `App.pa.yaml` and one `.pa.yaml` file per screen, using live control/API/data-source metadata and `compile_canvas_source` for supported validation and live synchronization. Compilation changes the open draft, so it requires `confirm=true`. `sync_canvas_source` can overwrite local source and also requires confirmation. The preview does **not** provision the initial cloud app shell, add Studio data connections, save, or publish; those remain Power Apps Studio steps. See Microsoft's [external-tools preview guide](https://learn.microsoft.com/en-us/power-apps/maker/canvas-apps/create-canvas-external-tools) and [Power Apps YAML reference](https://learn.microsoft.com/en-us/power-apps/maker/canvas-apps/power-apps-yaml).
+
 ### More Example Prompts
 
 <details>
