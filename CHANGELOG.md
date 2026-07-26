@@ -8,6 +8,7 @@
 
 | Version | Date | Highlights |
 |---------|------|------------|
+| [0.15.1](#0151---2026-07-26) | 2026-07-26 | **Security patch** — `@hono/node-server` moved to 2.x (High-severity Windows path traversal in its static-file code, transitive via the MCP SDK; that code path is never used by this server, so this closes the scanner finding). `npm audit`: 0 vulnerabilities |
 | [0.15.0](#0150---2026-07-21) | 2026-07-21 | **122 → 188 tools** — author canvas app source live in Power Apps Studio (preview) · full model-driven app lifecycle (create, components, validate, publish, roles) · complete Power Pages management (domains, certificates, SSL, WAF, security scans, lifecycle) · `pac pages` command wrappers · real Solution ALM operations · **Security** — `fast-uri` patched (host-check bypass) |
 | [0.14.0](#0140---2026-07-20) | 2026-07-20 | **Setup, overhauled** — sign in from the chat with the new `sign_in` tool · `--login` for quick re-auth · setup hands you a ready-to-send IT request when you need an admin · plain-language permission choices · your AI app auto-detected · setup verifies itself before saying done · no more silent startup hangs · Codex/ChatGPT CLI support · full IDs in list output |
 | [0.13.4](#0134---2026-07-17) | 2026-07-17 | **Admin & DLP tools fixed** — Microsoft retired the API version these tools used, so environment, capacity, billing, and Data Loss Prevention (DLP) commands were all failing; now updated and working, with DLP policy details and connector configs reading correctly ([#16](https://github.com/rcb0727/powerautomate-mcp-docs/issues/16)) |
@@ -34,6 +35,11 @@
 | [0.7.6](#076---2026-04-23) | 2026-04-23 | Dataverse URL auto-resolution, flow run-ID validation, `$orderby` fix ([#6](https://github.com/rcb0727/powerautomate-mcp-docs/issues/6), [#7](https://github.com/rcb0727/powerautomate-mcp-docs/issues/7), [#8](https://github.com/rcb0727/powerautomate-mcp-docs/issues/8)) |
 
 Older releases are documented below in full.
+
+## [0.15.1] - 2026-07-26
+
+- **Security — `@hono/node-server` overridden 1.19.14 → 2.x (High, CWE-22 directory traversal; Snyk CVSS 8.2).** On Windows, the 1.x static-file handler decodes `%5C` to `\` and treats it as a path separator, letting requests reach files under a guarded prefix. The dependency arrives transitively via the MCP SDK and the fix lives in a new major version outside the SDK's range, so it's applied as an npm override. This server never uses the vulnerable static-file code path — the update closes the scanner finding and hardens the packaged tree. Verified against the major bump with the full test suite plus live stdio and HTTP smokes. `npm audit`: 0 vulnerabilities.
+- Dev-toolchain relocks: `brace-expansion` 5.0.8 and `postcss` 8.5.23 (dev-only advisories; the production tree was unaffected).
 
 ## [0.15.0] - 2026-07-21
 
