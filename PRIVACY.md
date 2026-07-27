@@ -49,8 +49,8 @@ Sign-in uses Microsoft's standard OAuth 2.0 device authorization flow — the so
 
 ## Changes to this policy
 
-Changes are published to this page with an updated effective date and noted in the project [changelog](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/CHANGELOG.md).
+Changes are published to this page with an updated effective date and noted in the project [changelog](https://github.com/rcb0727/powerplatform-mcp-docs/blob/main/CHANGELOG.md).
 
 ## Contact
 
-Questions or concerns: open an issue at [github.com/rcb0727/powerautomate-mcp-docs/issues](https://github.com/rcb0727/powerautomate-mcp-docs/issues).
+Questions or concerns: open an issue at [github.com/rcb0727/powerplatform-mcp-docs/issues](https://github.com/rcb0727/powerplatform-mcp-docs/issues).

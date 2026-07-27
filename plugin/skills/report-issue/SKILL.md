@@ -58,7 +58,7 @@ Build a pre-filled URL and give it to the user to open — do not try to post on
 their behalf, and do not assume the `gh` CLI is installed:
 
 ```
-https://github.com/rcb0727/powerautomate-mcp-docs/issues/new?title=<url-encoded title>&body=<url-encoded body>
+https://github.com/rcb0727/powerplatform-mcp-docs/issues/new?title=<url-encoded title>&body=<url-encoded body>
 ```
 
 Tell them to review it before submitting, since the body may contain

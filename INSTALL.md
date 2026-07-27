@@ -1,6 +1,6 @@
 # Installation Guide
 
-**Docs:** [Overview](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/README.md) · **Installation & Upgrading** · [Changelog](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/CHANGELOG.md) · [Report an issue](https://github.com/rcb0727/powerautomate-mcp-docs/issues)
+**Docs:** [Overview](https://github.com/rcb0727/powerplatform-mcp-docs/blob/main/README.md) · **Installation & Upgrading** · [Changelog](https://github.com/rcb0727/powerplatform-mcp-docs/blob/main/CHANGELOG.md) · [Report an issue](https://github.com/rcb0727/powerplatform-mcp-docs/issues)
 
 This guide gets you from zero to "ask your AI app to build a flow." Pick the path that sounds like you — you don't need to read the whole page.
 
@@ -323,7 +323,7 @@ If `npm install -g` causes permission headaches, skip it entirely. Configure you
    ```
 4. Reopen your AI app — it picks up the new version automatically.
 
-`powerautomate-mcp --update` does the npm upgrade for you (same rule: close apps first). The [Changelog](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/CHANGELOG.md) lists what changed and any version-specific notes.
+`powerautomate-mcp --update` does the npm upgrade for you (same rule: close apps first). The [Changelog](https://github.com/rcb0727/powerplatform-mcp-docs/blob/main/CHANGELOG.md) lists what changed and any version-specific notes.
 
 ---
 
@@ -369,7 +369,7 @@ Run **`powerautomate-mcp --doctor`** first — it pinpoints most problems and pr
 3. If it's not connected, run `powerautomate-mcp --client <your-app>` and restart again.
 4. Confirm the command works on its own: `powerautomate-mcp --version` should print a number.
 
-Still stuck? [Open an issue](https://github.com/rcb0727/powerautomate-mcp-docs/issues) — include your OS, AI app, and the output of `powerautomate-mcp --doctor`.
+Still stuck? [Open an issue](https://github.com/rcb0727/powerplatform-mcp-docs/issues) — include your OS, AI app, and the output of `powerautomate-mcp --doctor`.
 
 ---
 

@@ -1,21 +1,22 @@
 # Changelog
 
-**Docs:** [Overview](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/README.md) · [Installation & Upgrading](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md) · **Changelog** · [Report an issue](https://github.com/rcb0727/powerautomate-mcp-docs/issues)
+**Docs:** [Overview](https://github.com/rcb0727/powerplatform-mcp-docs/blob/main/README.md) · [Installation & Upgrading](https://github.com/rcb0727/powerplatform-mcp-docs/blob/main/INSTALL.md) · **Changelog** · [Report an issue](https://github.com/rcb0727/powerplatform-mcp-docs/issues)
 
-> **Upgrading?** Quit your AI clients first so no `powerautomate-mcp` process is running, then `npm install -g powerautomate-mcp@latest`. Details: [Updating safely](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#updating).
+> **Upgrading?** Quit your AI clients first so no `powerautomate-mcp` process is running, then `npm install -g powerautomate-mcp@latest`. Details: [Updating safely](https://github.com/rcb0727/powerplatform-mcp-docs/blob/main/INSTALL.md#updating).
 
 ## Release Index
 
 | Version | Date | Highlights |
 |---------|------|------------|
 | [0.15.1](#0151---2026-07-26) | 2026-07-26 | **Security patch** — `@hono/node-server` moved to 2.x (High-severity Windows path traversal in its static-file code, transitive via the MCP SDK; that code path is never used by this server, so this closes the scanner finding). `npm audit`: 0 vulnerabilities |
+| [0.16.0](#0160---2026-07-26) | 2026-07-26 | **188 → 216 tools, and a new name.** Desktop flows (RPA) end to end — run, monitor, cancel, diagnose, machines, and full work-queue support · **connections you can create, test, and repair** from chat · undo a bad flow edit with version restore, and replay a failure with the payload that caused it · preview a change before it lands · **ten guided skills** and a one-command Claude Code plugin · repos renamed to Power Platform · a security patch and a large code-quality pass |
 | [0.15.0](#0150---2026-07-21) | 2026-07-21 | **122 → 188 tools** — author canvas app source live in Power Apps Studio (preview) · full model-driven app lifecycle (create, components, validate, publish, roles) · complete Power Pages management (domains, certificates, SSL, WAF, security scans, lifecycle) · `pac pages` command wrappers · real Solution ALM operations · **Security** — `fast-uri` patched (host-check bypass) |
 | [0.14.0](#0140---2026-07-20) | 2026-07-20 | **Setup, overhauled** — sign in from the chat with the new `sign_in` tool · `--login` for quick re-auth · setup hands you a ready-to-send IT request when you need an admin · plain-language permission choices · your AI app auto-detected · setup verifies itself before saying done · no more silent startup hangs · Codex/ChatGPT CLI support · full IDs in list output |
-| [0.13.4](#0134---2026-07-17) | 2026-07-17 | **Admin & DLP tools fixed** — Microsoft retired the API version these tools used, so environment, capacity, billing, and Data Loss Prevention (DLP) commands were all failing; now updated and working, with DLP policy details and connector configs reading correctly ([#16](https://github.com/rcb0727/powerautomate-mcp-docs/issues/16)) |
+| [0.13.4](#0134---2026-07-17) | 2026-07-17 | **Admin & DLP tools fixed** — Microsoft retired the API version these tools used, so environment, capacity, billing, and Data Loss Prevention (DLP) commands were all failing; now updated and working, with DLP policy details and connector configs reading correctly ([#16](https://github.com/rcb0727/powerplatform-mcp-docs/issues/16)) |
 | [0.13.3](#0133---2026-07-15) | 2026-07-15 | **`build_flow` reliability** — email/connector-triggered flows save correctly now (required polling interval was missing) · clear guidance when a goal needs specifics the tool can't guess (which file, site, channel) |
 | [0.13.2](#0132---2026-07-14) | 2026-07-14 | **Flows without connections** — `build_flow` now creates your flow even when a connection isn't set up yet (left stopped, with clear finish-up steps) · **Setup** — recovers automatically when your configured app registration was deleted, instead of failing at sign-in with a confusing error |
 | [0.13.1](#0131---2026-07-13) | 2026-07-13 | **Security patch** — `body-parser` 2.2.2→2.3.0 (CWE-770 body-size limit bypass, transitive via the MCP SDK); MSAL patch updates; `npm audit` 0 vulnerabilities |
-| [0.13.0](#0130---2026-07-09) | 2026-07-09 | **`update_flow` fixes + fresh-tenant setup** — description-only updates work (no more `properties.description` rejection or false connection-reference blocks, [#15](https://github.com/rcb0727/powerautomate-mcp-docs/issues/15)); `--setup` now succeeds in tenants that never used Power Platform (auto-creates service principals, resolves tenant-local permission ids); msal-node 5; `npm audit` 0 vulnerabilities |
+| [0.13.0](#0130---2026-07-09) | 2026-07-09 | **`update_flow` fixes + fresh-tenant setup** — description-only updates work (no more `properties.description` rejection or false connection-reference blocks, [#15](https://github.com/rcb0727/powerplatform-mcp-docs/issues/15)); `--setup` now succeeds in tenants that never used Power Platform (auto-creates service principals, resolves tenant-local permission ids); msal-node 5; `npm audit` 0 vulnerabilities |
 | [0.12.0](#0120---2026-07-05) | 2026-07-05 | **Least privilege + hardening release** — permission presets, feature-aware tool filtering and health checks, live-tenant fixes for approvals/consent errors, structuredContent expansion, pagination/retry/ETag improvements, hardened Streamable HTTP, coverage/Scorecard gates, dependency/security updates, and a Node.js 22.19+ baseline |
 | [0.11.1](#0111---2026-07-01) | 2026-07-01 | **Security** — `fast-uri` 3.1.2→3.1.3 (CVE / CWE-436 interpretation conflict: Unicode/fullwidth hostnames like `http://127。0。0。1/` left unconverted, could steer host-based security checks). Override floor raised from `^3.1.2` to `^3.1.3` so the patched build is actually locked in |
 | [0.11.0](#0110---2026-06-24) | 2026-06-24 | **Easier install** — `--setup` now connects your AI app for you (auto-writes/merges the client config, no hand-editing JSON); new `--doctor` health check; new `--client <name>` and `--npx` flags; rewritten install guide with an Easy Path, troubleshooting FAQ, and glossary |
@@ -23,16 +24,16 @@
 | [0.10.2](#0102---2026-06-19) | 2026-06-19 | **Security** — `undici` 6.25→6.27 (4 CVEs: CRLF injection, resource exhaustion, permissive inputs, TOCTOU), `ajv` 8.17→8.20 (ReDoS), `hono` 4.11→4.12 (directory traversal), `@hono/node-server` 1.19.9→1.19.14 (URL encoding bypass) |
 | [0.10.1](#0101---2026-06-15) | 2026-06-15 | **Security** — Dataverse API error bodies sanitized before reaching tool output; record GUIDs, user emails, and credentials no longer leak in error messages |
 | [0.10.0](#0100---2026-06-15) | 2026-06-15 | **Power Pages** — 12 new tools: Dataverse site config (pages, web roles, table permissions, snippets, templates) with standard/enhanced data-model auto-routing, plus site management (provision/restart/delete) via the Power Platform API |
-| [0.9.4](#094---2026-06-11) | 2026-06-11 | `get_run_actions`/`diagnose_flow` payload fetches unblocked — `*.powerplatformusercontent.com` added to resource-link allowlist ([#12](https://github.com/rcb0727/powerautomate-mcp-docs/issues/12)) |
+| [0.9.4](#094---2026-06-11) | 2026-06-11 | `get_run_actions`/`diagnose_flow` payload fetches unblocked — `*.powerplatformusercontent.com` added to resource-link allowlist ([#12](https://github.com/rcb0727/powerplatform-mcp-docs/issues/12)) |
 | [0.9.3](#093---2026-05-23) | 2026-05-23 | `diagnose_flow` fetches the actual HTTP response body from failed actions |
-| [0.9.2](#092---2026-05-22) | 2026-05-22 | BAP token caching after `--setup`, 20+ Azure region mappings ([#11](https://github.com/rcb0727/powerautomate-mcp-docs/issues/11)) |
-| [0.9.1](#091---2026-05-17) | 2026-05-17 | `--setup` crash with reused app registration fixed ([#10](https://github.com/rcb0727/powerautomate-mcp-docs/issues/10)) |
+| [0.9.2](#092---2026-05-22) | 2026-05-22 | BAP token caching after `--setup`, 20+ Azure region mappings ([#11](https://github.com/rcb0727/powerplatform-mcp-docs/issues/11)) |
+| [0.9.1](#091---2026-05-17) | 2026-05-17 | `--setup` crash with reused app registration fixed ([#10](https://github.com/rcb0727/powerplatform-mcp-docs/issues/10)) |
 | [0.9.0](#090---2026-05-13) | 2026-05-13 | Full action-level I/O visibility + `get_run_action_repetitions` loop drill-down |
 | [0.8.0](#080---2026-05-06) | 2026-05-06 | Nested-action capture (`format="json"`), merge/patch flow updates, shared-flow filtering |
 | [0.7.9](#079---2026-05-05) | 2026-05-05 | Security: `undici` + MCP SDK bumps closing 6 advisories |
-| [0.7.8](#078---2026-04-30) | 2026-04-30 | Actionable diagnostics when device-code flow is blocked ([#9](https://github.com/rcb0727/powerautomate-mcp-docs/issues/9)) |
-| [0.7.7](#077---2026-04-29) | 2026-04-29 | Device-code prompt rendering fix ([#9](https://github.com/rcb0727/powerautomate-mcp-docs/issues/9)) |
-| [0.7.6](#076---2026-04-23) | 2026-04-23 | Dataverse URL auto-resolution, flow run-ID validation, `$orderby` fix ([#6](https://github.com/rcb0727/powerautomate-mcp-docs/issues/6), [#7](https://github.com/rcb0727/powerautomate-mcp-docs/issues/7), [#8](https://github.com/rcb0727/powerautomate-mcp-docs/issues/8)) |
+| [0.7.8](#078---2026-04-30) | 2026-04-30 | Actionable diagnostics when device-code flow is blocked ([#9](https://github.com/rcb0727/powerplatform-mcp-docs/issues/9)) |
+| [0.7.7](#077---2026-04-29) | 2026-04-29 | Device-code prompt rendering fix ([#9](https://github.com/rcb0727/powerplatform-mcp-docs/issues/9)) |
+| [0.7.6](#076---2026-04-23) | 2026-04-23 | Dataverse URL auto-resolution, flow run-ID validation, `$orderby` fix ([#6](https://github.com/rcb0727/powerplatform-mcp-docs/issues/6), [#7](https://github.com/rcb0727/powerplatform-mcp-docs/issues/7), [#8](https://github.com/rcb0727/powerplatform-mcp-docs/issues/8)) |
 
 Older releases are documented below in full.
 
@@ -40,6 +41,19 @@ Older releases are documented below in full.
 
 - **Security — `@hono/node-server` overridden 1.19.14 → 2.x (High, CWE-22 directory traversal; Snyk CVSS 8.2).** On Windows, the 1.x static-file handler decodes `%5C` to `\` and treats it as a path separator, letting requests reach files under a guarded prefix. The dependency arrives transitively via the MCP SDK and the fix lives in a new major version outside the SDK's range, so it's applied as an npm override. This server never uses the vulnerable static-file code path — the update closes the scanner finding and hardens the packaged tree. Verified against the major bump with the full test suite plus live stdio and HTTP smokes. `npm audit`: 0 vulnerabilities.
 - Dev-toolchain relocks: `brace-expansion` 5.0.8 and `postcss` 8.5.23 (dev-only advisories; the production tree was unaffected).
+
+## [0.16.0] - 2026-07-26
+
+The server is now named for what it actually covers. It began as a Power Automate MCP; user requests and a lot of live troubleshooting turned it into a Power Platform one. The npm package stays `powerautomate-mcp` so existing installs keep working.
+
+- **Desktop flows (RPA), end to end (21 tools).** Trigger a desktop flow attended or unattended, poll its status with the real state decoded into words, fetch outputs, cancel it, and pull action-level logs. `diagnose_desktop_flow_run` correlates a failure with the machine's health and heartbeat, and translates licensing errors into the exact license to request. Machines and machine groups show live status, capacity, and how long since each last checked in.
+- **Work queues (8 tools).** The RPA orchestration primitive, complete: create queues with retry and requeue policy, enqueue items with priority and delayed availability, claim the next item atomically, and finish it as processed or with a business/IT/generic exception. Queue health shows counts by state.
+- **Connections you can actually manage (5 tools).** `ensure_connection` gets you a working connection in one call — an existing healthy one, or a new one with a sign-in link. Plus create, test, fix, and delete. A flow that "just stopped working" is usually an expired connection, and `test_connection` now says so in one step.
+- **Undo, and replay.** `restore_flow_version` rolls a flow back to a saved version (previewed first, and itself reversible). `get_trigger_inputs` returns the payload a failed run actually fired with, so a fix can be tested against the data that broke it. `preview_update` shows what an edit would change before it lands. `cancel_all_runs` stops everything in flight.
+- **Ten guided skills, one-command install.** `/plugin marketplace add rcb0727/powerplatform-mcp-docs` — skills for setup, building flows, debugging runs, connections, desktop flows, work queues, Power Pages, Dataverse, governance, and reporting issues.
+- **Quality.** A cleanup pass fixed real defects: values rendering as `[object Object]` in tool output, type safety lost through JSON round-trips, and an error path that could take down the HTTP server. 1,597 tests.
+- **Security.** `@hono/node-server` moved to 2.x (High-severity CWE-22 path traversal reachable on Windows, arriving transitively). `npm audit`: 0 vulnerabilities.
+- **Fewer approval prompts.** The README shows how to allow the 100 read-only tools while keeping the gate on the 39 destructive ones.
 
 ## [0.15.0] - 2026-07-21
 
@@ -75,7 +89,7 @@ Setup and sign-in, overhauled end to end — plus quality-of-life and reliabilit
 - **Setup finds your AI app.** The connect step detects which AI apps are installed: one found → a single yes/no; several → detected apps listed first.
 - **Setup no longer dead-ends when you need IT.** If you don't have a Client ID, or can't approve admin consent yourself, the wizard prints a ready-to-send message for your IT team and exits cleanly with your progress saved. For consent it can also wait and re-check the moment IT approves.
 - **Setup proves itself before "Setup Complete"** — it reloads your saved config and makes a live Power Automate call the exact way your AI app will, so problems surface immediately instead of later in your AI app.
-- **List commands print full IDs** (`list_dlp_policies`, billing policies, Power Apps) so their output can go straight into get/update/delete commands ([#16](https://github.com/rcb0727/powerautomate-mcp-docs/issues/16) follow-up — thanks @Chris-Coombes).
+- **List commands print full IDs** (`list_dlp_policies`, billing policies, Power Apps) so their output can go straight into get/update/delete commands ([#16](https://github.com/rcb0727/powerplatform-mcp-docs/issues/16) follow-up — thanks @Chris-Coombes).
 
 ### Fixed
 - **No more silent hangs at startup.** If the operating system's secure storage blocks (for example, a keychain authorization prompt that can't be shown), the server now fails within seconds with instructions instead of hanging forever — and it recovers automatically from lock files left behind by a killed process.
@@ -92,7 +106,7 @@ Requires Node.js 22.19+.
 Fixes the Power Platform admin tools, including all Data Loss Prevention (DLP) commands.
 
 ### Fixed
-- **Admin tools were failing across the board** ([#16](https://github.com/rcb0727/powerautomate-mcp-docs/issues/16)). Microsoft retired the API version these tools relied on, so every admin request — listing environments, checking capacity and billing, managed-environment governance, and all DLP commands — returned an "invalid API version" error before it could even run. Updated to the current version; these tools work again.
+- **Admin tools were failing across the board** ([#16](https://github.com/rcb0727/powerplatform-mcp-docs/issues/16)). Microsoft retired the API version these tools relied on, so every admin request — listing environments, checking capacity and billing, managed-environment governance, and all DLP commands — returned an "invalid API version" error before it could even run. Updated to the current version; these tools work again.
 - **DLP policy tools now return the right details.** `get_dlp_policy` was showing a blank scope and no connector groups, and `get_dlp_connector_configs` always errored. Both read correctly now, and creating, updating, and deleting DLP policies works against Microsoft's current governance API.
 
 Big thanks to **@Chris-Coombes**, who reported this with a full root-cause analysis and a verified fix. The issue is being kept open so the fix can be confirmed on their end.
@@ -138,7 +152,7 @@ Security patch for a transitive dependency of the MCP SDK, plus routine dependen
 `update_flow` reliability fixes plus a setup overhaul that makes `--setup` work in brand-new tenants.
 
 ### Fixed
-- **Updating only a flow's description works.** ([#15](https://github.com/rcb0727/powerautomate-mcp-docs/issues/15)) Two separate causes, both closed:
+- **Updating only a flow's description works.** ([#15](https://github.com/rcb0727/powerplatform-mcp-docs/issues/15)) Two separate causes, both closed:
   - The flows API rejects `properties.description` on write ("The request content was invalid ... Invalid JSON at path 'properties.description'"). Descriptions now travel inside the workflow definition (`definition.description`), where the service actually stores them. `get_flow` surfaces the definition-level description too.
   - With `validateBeforeUpdate: true`, the pre-update validation ran structure checks (`connectionName`/`id`/`source`) against connection references merely **carried over unchanged** from the live flow. Flows built in the Power Automate designer store references in a modern shape without those fields, so a description-only update was blocked with "Connection reference missing connectionName". Carried-over references are now exempt from structure checks; references you supply in the call are still fully validated, and missing/unused-connection checks still run in both cases.
 - Friendlier error when an environment has no Dataverse organization instead of a raw API failure.
@@ -266,7 +280,7 @@ Focused on making installation work for everyone, not just developers.
 ## [0.9.4] - 2026-06-11
 
 ### Fixed
-- **`get_run_actions` / `diagnose_flow` payload fetches blocked — `*.powerplatformusercontent.com` missing from resource-link allowlist**: action `inputsLink`/`outputsLink` URIs returned by the Flow API resolve to the per-environment Power Platform content endpoint (`<environment-id>.environment.api.powerplatformusercontent.com`), which the resource-link validator rejected fail-closed with `Invalid resource link: domain not in allowlist`. On affected tenants every payload fetch failed, and `diagnose_flow` categorized all failures as "Unknown Error" because it could never retrieve the real HTTP response body (the headline 0.9.3 improvement). Added `powerplatformusercontent.com` to the allowlist with the same dot-boundary subdomain matching as the existing entries — Microsoft lists `https://*.powerplatformusercontent.com` as required Power Platform infrastructure ([online requirements](https://learn.microsoft.com/power-platform/admin/online-requirements)). The existing SAS-token handling (auth header withheld for `sig=`/`sv=` URLs) is URI-based and applies to these links unchanged. Regression tests added, including lookalike-domain rejection (`evilpowerplatformusercontent.com`, `powerplatformusercontent.com.evil.io`). Fixes [#12](https://github.com/rcb0727/powerautomate-mcp-docs/issues/12).
+- **`get_run_actions` / `diagnose_flow` payload fetches blocked — `*.powerplatformusercontent.com` missing from resource-link allowlist**: action `inputsLink`/`outputsLink` URIs returned by the Flow API resolve to the per-environment Power Platform content endpoint (`<environment-id>.environment.api.powerplatformusercontent.com`), which the resource-link validator rejected fail-closed with `Invalid resource link: domain not in allowlist`. On affected tenants every payload fetch failed, and `diagnose_flow` categorized all failures as "Unknown Error" because it could never retrieve the real HTTP response body (the headline 0.9.3 improvement). Added `powerplatformusercontent.com` to the allowlist with the same dot-boundary subdomain matching as the existing entries — Microsoft lists `https://*.powerplatformusercontent.com` as required Power Platform infrastructure ([online requirements](https://learn.microsoft.com/power-platform/admin/online-requirements)). The existing SAS-token handling (auth header withheld for `sig=`/`sv=` URLs) is URI-based and applies to these links unchanged. Regression tests added, including lookalike-domain rejection (`evilpowerplatformusercontent.com`, `powerplatformusercontent.com.evil.io`). Fixes [#12](https://github.com/rcb0727/powerplatform-mcp-docs/issues/12).
 
 ### Upgrade Notes
 - `npm install -g powerautomate-mcp@latest`. No configuration or permission changes required.
@@ -290,7 +304,7 @@ Focused on making installation work for everyone, not just developers.
   ```json
   { "id": "<env-guid>", "region": "westus", "dataverseUrl": "<org-name>.crm.dynamics.com" }
   ```
-- Fixes [#11](https://github.com/rcb0727/powerautomate-mcp-docs/issues/11)
+- Fixes [#11](https://github.com/rcb0727/powerplatform-mcp-docs/issues/11)
 
 ## [0.9.1] - 2026-05-17
 
@@ -300,7 +314,7 @@ Focused on making installation work for everyone, not just developers.
 ### Upgrade Notes
 - `npm install -g powerautomate-mcp@latest`
 - No re-authentication needed — this fix makes `--setup` work correctly when it previously crashed.
-- Fixes [#10](https://github.com/rcb0727/powerautomate-mcp-docs/issues/10)
+- Fixes [#10](https://github.com/rcb0727/powerplatform-mcp-docs/issues/10)
 
 ## [0.9.0] - 2026-05-13
 
@@ -347,7 +361,7 @@ Focused on making installation work for everyone, not just developers.
 ## [0.7.8] - 2026-04-30
 
 ### Fixed
-- **Setup wizard failed silently when device-code flow was blocked at the tenant**: 0.7.7 fixed the `? undefined` prompt rendering, but on tenants where device-code flow itself is blocked, Microsoft also leaves `userCode` empty. The callback rendered `enter the code (code missing) to authenticate`, MSAL polled the token endpoint and got immediate `invalid_grant`, and the user got the cryptic `post_request_failed` message with no actionable next step. The setup wizard now detects an empty `userCode` and surfaces the three likely root causes in the error message: (1) Conditional Access blocking device-code grants, (2) app registration missing **Allow public client flows** (most common single fix — flip it under Authentication → Advanced settings in Azure Portal), or (3) corporate proxy stripping OAuth response fields. The device-code response shape is also logged at info level (non-PII fields only) so future tenant anomalies are diagnosable straight from `--debug` logs. Continues fixing [#9](https://github.com/rcb0727/powerautomate-mcp-docs/issues/9).
+- **Setup wizard failed silently when device-code flow was blocked at the tenant**: 0.7.7 fixed the `? undefined` prompt rendering, but on tenants where device-code flow itself is blocked, Microsoft also leaves `userCode` empty. The callback rendered `enter the code (code missing) to authenticate`, MSAL polled the token endpoint and got immediate `invalid_grant`, and the user got the cryptic `post_request_failed` message with no actionable next step. The setup wizard now detects an empty `userCode` and surfaces the three likely root causes in the error message: (1) Conditional Access blocking device-code grants, (2) app registration missing **Allow public client flows** (most common single fix — flip it under Authentication → Advanced settings in Azure Portal), or (3) corporate proxy stripping OAuth response fields. The device-code response shape is also logged at info level (non-PII fields only) so future tenant anomalies are diagnosable straight from `--debug` logs. Continues fixing [#9](https://github.com/rcb0727/powerplatform-mcp-docs/issues/9).
 
 ### Upgrade Notes
 - `npm install -g powerautomate-mcp@latest`, then re-run `powerautomate-mcp --setup`. If the new error fires, the most common fix is **Allow public client flows** on your app registration.
@@ -355,7 +369,7 @@ Focused on making installation work for everyone, not just developers.
 ## [0.7.7] - 2026-04-29
 
 ### Fixed
-- **Setup wizard showed `? undefined` instead of the device code on some tenants**: When running `powerautomate-mcp --setup`, the device-code prompt could render as `? undefined` instead of showing the URL and code to enter on `microsoft.com/devicelogin`. With no code visible, the 15-minute window expired and the wizard failed with the misleading error `Failed to authenticate: ... invalid_grant`. Affected tenants tended to be non-English locales and stricter B2B configurations where Microsoft's authentication response did not include the pre-formatted prompt string our code expected. The setup wizard now builds the prompt itself from the user code + verification URL when Microsoft omits it, so the prompt always renders correctly. Fixes [#9](https://github.com/rcb0727/powerautomate-mcp-docs/issues/9).
+- **Setup wizard showed `? undefined` instead of the device code on some tenants**: When running `powerautomate-mcp --setup`, the device-code prompt could render as `? undefined` instead of showing the URL and code to enter on `microsoft.com/devicelogin`. With no code visible, the 15-minute window expired and the wizard failed with the misleading error `Failed to authenticate: ... invalid_grant`. Affected tenants tended to be non-English locales and stricter B2B configurations where Microsoft's authentication response did not include the pre-formatted prompt string our code expected. The setup wizard now builds the prompt itself from the user code + verification URL when Microsoft omits it, so the prompt always renders correctly. Fixes [#9](https://github.com/rcb0727/powerplatform-mcp-docs/issues/9).
 
 ### Upgrade Notes
 - Run `npm install -g powerautomate-mcp@latest`, then re-run `powerautomate-mcp --setup`. No app-registration or permission changes are needed.
@@ -363,9 +377,9 @@ Focused on making installation work for everyone, not just developers.
 ## [0.7.6] - 2026-04-23
 
 ### Fixed
-- **Dataverse URL constructed from environment GUID instead of `domainName`**: `createMcpServer` now resolves the Dataverse hostname at startup by calling the BAP admin API (`GET /providers/Microsoft.BusinessAppPlatform/scopes/admin/environments/{envId}`) and using `properties.linkedEnvironmentMetadata.instanceUrl`. Every Dataverse-dependent tool (`list_dataverse_tables`, `list_solutions`, `query_dataverse_rows`, `create_dataverse_row`, etc.) was failing with `ENOTFOUND <envId>.crm.dynamics.com` on tenants where the org's unique name differs from the environment GUID — i.e. the common case. A `dataverseUrl` override can also be set per environment in `config.json`; the region-based guess is kept only as a last-resort fallback. Fixes [#6](https://github.com/rcb0727/powerautomate-mcp-docs/issues/6).
-- **`get_run_actions` / `cancel_run` / `resubmit_run` rejected valid Power Automate run IDs**: `validateRowId` enforces a strict GUID pattern, but flow run IDs are uppercase alphanumeric (`085842471510537964096537047XXCU11`), not GUIDs. Introduced `validateFlowRunId` (alphanumeric, 10-128 chars) and routed the three run-handling sites through it. Flow-ID / connection-ID / approval-ID validation is unchanged. Fixes [#7](https://github.com/rcb0727/powerautomate-mcp-docs/issues/7).
-- **`list_dataverse_tables` failed with `0x80060888: The query parameter $orderby is not supported`**: Dataverse `EntityDefinitions` rejects `$orderby` (and `$top`) on the metadata collection. Removed the server-side `$orderby` / `$top` params and now sort + cap the result client-side by `LogicalName`. Fixes [#8](https://github.com/rcb0727/powerautomate-mcp-docs/issues/8).
+- **Dataverse URL constructed from environment GUID instead of `domainName`**: `createMcpServer` now resolves the Dataverse hostname at startup by calling the BAP admin API (`GET /providers/Microsoft.BusinessAppPlatform/scopes/admin/environments/{envId}`) and using `properties.linkedEnvironmentMetadata.instanceUrl`. Every Dataverse-dependent tool (`list_dataverse_tables`, `list_solutions`, `query_dataverse_rows`, `create_dataverse_row`, etc.) was failing with `ENOTFOUND <envId>.crm.dynamics.com` on tenants where the org's unique name differs from the environment GUID — i.e. the common case. A `dataverseUrl` override can also be set per environment in `config.json`; the region-based guess is kept only as a last-resort fallback. Fixes [#6](https://github.com/rcb0727/powerplatform-mcp-docs/issues/6).
+- **`get_run_actions` / `cancel_run` / `resubmit_run` rejected valid Power Automate run IDs**: `validateRowId` enforces a strict GUID pattern, but flow run IDs are uppercase alphanumeric (`085842471510537964096537047XXCU11`), not GUIDs. Introduced `validateFlowRunId` (alphanumeric, 10-128 chars) and routed the three run-handling sites through it. Flow-ID / connection-ID / approval-ID validation is unchanged. Fixes [#7](https://github.com/rcb0727/powerplatform-mcp-docs/issues/7).
+- **`list_dataverse_tables` failed with `0x80060888: The query parameter $orderby is not supported`**: Dataverse `EntityDefinitions` rejects `$orderby` (and `$top`) on the metadata collection. Removed the server-side `$orderby` / `$top` params and now sort + cap the result client-side by `LogicalName`. Fixes [#8](https://github.com/rcb0727/powerplatform-mcp-docs/issues/8).
 
 ### Upgrade Notes
 - No action needed for most users — the Dataverse URL is now auto-resolved at startup via the BAP admin API using the existing `https://api.bap.microsoft.com` permission.
@@ -387,7 +401,7 @@ Focused on making installation work for everyone, not just developers.
 ### Upgrade Notes
 - Run `powerautomate-mcp --setup` after updating.
 - For existing app registrations, add **PowerApps Service** and **BAP Admin API** permissions in Entra, then re-grant admin consent.
-- Fixes [#3](https://github.com/rcb0727/powerautomate-mcp-docs/issues/3) and [#4](https://github.com/rcb0727/powerautomate-mcp-docs/issues/4)
+- Fixes [#3](https://github.com/rcb0727/powerplatform-mcp-docs/issues/3) and [#4](https://github.com/rcb0727/powerplatform-mcp-docs/issues/4)
 
 ## [0.7.2] - 2026-03-25
 
@@ -397,7 +411,7 @@ Focused on making installation work for everyone, not just developers.
 
 ### Upgrade Notes
 - Run `powerautomate-mcp --setup` after updating to add BAP API permissions to your existing app registration.
-- Fixes [#4](https://github.com/rcb0727/powerautomate-mcp-docs/issues/4)
+- Fixes [#4](https://github.com/rcb0727/powerplatform-mcp-docs/issues/4)
 
 ## [0.7.1] - 2026-03-23
 

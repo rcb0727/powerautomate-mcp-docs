@@ -1,9 +1,20 @@
 # Power Platform MCP Server
 
-**Docs:** **Overview** · [Installation & Upgrading](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md) · [Changelog](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/CHANGELOG.md) · [Report an issue](https://github.com/rcb0727/powerautomate-mcp-docs/issues)
+**Docs:** **Overview** · [Installation & Upgrading](https://github.com/rcb0727/powerplatform-mcp-docs/blob/main/INSTALL.md) · [Changelog](https://github.com/rcb0727/powerplatform-mcp-docs/blob/main/CHANGELOG.md) · [Report an issue](https://github.com/rcb0727/powerplatform-mcp-docs/issues)
 
-An MCP (Model Context Protocol) server for Microsoft Power Platform — **188 tools** spanning Power Automate flows, canvas app authoring, model-driven apps, SharePoint, Excel, Dataverse/Dynamics 365, Power Pages, and tenant administration. Build, run, diagnose, and govern automations in natural language.
+An MCP (Model Context Protocol) server for Microsoft Power Platform — **216 tools** spanning Power Automate flows, canvas app authoring, model-driven apps, SharePoint, Excel, Dataverse/Dynamics 365, Power Pages, and tenant administration. Build, run, diagnose, and govern automations in natural language.
 
+
+> **How this became a Power Platform server.** It started as a Power Automate
+> MCP — cloud flows, and not much else. What broadened it was other people:
+> issues filed by users who needed Dataverse and DLP tooling, a discussion
+> thread that turned into the connections work, a reported admin-API breakage
+> that led to the whole governance surface, and a lot of troubleshooting
+> against real tenants where the interesting bugs only show up. Power Apps,
+> Power Pages, desktop flows, and work queues each arrived because someone
+> asked or something broke. The npm package is still `powerautomate-mcp` —
+> renaming it would break every existing install — but the scope is the
+> platform now.
 
 Works with any MCP-compatible AI client: **Claude Desktop**, **Claude Code**, **VS Code Copilot**, **Cursor**, **Google Gemini CLI**, and more.
 
@@ -11,15 +22,15 @@ Works with any MCP-compatible AI client: **Claude Desktop**, **Claude Code**, **
 
 | Page | What you'll find |
 |------|------------------|
-| **README** (this page) | [Features](#features) · [Quick Start](#quick-start) · [App Registration](#microsoft-entra-app-registration) · [CLI Reference](#cli-reference) · [How It Works](#how-it-works) · [All 188 Tools](#available-tools-188-total) · [Security](#security) · [Architecture](#architecture) |
-| [Installation Guide](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md) | [Choose your path](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#choose-your-path) · [Easy Path](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#easy-path-3-steps) · [Fast Path](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#fast-path-developers) · [Connect your AI app](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#connecting-your-ai-app) · [**Updating**](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#updating) · [Troubleshooting](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#troubleshooting) · [Glossary](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#glossary) · [Admin & enterprise](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#admin--enterprise-setup) |
-| [Changelog](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/CHANGELOG.md) | Release history with per-version upgrade notes |
-| [Privacy Policy](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/PRIVACY.md) | What runs locally, what talks to Microsoft, what we collect (nothing) |
-| [Issues](https://github.com/rcb0727/powerautomate-mcp-docs/issues) | Bug reports and feature requests — every one gets read |
+| **README** (this page) | [Features](#features) · [Quick Start](#quick-start) · [App Registration](#microsoft-entra-app-registration) · [CLI Reference](#cli-reference) · [How It Works](#how-it-works) · [All 216 Tools](#available-tools-216-total) · [Security](#security) · [Architecture](#architecture) |
+| [Installation Guide](https://github.com/rcb0727/powerplatform-mcp-docs/blob/main/INSTALL.md) | [Choose your path](https://github.com/rcb0727/powerplatform-mcp-docs/blob/main/INSTALL.md#choose-your-path) · [Easy Path](https://github.com/rcb0727/powerplatform-mcp-docs/blob/main/INSTALL.md#easy-path-3-steps) · [Fast Path](https://github.com/rcb0727/powerplatform-mcp-docs/blob/main/INSTALL.md#fast-path-developers) · [Connect your AI app](https://github.com/rcb0727/powerplatform-mcp-docs/blob/main/INSTALL.md#connecting-your-ai-app) · [**Updating**](https://github.com/rcb0727/powerplatform-mcp-docs/blob/main/INSTALL.md#updating) · [Troubleshooting](https://github.com/rcb0727/powerplatform-mcp-docs/blob/main/INSTALL.md#troubleshooting) · [Glossary](https://github.com/rcb0727/powerplatform-mcp-docs/blob/main/INSTALL.md#glossary) · [Admin & enterprise](https://github.com/rcb0727/powerplatform-mcp-docs/blob/main/INSTALL.md#admin--enterprise-setup) |
+| [Changelog](https://github.com/rcb0727/powerplatform-mcp-docs/blob/main/CHANGELOG.md) | Release history with per-version upgrade notes |
+| [Privacy Policy](https://github.com/rcb0727/powerplatform-mcp-docs/blob/main/PRIVACY.md) | What runs locally, what talks to Microsoft, what we collect (nothing) |
+| [Issues](https://github.com/rcb0727/powerplatform-mcp-docs/issues) | Bug reports and feature requests — every one gets read |
 
 ## Features
 
-**188 tools, 22 groups — everything at a glance** (full list with descriptions: [Available Tools](#available-tools-188-total)):
+**216 tools, 22 groups — everything at a glance** (full list with descriptions: [Available Tools](#available-tools-216-total)):
 
 | | | |
 |---|---|---|
@@ -42,7 +53,7 @@ Beyond the tool count:
 - **Power Pages from content to hosting** — edit Dataverse configuration, provision and poll websites, manage domains/certificates/WAF/security, and run supported `pac pages` deployment workflows
 - **Real Solution ALM** — asynchronous solution export/import, component add/remove, clone, and publish-all operations use documented Dataverse actions instead of placeholders
 - **Sign in from the chat** — the `sign_in` tool completes Microsoft device-code auth without a terminal; every action runs under your own work account
-- **Everything annotated** — all 188 tools declare read-only/destructive hints, so AI hosts can apply the right guardrails
+- **Everything annotated** — all 216 tools declare read-only/destructive hints, so AI hosts can apply the right guardrails
 - **Cross-platform** — Windows, macOS, and Linux
 
 ## Install as a Claude Code plugin
@@ -52,7 +63,7 @@ If you use Claude Code, one command installs the server and ten guided skills
 power-pages, dataverse, govern-tenant, report-issue):
 
 ```bash
-/plugin marketplace add rcb0727/powerautomate-mcp-docs
+/plugin marketplace add rcb0727/powerplatform-mcp-docs
 /plugin install powerautomate-mcp@powerautomate-mcp
 ```
 
@@ -72,14 +83,14 @@ powerautomate-mcp --doctor         # 3. confirm everything works
 
 The `--setup` wizard does it all: lets you choose a least-privilege permission set, creates the Entra app registration (or takes one you provide), signs you in, handles admin consent, picks your environment, **and wires the server into your AI app for you** — no hand-editing JSON. Then restart your app and ask it to build a flow.
 
-**Not very technical?** Follow the step-by-step **[Easy Path](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#easy-path-3-steps)** with checkpoints.
+**Not very technical?** Follow the step-by-step **[Easy Path](https://github.com/rcb0727/powerplatform-mcp-docs/blob/main/INSTALL.md#easy-path-3-steps)** with checkpoints.
 
 | Want to… | Do this |
 |----------|---------|
 | Connect a specific app during setup | `powerautomate-mcp --setup --client claude` |
 | Connect an app later (or a second one) | `powerautomate-mcp --client cursor` |
 | Skip the global install | `npx -y powerautomate-mcp@latest --setup` (add `--npx` so your app uses npx too) |
-| Configure your app by hand | [Manual client configs](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#connect-your-ai-app-manually) |
+| Configure your app by hand | [Manual client configs](https://github.com/rcb0727/powerplatform-mcp-docs/blob/main/INSTALL.md#connect-your-ai-app-manually) |
 
 Supported apps: **Claude Desktop**, **Claude Code**, **Cursor**, **VS Code (Copilot)**, **Gemini CLI**, **Windsurf**, **ChatGPT** (via `--http`).
 
@@ -189,7 +200,7 @@ powerautomate-mcp [options]
 ## How It Works
 
 <p align="center">
-  <img src="images/how-it-works-188.svg" alt="PowerPlatform MCP — architecture flow, three example scenarios (simple, moderate, complex), and execution phases" width="700" />
+  <img src="images/architecture.svg" alt="PowerPlatform MCP — architecture flow, three example scenarios (simple, moderate, complex), and execution phases" width="700" />
 </p>
 
 ---
@@ -290,9 +301,9 @@ What parameters does the "Send an email (V2)" action need?
 
 ---
 
-## Available Tools (188 total)
+## Available Tools (216 total)
 
-> Every tool the server exposes, grouped by service. All 188 are listed here.
+> Every tool the server exposes, grouped by service. All 216 are listed here.
 
 <details>
 <summary><strong>Setup & Authentication</strong> (1 tools)</summary>
@@ -703,4 +714,4 @@ Thank you for using this project — it is truly appreciated. Every install, bug
 
 ## Support
 
-For issues and feature requests, please [open an issue](https://github.com/rcb0727/powerautomate-mcp-docs/issues) in this repository. Upgrading? See [Updating safely](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md#updating) and the [Changelog](https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/CHANGELOG.md).
+For issues and feature requests, please [open an issue](https://github.com/rcb0727/powerplatform-mcp-docs/issues) in this repository. Upgrading? See [Updating safely](https://github.com/rcb0727/powerplatform-mcp-docs/blob/main/INSTALL.md#updating) and the [Changelog](https://github.com/rcb0727/powerplatform-mcp-docs/blob/main/CHANGELOG.md).
