@@ -460,6 +460,25 @@ When asked to create or modify a Canvas app, use an existing blank/editable app 
 </details>
 <!-- TOOLS-TABLE:END -->
 
+## Desktop flows (RPA) — operate, don't author
+
+**There is no way to create or edit a desktop flow through this server, and no
+API exists for it.** The definition is Robin script plus companion
+`desktopflowbinary` records; Microsoft documents no write path and their own
+disaster-recovery guidance is to paste the script into the Power Automate for
+desktop designer manually. Never offer to build one.
+
+What to do when a user asks to create one: say authoring happens in Power
+Automate for desktop, then offer what this server does well — run an existing
+flow, watch it, diagnose a failure, check machine health, or set up work
+queues. Moving an authored flow between environments IS supported via
+`export_solution` / `import_solution`.
+
+Runs are asynchronous: `run_desktop_flow` returns a session id immediately;
+poll `get_desktop_flow_run`. Attended runs need Premium on the connection
+owner; unattended additionally need a Process license on the machine — the
+tools name which one is missing.
+
 ## Critical Rules
 
 1. **ALWAYS test after changes** - Never assume success
