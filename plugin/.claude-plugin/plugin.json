@@ -1,0 +1,8 @@
+{
+  "name": "powerautomate-mcp",
+  "description": "Power Platform from your AI client: build and debug cloud flows, manage connections, run desktop flows (RPA) and work queues, and administer Dataverse, Power Pages, and tenant governance.",
+  "version": "0.16.0",
+  "author": { "name": "rcb0727" },
+  "homepage": "https://github.com/rcb0727/powerautomate-mcp-docs#readme",
+  "keywords": ["power-platform", "power-automate", "dataverse", "power-pages", "rpa", "mcp"]
+}

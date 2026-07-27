@@ -1,0 +1,17 @@
+{
+  "name": "powerautomate-mcp",
+  "owner": {
+    "name": "rcb0727",
+    "url": "https://github.com/rcb0727/powerautomate-mcp-docs"
+  },
+  "metadata": {
+    "description": "Power Platform from your AI client — 216 tools across Power Automate, Dataverse, SharePoint, Power Apps, Power Pages, desktop flows (RPA), and tenant governance.",
+    "pluginRoot": "."
+  },
+  "plugins": [
+    {
+      "name": "powerautomate-mcp",
+      "source": "./plugin"
+    }
+  ]
+}

@@ -45,6 +45,21 @@ Beyond the tool count:
 - **Everything annotated** — all 188 tools declare read-only/destructive hints, so AI hosts can apply the right guardrails
 - **Cross-platform** — Windows, macOS, and Linux
 
+## Install as a Claude Code plugin
+
+If you use Claude Code, one command installs the server and ten guided skills
+(setup, build-flow, debug-flow, manage-connections, desktop-flows, work-queues,
+power-pages, dataverse, govern-tenant, report-issue):
+
+```bash
+/plugin marketplace add rcb0727/powerautomate-mcp-docs
+/plugin install powerautomate-mcp@powerautomate-mcp
+```
+
+The plugin runs the server via `npx`, so there is nothing else to install. You
+still run `powerautomate-mcp --setup` once to sign in — or use the in-chat
+`sign_in` tool if you'd rather not open a terminal.
+
 ## Quick Start
 
 Three commands — run them in a terminal:

@@ -1,0 +1,23 @@
+name: Feature request
+description: Suggest a capability or improvement
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What are you trying to do?
+      description: Describe the task, not the solution — it often turns out an existing tool already covers it.
+    validations:
+      required: true
+  - type: textarea
+    id: today
+    attributes:
+      label: How do you do it today?
+      description: Portal clicks, a script, or not at all.
+    validations:
+      required: true
+  - type: input
+    id: api
+    attributes:
+      label: Known Microsoft API (optional)
+      description: A learn.microsoft.com link, if you know the API behind it. This server only builds on documented surfaces, so a link makes it far more likely to happen.

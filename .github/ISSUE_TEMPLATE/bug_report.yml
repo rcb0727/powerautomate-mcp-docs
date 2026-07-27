@@ -1,0 +1,52 @@
+name: Bug report
+description: Something behaves incorrectly or errors unexpectedly
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before filing, check whether this is a **configuration** issue rather than a defect — these are the common ones and none of them need an issue:
+
+        - `AADSTS65001` / "consent missing" — an Entra admin must grant the permission. Re-running `--setup` cannot fix it.
+        - `403` on Dataverse, desktop flow, or work queue tools — the Dynamics CRM delegated permission is missing.
+        - A connection error mentioning an expired token — run `fix_connection`.
+        - A tool missing entirely — its feature is off in your permission profile; re-run `--setup` and pick a wider one.
+
+        `powerautomate-mcp --doctor` prints most of what's asked below.
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Output of `powerautomate-mcp --version`
+      placeholder: "0.16.0"
+    validations:
+      required: true
+  - type: input
+    id: tool
+    attributes:
+      label: Which tool
+      placeholder: "run_desktop_flow"
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: What happened
+      description: Paste the exact error. Redact tenant IDs, tokens, and personal data.
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, Node version, and which AI client you're using
+      placeholder: "macOS 15 · Node 22.19 · Claude Desktop"
+    validations:
+      required: true

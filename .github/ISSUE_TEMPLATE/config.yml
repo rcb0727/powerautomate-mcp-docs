@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Installation and setup help
+    url: https://github.com/rcb0727/powerautomate-mcp-docs/blob/main/INSTALL.md
+    about: Setup wizard, permissions, admin consent, and troubleshooting
+  - name: Ask a question
+    url: https://github.com/rcb0727/powerautomate-mcp-docs/discussions
+    about: Usage questions and ideas that aren't bug reports

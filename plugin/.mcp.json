@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "powerautomate": {
+      "command": "npx",
+      "args": ["-y", "powerautomate-mcp"]
+    }
+  }
+}
