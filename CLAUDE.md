@@ -554,24 +554,6 @@ reason a build stalls halfway.
 5. Use trigger conditions to filter high-volume triggers
 
 
-## Project state (0.16.0)
-
-**Named for what it covers.** This started as a Power Automate MCP and grew
-into a Power Platform one. The repos are `powerplatform-mcp-docs` (this one)
-and the code repo; **the npm package stays `powerautomate-mcp`** — renaming it
-would break every existing install.
-
-**216 tools.** Beyond cloud flows: desktop flows (RPA) with runs, machines and
-diagnostics; the full work-queue lifecycle; connection lifecycle; Dataverse
-CRUD and solution ALM; SharePoint/Excel/OneDrive; Power Apps and canvas source
-authoring; model-driven apps; Power Pages configuration and hosting; tenant
-governance.
-
-**Auth: app registration is the default.** Signing in through a dedicated Entra
-app registration keeps permissions explicit, auditable, and revocable per-app —
-an admin can see exactly what this server may do and withdraw it without
-affecting anything else.
-
 ## Live-validation lessons (do not relearn these)
 
 Doc-derived code against Microsoft APIs has a meaningful defect rate. Every

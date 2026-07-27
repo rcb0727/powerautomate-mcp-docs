@@ -34,32 +34,31 @@ the user's time and the maintainer's:
 Say which one you think it is and let the user decide. If they still want to
 file, file it.
 
-## Write the report
-
-Keep it to what a maintainer needs:
-
-```
-**What I did**
-<tool> with <arguments, redacted>
-
-**What I expected**
-<one line>
-
-**What happened**
-<exact error text, in a code block>
-
-**Environment**
-powerautomate-mcp <version> · Node <version> · <OS> · <AI client>
-```
-
 ## File it
 
-Build a pre-filled URL and give it to the user to open — do not try to post on
-their behalf, and do not assume the `gh` CLI is installed:
+The repo uses GitHub **issue forms**, so the user gets a structured form with
+labelled fields rather than a blank text box. Prefill it by passing each
+field's id as a query parameter — do not build a `?body=` link, which bypasses
+the form and opens a blank issue instead.
+
+Build this URL, URL-encoding each value, and give it to the user to open:
 
 ```
-https://github.com/rcb0727/powerplatform-mcp-docs/issues/new?title=<url-encoded title>&body=<url-encoded body>
+https://github.com/rcb0727/powerplatform-mcp-docs/issues/new
+  ?template=bug_report.yml
+  &version=<powerautomate-mcp version>
+  &tool=<tool name>
+  &expected=<one line>
+  &actual=<the exact error>
+  &environment=<OS · Node version · AI client>
 ```
 
-Tell them to review it before submitting, since the body may contain
-environment details they would rather redact.
+(as a single line, no spaces or newlines in the actual URL).
+
+The five parameters map to the form's fields: `version`, `tool`, `expected`,
+`actual`, `environment`. For a feature request use `template=feature_request.yml`
+with `problem`, `today`, and optionally `api`.
+
+Tell the user to review the form before submitting — the environment field may
+contain details they would rather redact, and everything is editable in the
+browser.
