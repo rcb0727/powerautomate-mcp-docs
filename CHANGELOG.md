@@ -8,6 +8,7 @@
 
 | Version | Date | Highlights |
 |---------|------|------------|
+| [0.16.2](#0162---2026-07-28) | 2026-07-28 | **Full error messages + security patch** — API error messages are no longer clipped mid-sentence (the part that tells you the fix now survives, e.g. allowed enum values) · `ip-address` SSRF advisory closed (SNYK-JS-IPADDRESS-18343249); `npm audit` 0 vulnerabilities |
 | [0.16.1](#0161---2026-07-27) | 2026-07-27 | **Manual flow runs fixed** — `run_flow` and `test_flow` can now start a manual/button flow whose trigger schema has required inputs; previously every such run was rejected with `TriggerInputSchemaMismatch` |
 | [0.16.0](#0160---2026-07-26) | 2026-07-26 | **188 → 216 tools, and a new name.** Desktop flows (RPA) end to end — run, monitor, cancel, diagnose, machines, and full work-queue support · **connections you can create, test, and repair** from chat · undo a bad flow edit with version restore, and replay a failure with the payload that caused it · preview a change before it lands · **ten guided skills** and a one-command Claude Code plugin · repos renamed to Power Platform · a security patch and a large code-quality pass |
 | [0.15.1](#0151---2026-07-26) | 2026-07-26 | **Security patch** — `@hono/node-server` moved to 2.x (High-severity Windows path traversal in its static-file code, transitive via the MCP SDK; that code path is never used by this server, so this closes the scanner finding). `npm audit`: 0 vulnerabilities |
@@ -37,6 +38,11 @@
 | [0.7.6](#076---2026-04-23) | 2026-04-23 | Dataverse URL auto-resolution, flow run-ID validation, `$orderby` fix ([#6](https://github.com/rcb0727/powerplatform-mcp-docs/issues/6), [#7](https://github.com/rcb0727/powerplatform-mcp-docs/issues/7), [#8](https://github.com/rcb0727/powerplatform-mcp-docs/issues/8)) |
 
 Older releases are documented below in full.
+
+## [0.16.2] - 2026-07-28
+
+- **API error messages are no longer clipped before the useful part.** Error extraction stopped at the first escaped quote inside a message and then truncated to 100–200 characters — so an error like `requires the property 'scopeType' to be set to one of its defined enum values '["user","meeting","adhocCallUser"]'` reached you as `...enum values '[`, hiding exactly the part that tells you the fix. Error bodies are now parsed properly (including nested and stringified forms) across `create_flow`, `update_flow`, `build_flow` and the shared error formatter, with truncation raised to 2,000 characters. Fourteen regression tests reconstruct the live failure and assert the actionable text survives end to end.
+- **Security: `ip-address` SSRF advisory closed** ([SNYK-JS-IPADDRESS-18343249](https://security.snyk.io/vuln/SNYK-JS-IPADDRESS-18343249), CWE-918, Medium). The override floor moved to `^10.2.1` and the lockfile now resolves `10.3.1` (transitive via the MCP SDK). This server never used the affected `Address6` classification methods, so this closes the scanner finding rather than a live exposure. `npm audit`: 0 vulnerabilities.
 
 ## [0.16.1] - 2026-07-27
 
