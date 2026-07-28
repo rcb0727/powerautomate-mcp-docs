@@ -8,6 +8,7 @@
 
 | Version | Date | Highlights |
 |---------|------|------------|
+| [0.16.1](#0161---2026-07-27) | 2026-07-27 | **Manual flow runs fixed** — `run_flow` and `test_flow` can now start a manual/button flow whose trigger schema has required inputs; previously every such run was rejected with `TriggerInputSchemaMismatch` |
 | [0.16.0](#0160---2026-07-26) | 2026-07-26 | **188 → 216 tools, and a new name.** Desktop flows (RPA) end to end — run, monitor, cancel, diagnose, machines, and full work-queue support · **connections you can create, test, and repair** from chat · undo a bad flow edit with version restore, and replay a failure with the payload that caused it · preview a change before it lands · **ten guided skills** and a one-command Claude Code plugin · repos renamed to Power Platform · a security patch and a large code-quality pass |
 | [0.15.1](#0151---2026-07-26) | 2026-07-26 | **Security patch** — `@hono/node-server` moved to 2.x (High-severity Windows path traversal in its static-file code, transitive via the MCP SDK; that code path is never used by this server, so this closes the scanner finding). `npm audit`: 0 vulnerabilities |
 | [0.15.0](#0150---2026-07-21) | 2026-07-21 | **122 → 188 tools** — author canvas app source live in Power Apps Studio (preview) · full model-driven app lifecycle (create, components, validate, publish, roles) · complete Power Pages management (domains, certificates, SSL, WAF, security scans, lifecycle) · `pac pages` command wrappers · real Solution ALM operations · **Security** — `fast-uri` patched (host-check bypass) |
@@ -36,6 +37,10 @@
 | [0.7.6](#076---2026-04-23) | 2026-04-23 | Dataverse URL auto-resolution, flow run-ID validation, `$orderby` fix ([#6](https://github.com/rcb0727/powerplatform-mcp-docs/issues/6), [#7](https://github.com/rcb0727/powerplatform-mcp-docs/issues/7), [#8](https://github.com/rcb0727/powerplatform-mcp-docs/issues/8)) |
 
 Older releases are documented below in full.
+
+## [0.16.1] - 2026-07-27
+
+- **`run_flow` and `test_flow` could not start any manual flow whose trigger schema has required fields.** Both tools wrapped your inputs as `{ "body": { ... } }` before posting them to the flow's run endpoint, but Power Automate validates that payload directly against the trigger's input schema — so a Button/manual flow with a required input was always rejected with `TriggerInputSchemaMismatch`, no matter what you passed. The wrapper dated back to v0.1.0. Request triggers (Button, HTTP, PowerApps) now receive the payload flat, exactly as the schema expects; other trigger types keep their previous behavior. Reproduced and verified against a live flow with a required input; five regression tests pin the wire shape so it can't quietly come back.
 
 ## [0.16.0] - 2026-07-26
 
