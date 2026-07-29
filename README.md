@@ -1,5 +1,7 @@
 # Power Platform MCP Server
 
+[![npm version](https://img.shields.io/npm/v/powerautomate-mcp?label=npm&color=cb3837)](https://www.npmjs.com/package/powerautomate-mcp) [![downloads](https://img.shields.io/npm/dm/powerautomate-mcp?color=blue)](https://www.npmjs.com/package/powerautomate-mcp)
+
 **Docs:** **Overview** · [Installation & Upgrading](https://github.com/rcb0727/powerplatform-mcp-docs/blob/main/INSTALL.md) · [Changelog](https://github.com/rcb0727/powerplatform-mcp-docs/blob/main/CHANGELOG.md) · [Report an issue](https://github.com/rcb0727/powerplatform-mcp-docs/issues)
 
 An MCP (Model Context Protocol) server for Microsoft Power Platform — **216 tools** spanning Power Automate flows, canvas app authoring, model-driven apps, SharePoint, Excel, Dataverse/Dynamics 365, Power Pages, and tenant administration. Build, run, diagnose, and govern automations in natural language.
