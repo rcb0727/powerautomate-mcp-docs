@@ -34,10 +34,17 @@ Terms
 4. Attribution. Keep the copyright notice above in all copies and
    substantial portions of the Software.
 
-5. Termination. This license terminates automatically if you breach
+5. Third-Party Services. This license covers this software only.
+   Microsoft services, APIs, and trademarks accessed through the
+   Software belong to Microsoft and are governed by your own
+   agreements with Microsoft. Use of the Software requires
+   appropriately licensed access to those services. This is an
+   independent project, not affiliated with or endorsed by Microsoft.
+
+6. Termination. This license terminates automatically if you breach
    its terms.
 
-6. Disclaimer. THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF
+7. Disclaimer. THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF
    ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
    WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
    NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
