@@ -8,6 +8,7 @@
 
 | Version | Date | Highlights |
 |---------|------|------------|
+| [0.16.3](#0163---2026-07-29) | 2026-07-29 | **New license — Free for the People License 1.0**: free to use, study, modify, and share — it just stays free (no selling or monetizing it, or forks of it). Versions 0.16.2 and earlier remain MIT |
 | [0.16.2](#0162---2026-07-28) | 2026-07-28 | **Full error messages + security patch** — API error messages are no longer clipped mid-sentence (the part that tells you the fix now survives, e.g. allowed enum values) · `ip-address` SSRF advisory closed (SNYK-JS-IPADDRESS-18343249); `npm audit` 0 vulnerabilities |
 | [0.16.1](#0161---2026-07-27) | 2026-07-27 | **Manual flow runs fixed** — `run_flow` and `test_flow` can now start a manual/button flow whose trigger schema has required inputs; previously every such run was rejected with `TriggerInputSchemaMismatch` |
 | [0.16.0](#0160---2026-07-26) | 2026-07-26 | **188 → 216 tools, and a new name.** Desktop flows (RPA) end to end — run, monitor, cancel, diagnose, machines, and full work-queue support · **connections you can create, test, and repair** from chat · undo a bad flow edit with version restore, and replay a failure with the payload that caused it · preview a change before it lands · **ten guided skills** and a one-command Claude Code plugin · repos renamed to Power Platform · a security patch and a large code-quality pass |
@@ -38,6 +39,10 @@
 | [0.7.6](#076---2026-04-23) | 2026-04-23 | Dataverse URL auto-resolution, flow run-ID validation, `$orderby` fix ([#6](https://github.com/rcb0727/powerplatform-mcp-docs/issues/6), [#7](https://github.com/rcb0727/powerplatform-mcp-docs/issues/7), [#8](https://github.com/rcb0727/powerplatform-mcp-docs/issues/8)) |
 
 Older releases are documented below in full.
+
+## [0.16.3] - 2026-07-29
+
+- **License changed from MIT to the Free for the People License 1.0.** The software stays free for everyone — use it, study it, modify it, share it, including at work. The one rule: it stays free. Selling or otherwise monetizing the software, or any fork of it, is not permitted, and every shared copy carries the same terms. Nothing changes about how you install or use it. Versions 0.16.2 and earlier remain under MIT.
 
 ## [0.16.2] - 2026-07-28
 

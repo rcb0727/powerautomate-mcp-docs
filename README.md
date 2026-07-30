@@ -757,7 +757,7 @@ AI Client <--stdio/http--> powerautomate-mcp
 
 ## License
 
-[Free Use License 1.0](LICENSE) — free of charge to install and use, including at work. Selling, redistributing, modifying, or otherwise monetizing the software is not permitted. Versions published before this change remain MIT.
+[Free for the People License 1.0](LICENSE) — free to use, study, modify, and share, including at work. One rule: it stays free. Selling or monetizing the software (or forks of it) is not permitted, and every copy carries the same terms. Versions published before this change remain MIT.
 
 ## A Note of Thanks
 
