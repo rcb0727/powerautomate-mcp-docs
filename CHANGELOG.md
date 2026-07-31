@@ -8,6 +8,7 @@
 
 | Version | Date | Highlights |
 |---------|------|------------|
+| [0.16.4](#0164---2026-07-30) | 2026-07-30 | **Team rollout + quiet sign-in + new license** — setup auto-discovers an IT-provisioned `org.json` (no Client ID to paste; new `--emit-org-config` generates it) · `--login`/`--setup` no longer bury the device-code prompt in log lines · license: MIT → Community License 1.0 (0.16.2 and earlier remain MIT). *There is no 0.16.3 — the number was retired by npm's unpublish policy* |
 | [0.16.2](#0162---2026-07-28) | 2026-07-28 | **Full error messages + security patch** — API error messages are no longer clipped mid-sentence (the part that tells you the fix now survives, e.g. allowed enum values) · `ip-address` SSRF advisory closed (SNYK-JS-IPADDRESS-18343249); `npm audit` 0 vulnerabilities |
 | [0.16.1](#0161---2026-07-27) | 2026-07-27 | **Manual flow runs fixed** — `run_flow` and `test_flow` can now start a manual/button flow whose trigger schema has required inputs; previously every such run was rejected with `TriggerInputSchemaMismatch` |
 | [0.16.0](#0160---2026-07-26) | 2026-07-26 | **188 → 216 tools, and a new name.** Desktop flows (RPA) end to end — run, monitor, cancel, diagnose, machines, and full work-queue support · **connections you can create, test, and repair** from chat · undo a bad flow edit with version restore, and replay a failure with the payload that caused it · preview a change before it lands · **ten guided skills** and a one-command Claude Code plugin · repos renamed to Power Platform · a security patch and a large code-quality pass |
@@ -38,6 +39,14 @@
 | [0.7.6](#076---2026-04-23) | 2026-04-23 | Dataverse URL auto-resolution, flow run-ID validation, `$orderby` fix ([#6](https://github.com/rcb0727/powerplatform-mcp-docs/issues/6), [#7](https://github.com/rcb0727/powerplatform-mcp-docs/issues/7), [#8](https://github.com/rcb0727/powerplatform-mcp-docs/issues/8)) |
 
 Older releases are documented below in full.
+
+## [0.16.4] - 2026-07-30
+
+> Numbering note: 0.16.3 was published and then unpublished within hours; npm permanently retires unpublished version numbers, so its contents (the license change) ship here instead. There is no installable 0.16.3.
+
+- **Organization rollout: setup finds your org's app registration automatically.** When IT has already created the app registration, every additional user was asked to paste its Client ID by hand. Setup now also looks for a machine-wide `org.json` — `%ProgramData%\powerautomate-mcp\` (Windows), `/Library/Application Support/powerautomate-mcp/` (macOS), `/etc/powerautomate-mcp/` (Linux), or an explicit `PA_MCP_ORG_CONFIG` path — and when found, uses its `clientId`/`tenantId` and goes straight to sign-in with nothing to type. New `--emit-org-config` prints that file from a working setup (JSON to stdout, deployment instructions to stderr) so IT can generate it once and push it with Intune, GPO, or Jamf. Validation fails closed: a malformed file is ignored with a warning, and the discovered source path is always shown. The org path never invokes the Azure CLI — consent was already granted by whoever provisioned the app.
+- **Sign-in output is quiet now.** `--login` and `--setup` interleaved internal log lines (auth-flow progress, device-code response diagnostics) with the device-code prompt. Interactive CLI commands now log at warn level, so the prompt is what you see; warnings and errors still surface, and an explicit `LOG_LEVEL` or `--debug` restores the full stream. MCP server mode logging is unchanged.
+- **License changed from MIT to the Community License 1.0.** The software stays free for everyone — use it, study it, modify it, share it, including at work. The one rule: it stays free. Selling or otherwise monetizing the software, or any fork of it, is not permitted, and every shared copy carries the same terms. Nothing changes about how you install or use it. Versions 0.16.2 and earlier remain under MIT.
 
 ## [0.16.2] - 2026-07-28
 
