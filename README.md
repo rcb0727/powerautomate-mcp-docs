@@ -102,7 +102,7 @@ Supported apps: **Claude Desktop**, **Claude Code**, **Cursor**, **VS Code (Copi
 
 ## Microsoft Entra App Registration
 
-The setup wizard (`--setup`) creates the app registration automatically if you have Azure CLI installed. No manual steps required for most users.
+The setup wizard (`--setup`) detects your situation and only asks when it can't know: it looks for an existing setup, your organization's `org.json`, or an app visible through an already-signed-in Azure CLI — and if nothing is found, asks exactly one question: **paste your Client ID, or press Enter to create a new app registration**. Creating (the IT/first-person path) signs into Azure, registers the app with only the permissions you pick, and grants org-wide admin consent when your account is allowed to.
 
 > **New tenants work too** (v0.13.0+): if your tenant has never used Power Platform, setup creates the missing first-party service principals and resolves the permission ids your tenant actually publishes — the old `AADSTS650052` / `AADSTS65006` sign-in failures repair themselves on a re-run of `--setup`.
 
@@ -110,16 +110,15 @@ The setup wizard (`--setup`) creates the app registration automatically if you h
 
 | Role | Action |
 |------|--------|
-| Entra ID admin with Azure CLI | Run `powerautomate-mcp --setup` — everything is automated |
-| Entra ID admin without Azure CLI | Run `--setup`, paste your app's Client ID when prompted, grant admin consent |
-| Non-admin user | Run `--setup`, then ask an admin (see roles below) to approve the consent URL shown |
-| End users (after admin setup) | Just run `powerautomate-mcp --setup` |
+| IT / first person at the org | Run `--setup`, press **Enter** to create the app, then `--emit-org-config` to hand the rollout to MDM |
+| Someone with a Client ID from IT | Run `--setup`, paste it — it's verified against Microsoft on the spot |
+| Everyone else (org already deployed) | Nothing — with the org file on the machine, the first in-chat `sign_in` is the whole onboarding |
 
-> **Tip:** You can also set `PA_MCP_CLIENT_ID` as an environment variable to skip the prompt entirely.
+> **Rolling out to a team?** See [Mass deployment](INSTALL.md#mass-deployment-intune--gpo--jamf) — IT sets up once, pushes `org.json` machine-wide, and users never see a wizard. `PA_MCP_CLIENT_ID` as an environment variable also works for host-managed installs.
 
 ### Admin Consent
 
-When the Azure CLI is signed in as an admin, the wizard offers to grant tenant-wide consent directly (v0.13.0+) — no browser round-trip. Otherwise it presents the admin consent URL and auto-opens it in your browser. Any of these Entra ID roles can grant consent: **Global Administrator**, **Application Administrator**, **Cloud Application Administrator**, or **Privileged Role Administrator**. If you don't have one of these roles, share the URL with your admin:
+Consent is verified by doing, not asked about: the wizard attempts sign-in, and only if Microsoft reports the app isn't approved (AADSTS65001) does the approval link appear. On the create path, tenant-wide consent is granted automatically when the signed-in Azure CLI account holds an admin role. Any of these Entra ID roles can approve: **Global Administrator**, **Application Administrator**, **Cloud Application Administrator**, or **Privileged Role Administrator**. If you don't have one of these roles, share the URL with your admin:
 
 ```
 https://login.microsoftonline.com/{tenant-id}/adminconsent?client_id=YOUR_CLIENT_ID
@@ -179,6 +178,7 @@ powerautomate-mcp [options]
 | `--doctor` | Check your setup and print exactly what to fix, then exit |
 | `--validate` | Verify config, auth, and API connectivity then exit |
 | `--client <name>` | Wire an AI app's config to this server, then exit (`claude`, `claude-code`, `codex`/`chatgpt`, `cursor`, `vscode`, `gemini`, `windsurf`) |
+| `--emit-org-config` | Print an `org.json` from your working setup for IT to push machine-wide — coworkers' setup finds the app automatically ([Mass deployment](INSTALL.md#mass-deployment-intune--gpo--jamf)) |
 | `--npx` | With `--setup`/`--client`, configure the app to run via `npx` (no global install) |
 | `--update` | Check for updates and install the latest version |
 | `--version`, `-v` | Print version and exit |
@@ -196,6 +196,7 @@ powerautomate-mcp [options]
 | `PA_MCP_TENANT_ID` | Microsoft Entra tenant ID or domain (overrides config file) |
 | `PA_MCP_ENVIRONMENT_ID` | Power Platform environment ID for the env-var config bootstrap |
 | `PA_MCP_ENVIRONMENT_REGION` | Azure region for the bootstrapped environment (default `unitedstates`) |
+| `PA_MCP_ORG_CONFIG` | Explicit path to an organization `org.json` (default locations: `%ProgramData%\powerautomate-mcp\`, `/Library/Application Support/powerautomate-mcp/`, `/etc/powerautomate-mcp/`). With an `environmentId` pinned, the server boots from it with no per-user config at all |
 | `PA_CONFIG_PATH` | Custom path to config.json |
 | `PA_MCP_HTTP_TOKEN` | With `--http`: require `Authorization: Bearer <token>` on every MCP request. Protects the HTTP endpoint itself (the tools run with *your* signed-in account) — required whenever the server is exposed beyond your own machine. See [Installation → ChatGPT](INSTALL.md) |
 

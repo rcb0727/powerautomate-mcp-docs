@@ -82,15 +82,19 @@ npm install -g powerautomate-mcp
 powerautomate-mcp --setup
 ```
 
-A wizard starts and walks you through seven steps. For most people it's three answers: pick a permission preset (or press Enter), sign in, and confirm your AI app. Here's the full picture:
+A wizard starts. It works out your situation first and only asks a question when it genuinely can't know the answer:
 
-1. **Choose permissions** — plain-language presets: **Everyday automation** (recommended — flows, connections, SharePoint/Excel files), **Everything**, **Flows only**, **Everyday + Dynamics 365 data**, **Power Pages**, or **Custom**. Pick only what you'll use — smaller presets mean a smaller approval for your IT admin. You can run setup again later to add more.
-2. **App registration** — it tries to create this for you automatically with only the selected permissions. **Heads-up:** the automatic path needs a developer tool called *Azure CLI*. If you don't have it (most people don't), the wizard asks whether you already have a **Client ID** from IT. If you don't, it prints a ready-to-send message for your IT team and exits cleanly — your progress is saved, and re-running setup picks up where you left off.
-3. **Sign in** — your browser opens. Log in with your **work** account. If it shows an account picker, choose your company email (e.g. `you@yourcompany.com`), not a personal one.
-4. **Admin consent** — the wizard asks whether you can approve it yourself. Admins get the approval page in their browser; everyone else gets a copy-paste request for IT, and the wizard can re-check on the spot once IT approves (or exit cleanly and resume later).
-5. **Pick your environment** — if you only have one (most people), it's selected automatically. Otherwise type the number next to the one you want (the recommended one is marked ⭐).
-6. **Save** — it writes your settings automatically, including which feature scopes are enabled.
-7. **Connect your AI app** — the wizard looks for AI apps installed on your machine. If it finds exactly one, it's a single yes/no; otherwise detected apps are listed first (marked "detected") — type a number. It wires itself up — no JSON editing.
+> **Already deployed at your organization?** If IT pushed the org file to your machine, there may be nothing to set up at all — your AI app's first request shows a sign-in code in the chat, and that's your entire onboarding. Running `--setup` still works and skips straight to sign-in.
+
+The five steps:
+
+1. **Find your app** — the wizard looks for an existing setup automatically: a saved config, your organization's `org.json`, or an app it can see through an already-signed-in Azure CLI. Found → nothing to type. Not found → one question: **paste the Client ID** your IT team gave you (it's checked against Microsoft on the spot, so a typo fails in seconds), or **press Enter to create a new app registration**. The create path is for IT or the first person at an org: it picks a permission preset (**Everyday automation** recommended — press Enter to accept), signs into Azure, creates the app with only those permissions, and grants org-wide admin consent when your account is allowed to.
+2. **Sign in** — a device code is shown; open the link on any device and log in with your **work** account. Admin consent is verified by *doing*: only if Microsoft reports the app isn't approved yet do you see the approval link (or a ready-to-send IT request). Approved apps never show a consent step.
+3. **Pick your environment** — if you only have one (most people), it's selected automatically. Otherwise type the number next to the one you want (the recommended one is marked ⭐).
+4. **Save** — it writes your settings automatically, including which feature scopes are enabled.
+5. **Connect your AI app** — the wizard looks for AI apps installed on your machine. If it finds exactly one, it's a single yes/no; otherwise detected apps are listed first (marked "detected") — type a number. It wires itself up — no JSON editing.
+
+Setup ends by handing IT the rollout: `powerautomate-mcp --emit-org-config` generates the org file that makes every other machine's setup automatic — see [Mass deployment](#mass-deployment-intune--gpo--jamf).
 
 Setup finishes by **verifying everything end to end** — config, persisted sign-in, and a live Power Automate call — before showing the banner.
 
@@ -100,13 +104,13 @@ Setup finishes by **verifying everything end to end** — config, persisted sign
 
 #### Admin consent: what to do
 
-Power Automate MCP needs a one-time approval ("admin consent") for your organization. **Most employees aren't admins** — that's expected, and the wizard is built for it: tell it you can't approve, and it prints a ready-to-send message for your IT helpdesk with the approval link included. You can wait in the wizard and press Enter to re-check the moment IT says it's done, or type `q` to finish later — your progress is saved either way, and re-running `powerautomate-mcp --setup` picks up where you left off.
+Approval ("admin consent") is a one-time, organization-wide action — and the wizard never quizzes you about it up front. It simply attempts sign-in; only if Microsoft reports the app isn't approved does the approval link appear. Admins: open the link, approve, press Enter to retry. Everyone else: type `q` and the wizard prints a ready-to-send message for your IT helpdesk with the link included — your progress is saved, and re-running `powerautomate-mcp --setup` picks up where you left off.
 
 (Only a Global, Application, Cloud Application, or Privileged Role admin can approve — IT will know who that is.)
 
 #### Getting a Client ID from IT
 
-If the wizard asks whether you have a **Client ID** and you don't, answer "no" — it prints a ready-to-send message for your IT department covering everything they need to do (create the app registration, send you the Client ID, grant consent), with a pointer to [Admin & enterprise setup](#admin--enterprise-setup). Once IT sends you the ID, run `powerautomate-mcp --setup` again and paste it when asked.
+If the wizard finds nothing and you don't have a **Client ID**, type `q` at the prompt — it prints a ready-to-send message for your IT department covering everything they need to do (create the app registration, send you the Client ID, grant consent), with a pointer to [Admin & enterprise setup](#admin--enterprise-setup). Once IT sends you the ID, run `powerautomate-mcp --setup` again and paste it — the wizard verifies the ID against Microsoft immediately, so a typo fails on the spot instead of at the sign-in screen.
 
 ### Step 3 — Confirm it works
 
@@ -405,6 +409,35 @@ If your tenant **requires admin consent for all applications** (most enterprises
    https://login.microsoftonline.com/{tenant-id}/adminconsent?client_id={your-client-id}
    ```
 
-3. Have users run `powerautomate-mcp --setup`. Distribute the Client ID via the `PA_MCP_CLIENT_ID` environment variable so they don't have to paste it.
+3. Have users run `powerautomate-mcp --setup`. Distribute the Client ID via an `org.json` file (see [Mass deployment](#mass-deployment-intune--gpo--jamf) below — users then type nothing at all) or the `PA_MCP_CLIENT_ID` environment variable.
 
 Skipped feature scopes are recorded in `features.enabled`; their tools are hidden and their auth checks are skipped. Without the PowerApps Service permission, connector and Power Apps tools are unavailable. Without the BAP Admin API permission, admin tools and Dataverse URL auto-discovery are unavailable.
+
+## Mass deployment (Intune / GPO / Jamf)
+
+Rolling out to a whole team means IT does everything once, and every other user's onboarding is a single sign-in from chat — no terminal, no wizard, no Client ID.
+
+**One time, on your own machine (IT):**
+
+1. Run `powerautomate-mcp --setup` and press **Enter** at the app prompt to create the registration — the wizard signs into Azure, creates the app with only the permissions you pick, and grants organization-wide admin consent (your admin role permitting). Pick the environment your team uses.
+2. Run `powerautomate-mcp --emit-org-config > org.json`. The file carries the app's Client ID, your tenant, and the chosen environment — everything a fresh machine needs, and nothing secret (identifiers only, no credentials).
+
+**Per machine, through your management tool:**
+
+| Artifact | How |
+|----------|-----|
+| Runtime | Node.js 22+ plus `npm install -g powerautomate-mcp` (machine-wide script step) |
+| `org.json` | Windows: `%ProgramData%\powerautomate-mcp\org.json` · macOS: `/Library/Application Support/powerautomate-mcp/org.json` · Linux: `/etc/powerautomate-mcp/org.json` |
+| AI app wiring | Per user: `powerautomate-mcp --client claude` (or `cursor`, `vscode`, …) in a login script — writes the app's MCP config only, needs no sign-in — or push the config file itself |
+
+**Per user: nothing.** With the org file present, the MCP server starts without any per-user setup. The first time they ask their AI app to do something real, it shows a Microsoft sign-in code right in the chat (the `sign_in` tool); they enter it on any device and they're working. Running `powerautomate-mcp --setup` also works — it finds the org file and skips straight to sign-in.
+
+**Before rollout, check Conditional Access.** Sign-in uses Microsoft's device-code flow. If your tenant's Conditional Access policies block device-code grants, allow them for this app first — otherwise every user's sign-in fails identically on day one.
+
+**Operations afterward:**
+
+- **Kill switch** — disable the app registration in Microsoft Entra: the entire deployment stops accepting sign-ins instantly.
+- **Offboard one user** — disable their account; their tokens die with it.
+- **Update** — `npm install -g powerautomate-mcp@latest` via your management tool (or users run `powerautomate-mcp --update`).
+- **Change environments** — push an updated `org.json`.
+- **Custom file location** — set `PA_MCP_ORG_CONFIG` to the file's path.
