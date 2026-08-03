@@ -331,6 +331,26 @@ If `npm install -g` causes permission headaches, skip it entirely. Configure you
 
 ---
 
+## Rolling back
+
+Every published version stays on npm permanently, so if an update misbehaves you can return to the version you were on with one command. Same rule as updating: quit your AI apps first.
+
+1. Pick the version: the [Changelog](https://github.com/rcb0727/powerplatform-mcp-docs/blob/main/CHANGELOG.md) lists every release and what changed, or run `npm view powerautomate-mcp versions`.
+2. Install it by number:
+   ```bash
+   npm install -g powerautomate-mcp@0.16.4
+   ```
+3. Confirm, then reopen your AI app:
+   ```bash
+   powerautomate-mcp --doctor
+   ```
+
+A rollback changes only the installed package — your configuration and sign-in are untouched, and there's nothing else to undo (no service, no database, no migrations). When the issue is resolved, `npm install -g powerautomate-mcp@latest` moves you forward again.
+
+**Organizations:** deployment scripts can pin an exact version (`@0.16.4` instead of `@latest`) so every machine runs the version IT approved — rolling back then means pushing the deployment again with the prior pin. If a release forced you to roll back, please [report it](https://github.com/rcb0727/powerplatform-mcp-docs/issues) so it gets fixed for everyone.
+
+---
+
 ## Signing in again
 
 Sign-ins don't last forever — tokens expire after long inactivity, and IT policy changes (like new MFA rules) can invalidate them. When tools start reporting missing credentials, you don't need to re-run setup:
