@@ -454,6 +454,8 @@ Rolling out to a whole team means IT does everything once, and every other user'
 
 **Before rollout, check Conditional Access.** Sign-in uses Microsoft's device-code flow. If your tenant's Conditional Access policies block device-code grants, allow them for this app first — otherwise every user's sign-in fails identically on day one.
 
+**Expect periodic re-sign-in under sign-in frequency policies.** If your tenant enforces a Conditional Access sign-in frequency, Microsoft expires every user's session on that schedule and no client can renew it silently — that's the policy working, not the tool failing. When it happens, the error names the policy and the fix is one `sign_in` from chat. If the cadence is disruptive, IT can scope the sign-in frequency policy to exclude this app.
+
 **Operations afterward:**
 
 - **Kill switch** — disable the app registration in Microsoft Entra: the entire deployment stops accepting sign-ins instantly.

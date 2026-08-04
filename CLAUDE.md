@@ -55,16 +55,16 @@ When asked to create or modify a Canvas app, use an existing blank/editable app 
 ## Tool Reference
 
 <!-- TOOLS-TABLE:BEGIN — generated from the tool registry and synced here at each release; do not edit by hand -->
-## Available Tools (216 total)
+## Available Tools (227 total)
 
-> Every tool the server exposes, grouped by service. All 216 are listed here.
+> Every tool the server exposes, grouped by service. All 227 are listed here.
 
 <details>
 <summary><strong>Setup & Authentication</strong> (1 tools)</summary>
 
 | Tool | Description |
 |------|-------------|
-| `sign_in` | Sign in to Microsoft Power Platform when other tools report missing credentials. Starts Microsoft's… |
+| `sign_in` | Sign in to Microsoft Power Platform when other tools report missing credentials. Starts Microsoft's device-code sign-in and returns a code plus a microsoft.com link for the user to complete in their own browser (MFA included) — no terminal needed. Call sign_in again after the user says they've finished to confirm. This tool only displays the code; it never asks for or accepts passwords. |
 
 </details>
 
@@ -73,21 +73,21 @@ When asked to create or modify a Canvas app, use an existing blank/editable app 
 
 | Tool | Description |
 |------|-------------|
-| `list_flows` | List Power Automate flows in an environment. Returns flow names, IDs, state (Started/Stopped), last… |
-| `get_flow` | Get the complete definition of a Power Automate flow including triggers, actions, connection referen… |
-| `create_flow` | Create a new Power Automate flow. Provide a trigger, actions, and connection references. Use search_… |
-| `update_flow` | Update an existing Power Automate flow. Three update modes: (1) full replace — pass 'actions' to rep… |
-| `preview_update` | Preview exactly what update_flow would change on a flow — display name, trigger, added/removed/modif… |
-| `delete_flow` | Delete a Power Automate flow permanently. This action cannot be undone. You must set confirm=true to… |
-| `toggle_flow` | Enable or disable a Power Automate flow. Use 'start' to enable a stopped flow or 'stop' to disable a… |
-| `clone_flow` | Clone an existing Power Automate flow to create a copy with a new name. Optionally update connection… |
-| `export_flow` | Export a flow as a package. Returns the flow definition and metadata that can be used to import into… |
-| `share_flow` | Share a flow with users, groups, or service principals. Grant them either 'CanEdit' (can modify the… |
-| `get_flow_permissions` | Get the list of users, groups, and service principals that have access to a flow. Shows their role (… |
-| `list_flow_versions` | List all versions of a flow. Each version represents a saved state of the flow definition. Use this… |
-| `get_flow_version` | Read one saved version of a flow, including its full definition — inspect what a flow looked like be… |
-| `restore_flow_version` | Roll a flow back to a previous saved version — the undo for a bad edit. Previews the change unless c… |
-| `get_trigger_inputs` | Get the trigger payload a past run actually fired with — the real inputs, not a hand-written guess.… |
+| `list_flows` | List Power Automate flows in an environment. Returns flow names, IDs, state (Started/Stopped), last modified dates, and owners. Use scope='shared' to find flows shared with you, scope='owned' for your flows only. Use this to discover what flows exist before getting details or making changes. |
+| `get_flow` | Get the complete definition of a Power Automate flow including triggers, actions, connection references, and description. Use list_flows first to find flow IDs. Set format='json' or format='both' to capture the FULL definition including nested actions inside Switch/If/Foreach/Scope (the default 'summary' format only shows top-level actions). |
+| `create_flow` | Create a new Power Automate flow. Provide a trigger, actions, and connection references. Use search_connectors and get_action_schema to understand the required parameters for connector actions. The flow is created enabled (Started); use toggle_flow to stop it. |
+| `update_flow` | Update an existing Power Automate flow. Three update modes: (1) full replace — pass 'actions' to replace all top-level actions (default; you must include nested actions you want kept), (2) merge — set mergeActions=true to deep-merge only the actions you provide, leaving the rest intact, (3) patch — use patchActions with path keys (e.g. 'If/cases/Default/actions/Compose') for surgical edits with the smallest payload. Use get_flow with format='json' first to see the full nested action tree. |
+| `preview_update` | Preview exactly what update_flow would change on a flow — display name, trigger, added/removed/modified actions, and connection references — without writing anything. Run this before update_flow on flows that matter. |
+| `delete_flow` | Delete a Power Automate flow permanently. This action cannot be undone. You must set confirm=true to proceed with deletion. Use get_flow first to verify you have the correct flow. |
+| `toggle_flow` | Enable or disable a Power Automate flow. Use 'start' to enable a stopped flow or 'stop' to disable a running flow. The flow must exist and you must have permission to modify it. |
+| `clone_flow` | Clone an existing Power Automate flow to create a copy with a new name. Optionally update connection references in the clone. The cloned flow will be created in a stopped state. |
+| `export_flow` | Export a flow as a package. Returns the flow definition and metadata that can be used to import into another environment or as a backup. |
+| `share_flow` | Share a flow with users, groups, or service principals. Grant them either 'CanEdit' (can modify the flow) or 'CanView' (run-only access) permissions. You need the Microsoft Entra object ID of the principal to share with. |
+| `get_flow_permissions` | Get the list of users, groups, and service principals that have access to a flow. Shows their role (Owner, CanEdit, CanView) and identity information. Use this to audit who can see or modify a flow. |
+| `list_flow_versions` | List all versions of a flow. Each version represents a saved state of the flow definition. Use this to track changes or restore to a previous version. |
+| `get_flow_version` | Read one saved version of a flow, including its full definition — inspect what a flow looked like before a change, or check a version before restoring it. |
+| `restore_flow_version` | Roll a flow back to a previous saved version — the undo for a bad edit. Previews the change unless confirm=true. The current definition is itself saved as a version first, so a restore can be undone. |
+| `get_trigger_inputs` | Get the trigger payload a past run actually fired with — the real inputs, not a hand-written guess. Feed it back through test_flow to reproduce a failure against the data that caused it. |
 
 </details>
 
@@ -96,16 +96,16 @@ When asked to create or modify a Canvas app, use an existing blank/editable app 
 
 | Tool | Description |
 |------|-------------|
-| `test_flow` | Test a Power Automate flow with guided feedback. This tool: 1. Gets the flow's expected input schema… |
-| `run_flow` | Trigger a Power Automate flow to run immediately. Works with any trigger type (manual, scheduled, ev… |
-| `get_runs` | Get the execution history of a Power Automate flow. Shows run times, status (Succeeded/Failed/Runnin… |
-| `get_run_actions` | Get detailed action-level information for a flow run. Shows each action's status, timing, inputs/out… |
-| `get_run_action_repetitions` | Get iteration-level details for a for_each or do_until loop action in a flow run. Shows which iterat… |
-| `diagnose_flow` | Diagnose issues with a Power Automate flow. Analyzes recent runs, identifies failures, and provides… |
-| `validate_flow` | Validate a Power Automate flow definition for errors. Can validate either an existing flow by ID or… |
-| `resubmit_run` | Resubmit a failed or cancelled flow run. This will re-execute the flow with the same trigger inputs.… |
-| `cancel_run` | Cancel a currently running flow execution. Use this to stop a flow that is taking too long or runnin… |
-| `cancel_all_runs` | Cancel every in-flight run of a flow (Running, Waiting, Paused, Suspended). Without confirm=true it… |
+| `test_flow` | Test a Power Automate flow with guided feedback. This tool: 1. Gets the flow's expected input schema (if any) 2. Runs the flow with provided test data 3. Waits for completion 4. Reports success or provides diagnosis for failures Use this after creating or modifying a flow to verify it works correctly. |
+| `run_flow` | Trigger a Power Automate flow to run immediately. Works with any trigger type (manual, scheduled, event-based). Optionally pass input data and wait for the run to complete. |
+| `get_runs` | Get the execution history of a Power Automate flow. Shows run times, status (Succeeded/Failed/Running), and error information for failed runs. Useful for debugging flow issues. |
+| `get_run_actions` | Get detailed action-level information for a flow run. Shows each action's status, timing, inputs/outputs, and error details. Use 'failedOnly: true' to focus on failures, 'actionName' to drill into a specific action, 'includeInputs'/'includeOutputs' to see full data payloads. |
+| `get_run_action_repetitions` | Get iteration-level details for a for_each or do_until loop action in a flow run. Shows which iterations succeeded/failed, their inputs/outputs, and error details. Essential for debugging loops that partially fail. |
+| `diagnose_flow` | Diagnose issues with a Power Automate flow. Analyzes recent runs, identifies failures, and provides specific fixes. Use this when a flow fails or behaves unexpectedly. |
+| `validate_flow` | Validate a Power Automate flow definition for errors. Can validate either an existing flow by ID or a new definition. Checks for schema errors, expression syntax, circular dependencies, and missing connection references. |
+| `resubmit_run` | Resubmit a failed or cancelled flow run. This will re-execute the flow with the same trigger inputs. Only works for flows with manual triggers. |
+| `cancel_run` | Cancel a currently running flow execution. Use this to stop a flow that is taking too long or running incorrectly. |
+| `cancel_all_runs` | Cancel every in-flight run of a flow (Running, Waiting, Paused, Suspended). Without confirm=true it previews which runs would be cancelled. Cancelled runs cannot be resumed. |
 
 </details>
 
@@ -114,11 +114,11 @@ When asked to create or modify a Canvas app, use an existing blank/editable app 
 
 | Tool | Description |
 |------|-------------|
-| `plan_flow` | Interactive flow planning wizard. Call this FIRST when user wants to create or build a flow. IMPORTA… |
-| `build_flow` | Build a Power Automate flow from a description. RECOMMENDED: Use plan_flow FIRST to gather requireme… |
-| `get_expression_help` | Get help with Power Automate expressions. Provides: - Common functions reference by category - Conte… |
-| `search_connectors` | Search for Power Automate connectors by name, description, or category. Returns matching connectors… |
-| `get_action_schema` | Get the schema and parameters for a connector's actions/triggers. Use search_connectors first to fin… |
+| `plan_flow` | Interactive flow planning wizard. Call this FIRST when user wants to create or build a flow. IMPORTANT: This tool returns clarifying questions that you MUST present to the user before proceeding. Do NOT skip the questions or make assumptions. Workflow: 1. Call plan_flow with the user's description 2. Present ALL questions to the user (don't answer them yourself) 3. Collect user's answers 4. Call plan_flow again with answers to get the final plan 5. Use create_flow or build_flow with the resulting definition Questions cover: trigger timing, recipients, data sources, formatting preferences, etc. |
+| `build_flow` | Build a Power Automate flow from a description. RECOMMENDED: Use plan_flow FIRST to gather requirements through the interactive wizard, then use this tool to create the flow. This tool: 1. Analyzes the goal 2. Detects required connections 3. Creates the flow directly Missing connections do NOT block creation: the flow is built anyway (stopped, so it can't fail-run), and the response lists exactly which connections still need to be configured at make.powerautomate.com. Connections that already exist are used automatically. For complex flows with multiple data sources, approvals, or specific timing requirements, use plan_flow first to clarify details. |
+| `get_expression_help` | Get help with Power Automate expressions. Provides: - Common functions reference by category - Context-specific examples - Expression syntax validation - Best practices and tips Use when building flow actions that need expressions. |
+| `search_connectors` | Search for Power Automate connectors by name, description, or category. Returns matching connectors with their tier (Standard/Premium) and capabilities. Use this to discover available connectors before building flows. |
+| `get_action_schema` | Get the schema and parameters for a connector's actions/triggers. Use search_connectors first to find connector IDs. Without operationId, returns a list of all available operations. With operationId, returns detailed parameter and response schemas. |
 
 </details>
 
@@ -127,19 +127,19 @@ When asked to create or modify a Canvas app, use an existing blank/editable app 
 
 | Tool | Description |
 |------|-------------|
-| `list_connections` | List all connections in an environment. Shows connection names, statuses (Connected/Error), connecto… |
-| `ensure_connection` | Get a working connection for a connector in one call: returns an existing Connected one if there is… |
-| `create_connection` | Create a connection for a connector. OAuth connectors (SharePoint, Office 365, Teams…) are created u… |
-| `test_connection` | Check whether a connection is healthy (Connected) and surface its error state when it isn't — use af… |
-| `fix_connection` | Repair a broken or expired connection: returns re-authentication instructions — a fresh consent link… |
+| `list_connections` | List all connections in an environment. Shows connection names, statuses (Connected/Error), connector types, and who created them. Use this to troubleshoot connection issues or see what services are connected. |
+| `ensure_connection` | Get a working connection for a connector in one call: returns an existing Connected one if there is any, otherwise creates one and hands back sign-in instructions. Use this instead of stitching list/create/test together — it is the right first step before binding a connector into a flow. |
+| `create_connection` | Create a connection for a connector. OAuth connectors (SharePoint, Office 365, Teams…) are created unauthenticated and come back with sign-in instructions — a direct consent link where the environment offers one, otherwise a deep link to the connection in the maker portal — then test_connection confirms. API-key style connectors accept their values via parameters. |
+| `test_connection` | Check whether a connection is healthy (Connected) and surface its error state when it isn't — use after create_connection consent, or when a flow fails with connection/auth errors. |
+| `fix_connection` | Repair a broken or expired connection: returns re-authentication instructions — a fresh consent link where the environment offers one, otherwise a deep link to the connection in the maker portal. No-op with confirmation when the connection is already healthy. |
 | `delete_connection` | Permanently delete a connection. Flows bound to it will fail until re-bound. Requires confirm=true. |
 | `list_custom_connectors` | List all custom connectors in the environment. Shows connector names, IDs, and operation counts. |
-| `get_custom_connector` | Get detailed information about a custom connector including its OpenAPI definition and all operation… |
-| `create_custom_connector` | Create a custom connector for any REST API. Define the base URL, authentication, and operations. Eac… |
+| `get_custom_connector` | Get detailed information about a custom connector including its OpenAPI definition and all operations. |
+| `create_custom_connector` | Create a custom connector for any REST API. Define the base URL, authentication, and operations. Each operation specifies an HTTP method, path, and parameters. |
 | `update_custom_connector` | Update a custom connector. Add or remove operations, or change the display name and description. |
 | `delete_custom_connector` | Delete a custom connector. Requires confirm=true to proceed. |
-| `plan_custom_connector` | Get guidance on creating a custom connector. Describes what information you need to gather about you… |
-| `import_openapi_connector` | Create a custom connector by importing an OpenAPI/Swagger specification. Provide the full spec and a… |
+| `plan_custom_connector` | Get guidance on creating a custom connector. Describes what information you need to gather about your API. |
+| `import_openapi_connector` | Create a custom connector by importing an OpenAPI/Swagger specification. Provide the full spec and authentication details. |
 
 </details>
 
@@ -149,7 +149,7 @@ When asked to create or modify a Canvas app, use an existing blank/editable app 
 | Tool | Description |
 |------|-------------|
 | `list_approvals` | List pending approvals in the environment. Shows approval requests that are waiting for a response. |
-| `list_approvals_dataverse` | List pending approval requests from Dataverse. More reliable than the Flow API for approvals. Shows… |
+| `list_approvals_dataverse` | List pending approval requests from Dataverse. More reliable than the Flow API for approvals. Shows approval title, stage, and requester. |
 | `respond_approval` | Respond to a pending approval request. Use 'Approve' to approve or 'Reject' to reject the request. |
 
 </details>
@@ -159,13 +159,32 @@ When asked to create or modify a Canvas app, use an existing blank/editable app 
 
 | Tool | Description |
 |------|-------------|
-| `list_dataverse_tables` | List Dataverse tables (entities) in the environment. Returns table names, entity set names, and whet… |
-| `get_dataverse_table` | Get detailed metadata for a Dataverse table including all column definitions. Provide the table's lo… |
-| `query_dataverse_rows` | Query rows from a Dataverse table with OData filtering, selecting, and ordering. Use list_dataverse_… |
+| `list_dataverse_tables` | List Dataverse tables (entities) in the environment. Returns table names, entity set names, and whether they are custom or system tables. Use the EntitySetName in row operations. |
+| `get_dataverse_table` | Get detailed metadata for a Dataverse table including all column definitions. Provide the table's logical name (e.g., 'account', 'contact'). Returns column names, types, and requirements. |
+| `query_dataverse_rows` | Query rows from a Dataverse table with OData filtering, selecting, and ordering. Use list_dataverse_tables first to get the EntitySetName. Returns matching rows with their field values. |
 | `get_dataverse_row` | Get a single Dataverse row by its ID. Returns all fields or selected fields for the specified row. |
-| `create_dataverse_row` | Create a new row in a Dataverse table. Use get_dataverse_table first to see available columns and re… |
+| `create_dataverse_row` | Create a new row in a Dataverse table. Use get_dataverse_table first to see available columns and required fields. Returns the created row with its new ID. |
 | `update_dataverse_row` | Update an existing Dataverse row. Only include fields you want to change. The row must exist. |
-| `delete_dataverse_row` | Delete a Dataverse row permanently. This action cannot be undone. You must set confirm=true to proce… |
+| `delete_dataverse_row` | Delete a Dataverse row permanently. This action cannot be undone. You must set confirm=true to proceed with deletion. |
+
+</details>
+
+<details>
+<summary><strong>Dataverse Depth (queries, metadata, schema, bulk)</strong> (11 tools)</summary>
+
+| Tool | Description |
+|------|-------------|
+| `execute_fetchxml` | Run a FetchXML query against Dataverse — use this instead of query_dataverse_rows when you need aggregates (count, sum, avg, min, max), grouping, or joins across related tables (link-entity). Example: total opportunities by owner, cases grouped by status. Pass the entity set name and the full <fetch> XML. |
+| `search_dataverse` | Full-text search across Dataverse tables (relevance search) — 'find anything mentioning Contoso'. Returns ranked matches with the table and record id for follow-up reads. Requires the environment's Dataverse search feature to be enabled (an ENV_LIMITATION error means it isn't). |
+| `get_dataverse_option_set` | Get the labels and integer values of a choice (option set) column or a global option set. ALWAYS use this before writing to a choice column (statuscode, statecode, custom picklists) — the integer values cannot be guessed, and a wrong value writes bad data silently. Pass table+column for a column's choices, or globalName for a shared option set. |
+| `get_dataverse_relationships` | List a table's relationships (1:N, N:1, N:N) with their schema names and navigation properties. Use before associate_dataverse_rows / disassociate_dataverse_rows or $expand queries — relationship names cannot be guessed. |
+| `upsert_dataverse_row` | Create-or-update a Dataverse row addressed by alternate key(s) instead of a GUID — ideal for syncing external data (e.g., rows keyed by an account number). Reports whether the row was created or updated. |
+| `assign_dataverse_row` | Change the owner of a Dataverse row to another user or team. Use list-type tools or search to find the new owner's id first. |
+| `associate_dataverse_rows` | Link two existing Dataverse rows through a named relationship (N:N or 1:N) — e.g., add a contact to a marketing list. Get the relationship's navigation property name from get_dataverse_relationships first. |
+| `disassociate_dataverse_rows` | Remove a relationship link between two Dataverse rows (the rows themselves are untouched). Set confirm=true to proceed. |
+| `create_dataverse_column` | Create a new column on a Dataverse table. Supports string, memo, integer, decimal, money, datetime, boolean, and picklist (choice) types. The schema name must carry your solution publisher's prefix (e.g., 'new_ProjectCode'). Requires confirm=true. After creating, run publish_all_customizations for the column to appear in apps. |
+| `create_dataverse_lookup_column` | Create a lookup (N:1 foreign-key) column on a table, pointing at another table — creates the column and the relationship together, which is the only way the Web API supports it. Requires confirm=true. |
+| `batch_dataverse_operations` | Execute up to 100 Dataverse operations in one request — the right tool for bulk work like 'add every approved row from this spreadsheet'. Set atomic=true to make it all-or-nothing (any failure rolls back everything; GETs not allowed in atomic mode). Batches containing DELETE operations require confirm=true. |
 
 </details>
 
@@ -174,17 +193,17 @@ When asked to create or modify a Canvas app, use an existing blank/editable app 
 
 | Tool | Description |
 |------|-------------|
-| `search_sharepoint_sites` | Search for SharePoint sites by name or keyword. Returns site IDs, names, and URLs. Use the site ID i… |
-| `get_sharepoint_site` | Get a SharePoint site by its ID or by hostname and path. Returns site details including name, URL, a… |
-| `list_sharepoint_lists` | List all lists and libraries in a SharePoint site. Returns list IDs, names, and types. Use the list… |
-| `get_sharepoint_list_columns` | Get column definitions for a SharePoint list. Shows column names, types, and whether they are requir… |
-| `list_sharepoint_items` | Get items from a SharePoint list with optional filtering and sorting. Returns item IDs, field values… |
-| `create_sharepoint_item` | Create a new item in a SharePoint list. Use get_sharepoint_list_columns first to see available field… |
+| `search_sharepoint_sites` | Search for SharePoint sites by name or keyword. Returns site IDs, names, and URLs. Use the site ID in subsequent SharePoint operations. |
+| `get_sharepoint_site` | Get a SharePoint site by its ID or by hostname and path. Returns site details including name, URL, and description. |
+| `list_sharepoint_lists` | List all lists and libraries in a SharePoint site. Returns list IDs, names, and types. Use the list ID for item operations. |
+| `get_sharepoint_list_columns` | Get column definitions for a SharePoint list. Shows column names, types, and whether they are required. Use this before creating or updating items. |
+| `list_sharepoint_items` | Get items from a SharePoint list with optional filtering and sorting. Returns item IDs, field values, and metadata. |
+| `create_sharepoint_item` | Create a new item in a SharePoint list. Use get_sharepoint_list_columns first to see available fields. Provide field values as key-value pairs. |
 | `update_sharepoint_item` | Update an existing SharePoint list item. Only include fields you want to change. |
-| `delete_sharepoint_item` | Delete a SharePoint list item permanently. This action cannot be undone. You must set confirm=true t… |
-| `list_sharepoint_files` | List files in a SharePoint document library. Use list_sharepoint_lists first to find document librar… |
-| `upload_sharepoint_file` | Upload a file to a SharePoint document library. Simple upload supports files up to 4MB. Provide the… |
-| `get_sharepoint_file_content` | Download a file's content from a SharePoint document library. Returns base64-encoded content for tex… |
+| `delete_sharepoint_item` | Delete a SharePoint list item permanently. This action cannot be undone. You must set confirm=true to proceed. |
+| `list_sharepoint_files` | List files in a SharePoint document library. Use list_sharepoint_lists first to find document libraries, then use list_sharepoint_lists with the site ID to get drive IDs via the library's driveType. |
+| `upload_sharepoint_file` | Upload a file to a SharePoint document library. Simple upload supports files up to 4MB. Provide the file content as a base64-encoded string. |
+| `get_sharepoint_file_content` | Download a file's content from a SharePoint document library. Returns base64-encoded content for text files under 1MB, metadata-only for larger or binary files. |
 
 </details>
 
@@ -203,7 +222,7 @@ When asked to create or modify a Canvas app, use an existing blank/editable app 
 
 | Tool | Description |
 |------|-------------|
-| `list_powerapps` | List Power Apps canvas apps in an environment. Returns app names, IDs, owners, and last modified dat… |
+| `list_powerapps` | List Power Apps canvas apps in an environment. Returns app names, IDs, owners, and last modified dates. |
 | `list_canvas_apps` | List Power Apps canvas apps stored in Dataverse. Shows app names, versions, and status. |
 | `get_powerapp` | Get detailed information about a Power App including owner, connections, and app URIs. |
 | `publish_powerapp` | Publish a Power App to make the latest version available to users. |
@@ -223,19 +242,19 @@ When asked to create or modify a Canvas app, use an existing blank/editable app 
 
 | Tool | Description |
 |------|-------------|
-| `connect_canvas_authoring` | Connect the preview Canvas authoring service to an existing app whose Power Apps Studio tab is open… |
+| `connect_canvas_authoring` | Connect the preview Canvas authoring service to an existing app whose Power Apps Studio tab is open with coauthoring enabled. Accepts either a trusted Designer URL or explicit app/environment IDs and environment category. Device-code auth is not supported through this bridge. |
 | `list_canvas_controls` | List controls supported by the connected Canvas authoring session. |
 | `describe_canvas_control` | Describe one Canvas control and its authoring properties. |
 | `list_canvas_apis` | List connector APIs visible to the connected Canvas authoring session. |
 | `describe_canvas_api` | Describe one connector API visible to the connected Canvas app. |
 | `list_canvas_data_sources` | List data sources already present in the connected Canvas app. |
 | `get_canvas_data_source_schema` | Get the schema of a data source already present in the connected Canvas app. |
-| `sync_canvas_source` | Sync the connected live Canvas app into an existing local source directory. This can overwrite local… |
-| `compile_canvas_source` | Compile the local .pa.yaml workspace into the connected live Canvas app. This is a destructive tenan… |
+| `sync_canvas_source` | Sync the connected live Canvas app into an existing local source directory. This can overwrite local files and requires confirmOverwrite=true. |
+| `compile_canvas_source` | Compile the local .pa.yaml workspace into the connected live Canvas app. This is a destructive tenant write even when validation fails and requires confirm=true. |
 | `list_canvas_source_files` | List safe .pa.yaml files in an existing local Canvas source directory, including size and SHA-256. |
 | `read_canvas_source_file` | Read one safe UTF-8 .pa.yaml file (maximum 1 MiB) and return its content, size, and SHA-256. |
-| `write_canvas_source_file` | Create one safe UTF-8 .pa.yaml file (maximum 1 MiB). Existing files are preserved unless overwrite=t… |
-| `delete_canvas_source_file` | Delete one safe local .pa.yaml file. Requires confirm=true; expectedSha256 can prevent deleting a ch… |
+| `write_canvas_source_file` | Create one safe UTF-8 .pa.yaml file (maximum 1 MiB). Existing files are preserved unless overwrite=true; expectedSha256 can prevent lost updates. |
+| `delete_canvas_source_file` | Delete one safe local .pa.yaml file. Requires confirm=true; expectedSha256 can prevent deleting a changed file. |
 
 </details>
 
@@ -244,16 +263,16 @@ When asked to create or modify a Canvas app, use an existing blank/editable app 
 
 | Tool | Description |
 |------|-------------|
-| `list_model_driven_apps` | List published or unpublished model-driven Power Apps from Dataverse, including AppModule IDs and un… |
-| `get_model_driven_app` | Get a model-driven app's published or unpublished AppModule record. Optionally includes the complete… |
-| `create_model_driven_app` | Create a real model-driven AppModule in Dataverse. This creates the app shell; add components, valid… |
-| `update_model_driven_app` | Update supported properties on a published model-driven AppModule, creating unpublished changes. A n… |
+| `list_model_driven_apps` | List published or unpublished model-driven Power Apps from Dataverse, including AppModule IDs and unique names. |
+| `get_model_driven_app` | Get a model-driven app's published or unpublished AppModule record. Optionally includes the complete descriptor/app graph/config XML definition. |
+| `create_model_driven_app` | Create a real model-driven AppModule in Dataverse. This creates the app shell; add components, validate, publish, and grant security roles with the companion tools. |
+| `update_model_driven_app` | Update supported properties on a published model-driven AppModule, creating unpublished changes. A newly-created app must be published once before its properties can be updated through the documented AppModule API. |
 | `delete_model_driven_app` | Permanently delete a model-driven AppModule. Requires confirm=true. |
 | `get_model_driven_app_components` | Retrieve all components currently included in a published model-driven app. |
-| `add_model_driven_app_components` | Add Dataverse components such as views, forms, workflows, dashboards, and sitemaps to a model-driven… |
+| `add_model_driven_app_components` | Add Dataverse components such as views, forms, workflows, dashboards, and sitemaps to a model-driven app through AddAppComponents. |
 | `remove_model_driven_app_components` | Remove one or more Dataverse components from a model-driven app through RemoveAppComponents. |
 | `validate_model_driven_app` | Run Dataverse ValidateApp and return dependency errors and warnings before publishing. |
-| `publish_model_driven_app` | Validate and publish one model-driven app via PublishXml. Validation blocks publishing unless skipVa… |
+| `publish_model_driven_app` | Validate and publish one model-driven app via PublishXml. Validation blocks publishing unless skipValidation=true. |
 | `list_model_driven_app_roles` | List Dataverse security roles associated with a model-driven app. |
 | `grant_model_driven_app_role` | Associate a Dataverse security role with a model-driven app to grant access. |
 | `revoke_model_driven_app_role` | Disassociate a Dataverse security role from a model-driven app. |
@@ -277,15 +296,15 @@ When asked to create or modify a Canvas app, use an existing blank/editable app 
 
 | Tool | Description |
 |------|-------------|
-| `list_powerpages_sites` | List Power Pages sites as stored in Dataverse (the configuration plane). Returns enhanced-model site… |
-| `get_powerpages_site` | Get a Power Pages site's Dataverse record and detected data model (standard vs enhanced) by its site… |
-| `list_powerpages_components` | List configuration components of a Power Pages site across the standard and enhanced data models. Di… |
-| `get_powerpages_component` | Get a single Power Pages configuration component row by its record id. siteId selects the data model… |
-| `create_powerpages_component` | Create a Power Pages configuration component. Directly site-scoped types receive the website @odata.… |
+| `list_powerpages_sites` | List Power Pages sites as stored in Dataverse (the configuration plane). Returns enhanced-model sites (mspp_websites) and standard-model sites (adx_websites), each tagged with its data model and the site id to pass to the component tools. For hosting/status/URL use list_powerpages_websites instead. |
+| `get_powerpages_site` | Get a Power Pages site's Dataverse record and detected data model (standard vs enhanced) by its site id (from list_powerpages_sites). |
+| `list_powerpages_components` | List configuration components of a Power Pages site across the standard and enhanced data models. Directly site-scoped types are restricted to siteId automatically. Nested types (weblink, form metadata/steps, columnpermission) require an explicit parent OData filter. |
+| `get_powerpages_component` | Get a single Power Pages configuration component row by its record id. siteId selects the data model. |
+| `create_powerpages_component` | Create a Power Pages configuration component. Directly site-scoped types receive the website @odata.bind automatically. Nested types require their parent @odata.bind in data. Use upload_powerpages_webfile_content for standard-model web-file bytes. |
 | `update_powerpages_component` | Update a Power Pages configuration component row. Only include columns you want to change in `data`. |
 | `delete_powerpages_component` | Delete a Power Pages configuration component row permanently. Set confirm=true to proceed. |
-| `manage_powerpages_relationship` | Associate or disassociate a Power Pages security/configuration record with a web role using a docume… |
-| `upload_powerpages_webfile_content` | Attach local file bytes to a standard-model Power Pages web-file record using the documented newest-… |
+| `manage_powerpages_relationship` | Associate or disassociate a Power Pages security/configuration record with a web role using a documented Dataverse relationship. Both records are verified to belong to siteId. Set confirm=true because these relationships affect authorization. |
+| `upload_powerpages_webfile_content` | Attach local file bytes to a standard-model Power Pages web-file record using the documented newest-note attachment format. Reads an absolute regular local path (max 15 MiB); does not place base64 in the MCP request. Enhanced virtual-table sites must use pac_pages_upload. Set confirm=true. |
 
 </details>
 
@@ -294,12 +313,12 @@ When asked to create or modify a Canvas app, use an existing blank/editable app 
 
 | Tool | Description |
 |------|-------------|
-| `list_powerpages_websites` | List Power Pages websites in an environment via the Power Platform management API. Returns hosting i… |
+| `list_powerpages_websites` | List Power Pages websites in an environment via the Power Platform management API. Returns hosting info: status, public URL, data model, and type (production/trial). For the Dataverse config behind a site use list_powerpages_sites. |
 | `get_powerpages_website` | Get a Power Pages website's hosting details (status, URL, data model) by id, via the management API. |
-| `create_powerpages_website` | Provision a new Power Pages website (management API). Asynchronous — returns a tracking URL; provisi… |
+| `create_powerpages_website` | Provision a new Power Pages website (management API). Asynchronous — returns a tracking URL; provisioning takes several minutes. The Dataverse org id is resolved from the environment if not supplied. Set confirm=true to proceed. |
 | `delete_powerpages_website` | Delete a Power Pages website (management API). This cannot be undone. Set confirm=true to proceed. |
-| `restart_powerpages_website` | Restart a Power Pages website (management API). Recycles the site so it picks up Dataverse config ch… |
-| `get_powerpages_operation_status` | Get or boundedly wait for a Power Pages Operation-Location result. Only authenticated HTTPS URLs on… |
+| `restart_powerpages_website` | Restart a Power Pages website (management API). Recycles the site so it picks up Dataverse config changes — the programmatic equivalent of the studio 'Sync'. Synchronous. |
+| `get_powerpages_operation_status` | Get or boundedly wait for a Power Pages Operation-Location result. Only authenticated HTTPS URLs on api.powerplatform.com are accepted. |
 | `get_powerpages_allowed_ip_addresses` | Get the website IP allow list. |
 | `add_powerpages_allowed_ip_addresses` | Add IPv4/IPv6 addresses or CIDR ranges to the website allow list. Set confirm=true. |
 | `remove_powerpages_allowed_ip_addresses` | Remove IPv4/IPv6 addresses or CIDR ranges from the website allow list. Set confirm=true. |
@@ -307,7 +326,7 @@ When asked to create or modify a Canvas app, use an existing blank/editable app 
 | `create_powerpages_custom_domain` | Add a custom domain to a website. DNS validation still applies. Set confirm=true. |
 | `delete_powerpages_custom_domain` | Remove a custom domain from a website. Set confirm=true. |
 | `list_powerpages_certificates` | List SSL or managed certificates for a website. |
-| `upload_powerpages_certificate` | Upload a local PFX certificate using multipart form data. Reads an absolute canonical path (max 16 M… |
+| `upload_powerpages_certificate` | Upload a local PFX certificate using multipart form data. Reads an absolute canonical path (max 16 MiB); password may come from a named environment variable. Set confirm=true. |
 | `delete_powerpages_certificate` | Delete a certificate by thumbprint and type. Set confirm=true. |
 | `list_powerpages_ssl_bindings` | List SSL bindings for a custom hostname. |
 | `add_powerpages_ssl_binding` | Bind a certificate thumbprint to a custom hostname. Set confirm=true. |
@@ -324,7 +343,7 @@ When asked to create or modify a Canvas app, use an existing blank/editable app 
 | `get_powerpages_security_scan_score` | Get the latest deep security-scan score. |
 | `start_powerpages_website` | Start a stopped Power Pages website. Set confirm=true. |
 | `stop_powerpages_website` | Stop a Power Pages website and make it unavailable. Set confirm=true. |
-| `convert_powerpages_trial_to_production` | Convert a trial website to production and optionally enable CDN/WAF. Licensing implications apply. S… |
+| `convert_powerpages_trial_to_production` | Convert a trial website to production and optionally enable CDN/WAF. Licensing implications apply. Set confirm=true. |
 | `enable_powerpages_bootstrap_v5` | Stamp Bootstrap 5 enabled for a website. Set confirm=true. |
 | `set_powerpages_data_model_version` | Set whether the website uses the enhanced data model. Set confirm=true. |
 | `toggle_powerpages_afd_routing` | Enable or disable Azure Front Door traffic routing. Set confirm=true. |
@@ -338,14 +357,14 @@ When asked to create or modify a Canvas app, use an existing blank/editable app 
 
 | Tool | Description |
 |------|-------------|
-| `pac_pages_bootstrap_migrate` | Migrate downloaded website HTML from Bootstrap 3 to Bootstrap 5 in place. Runs the installed pac exe… |
-| `pac_pages_clone` | Clone local Power Pages website content into a new output directory. Runs the installed pac executab… |
-| `pac_pages_download` | Download a standard or enhanced Power Pages site from Dataverse. Runs the installed pac executable w… |
-| `pac_pages_download_code_site` | Download a Power Pages code site from Dataverse. Runs the installed pac executable without a shell a… |
-| `pac_pages_list` | List websites from the current or specified PAC Dataverse environment. Runs the installed pac execut… |
-| `pac_pages_migrate_datamodel` | Start, inspect, reset, or revert a Power Pages data-model migration. Runs the installed pac executab… |
-| `pac_pages_upload` | Upload downloaded website configuration to Dataverse. Runs the installed pac executable without a sh… |
-| `pac_pages_upload_code_site` | Upload compiled code to a Power Pages code site. Runs the installed pac executable without a shell a… |
+| `pac_pages_bootstrap_migrate` | Migrate downloaded website HTML from Bootstrap 3 to Bootstrap 5 in place. Runs the installed pac executable without a shell and uses the active PAC authentication profile. |
+| `pac_pages_clone` | Clone local Power Pages website content into a new output directory. Runs the installed pac executable without a shell and uses the active PAC authentication profile. |
+| `pac_pages_download` | Download a standard or enhanced Power Pages site from Dataverse. Runs the installed pac executable without a shell and uses the active PAC authentication profile. |
+| `pac_pages_download_code_site` | Download a Power Pages code site from Dataverse. Runs the installed pac executable without a shell and uses the active PAC authentication profile. |
+| `pac_pages_list` | List websites from the current or specified PAC Dataverse environment. Runs the installed pac executable without a shell and uses the active PAC authentication profile. |
+| `pac_pages_migrate_datamodel` | Start, inspect, reset, or revert a Power Pages data-model migration. Runs the installed pac executable without a shell and uses the active PAC authentication profile. |
+| `pac_pages_upload` | Upload downloaded website configuration to Dataverse. Runs the installed pac executable without a shell and uses the active PAC authentication profile. |
+| `pac_pages_upload_code_site` | Upload compiled code to a Power Pages code site. Runs the installed pac executable without a shell and uses the active PAC authentication profile. |
 
 </details>
 
@@ -354,8 +373,8 @@ When asked to create or modify a Canvas app, use an existing blank/editable app 
 
 | Tool | Description |
 |------|-------------|
-| `list_environments` | List all Power Platform environments accessible to the current user. Shows environment names, IDs, r… |
-| `get_environment` | Get detailed information about a Power Platform environment including Dataverse URL, region, and SKU… |
+| `list_environments` | List all Power Platform environments accessible to the current user. Shows environment names, IDs, regions, and whether each is the default environment. |
+| `get_environment` | Get detailed information about a Power Platform environment including Dataverse URL, region, and SKU. |
 | `create_environment` | Create a new Power Platform environment. Requires admin role. |
 | `delete_environment` | Delete a Power Platform environment permanently. This action cannot be undone. Set confirm=true. |
 | `copy_environment` | Copy a Power Platform environment to create a new one. Set confirm=true. |
@@ -386,13 +405,13 @@ When asked to create or modify a Canvas app, use an existing blank/editable app 
 
 | Tool | Description |
 |------|-------------|
-| `list_solutions` | List Dataverse solutions in the environment. Solutions are containers for flows, apps, and other com… |
-| `export_solution` | Export a Dataverse solution as a base64-encoded zip, or resume an earlier asynchronous export by exp… |
-| `import_solution` | Import a base64-encoded Dataverse solution zip. This changes the environment and requires confirm=tr… |
+| `list_solutions` | List Dataverse solutions in the environment. Solutions are containers for flows, apps, and other components. Use this to see what's deployed and manage solution-aware components. |
+| `export_solution` | Export a Dataverse solution as a base64-encoded zip, or resume an earlier asynchronous export by export job ID. Supports synchronous export and bounded system-job polling. |
+| `import_solution` | Import a base64-encoded Dataverse solution zip. This changes the environment and requires confirm=true. Supports asynchronous import and system-job polling. |
 | `clone_solution` | Clone an unmanaged Dataverse solution and consolidate its patches into a new version. |
 | `add_solution_component` | Add an existing component to an unmanaged Dataverse solution. |
 | `remove_solution_component` | Remove a component from an unmanaged Dataverse solution. Requires confirm=true. |
-| `list_solution_flows` | List flows stored in Dataverse solutions. These are 'solution-aware' flows that can be exported and… |
+| `list_solution_flows` | List flows stored in Dataverse solutions. These are 'solution-aware' flows that can be exported and deployed across environments. Includes version history access. |
 | `publish_all_customizations` | Publish every pending Dataverse customization. This can affect live apps and requires confirm=true. |
 
 </details>
@@ -416,19 +435,19 @@ When asked to create or modify a Canvas app, use an existing blank/editable app 
 
 | Tool | Description |
 |------|-------------|
-| `list_desktop_flows` | List desktop flows (RPA/UI automation built with Power Automate for desktop) in the environment, wit… |
-| `get_desktop_flow` | Get a desktop flow's details plus its declared input and output variables (schema) — check this befo… |
-| `run_desktop_flow` | Trigger a desktop flow (RPA) run on a registered machine via a desktop-flows connection. Attended ru… |
-| `get_desktop_flow_runs` | List recent desktop flow runs (newest first) — across all desktop flows or scoped to one — with stat… |
-| `get_desktop_flow_run` | Get one desktop flow run's status. Returns outputs when the run succeeded, and full error details (c… |
-| `cancel_desktop_flow_run` | Cancel a queued or running desktop flow run. Needs owner-level access to the run — runs you triggere… |
-| `list_desktop_flow_connections` | Find desktop-flows connection references usable as run_desktop_flow's connectionName (with isConnect… |
-| `get_desktop_flow_run_logs` | Get a desktop flow run's action-level logs. Tries the V2 log store (flowlog) first, then the V1 run… |
-| `diagnose_desktop_flow_run` | Diagnose a desktop flow run: decodes the failure, checks the machine it ran on (status, heartbeat),… |
-| `list_machines` | List registered desktop-flow (RPA) machines with live status, last heartbeat, capacity, hosting type… |
-| `get_machine` | Get one desktop-flow machine's full detail: status, heartbeat, session capacity, agent version, host… |
-| `list_machine_groups` | List desktop-flow machine groups (load balancing / high availability for unattended RPA runs) with t… |
-| `restart_hosted_machine` | Restart a Microsoft-hosted RPA machine (interrupts any in-flight run on it). Only works on hosted ma… |
+| `list_desktop_flows` | List desktop flows (RPA/UI automation built with Power Automate for desktop) in the environment, with the workflow IDs used to run them. |
+| `get_desktop_flow` | Get a desktop flow's details plus its declared input and output variables (schema) — check this before run_desktop_flow to know what inputs to pass. |
+| `run_desktop_flow` | Trigger a desktop flow (RPA) run on a registered machine via a desktop-flows connection. Attended runs need a signed-in user at the machine; unattended runs need a Process license on the machine. Returns a session ID to poll with get_desktop_flow_run. Limit: 70 runs/minute per connection. |
+| `get_desktop_flow_runs` | List recent desktop flow runs (newest first) — across all desktop flows or scoped to one — with status, timing, and error summaries. |
+| `get_desktop_flow_run` | Get one desktop flow run's status. Returns outputs when the run succeeded, and full error details (code, message, machine) when it failed. |
+| `cancel_desktop_flow_run` | Cancel a queued or running desktop flow run. Needs owner-level access to the run — runs you triggered qualify. |
+| `list_desktop_flow_connections` | Find desktop-flows connection references usable as run_desktop_flow's connectionName (with isConnectionReference: true). Explains how to create/locate a connection when none exist. |
+| `get_desktop_flow_run_logs` | Get a desktop flow run's action-level logs. Tries the V2 log store (flowlog) first, then the V1 run context; says plainly when the run has no action-level logs (common for API-triggered runs — V2 logging is documented for connector-triggered runs). |
+| `diagnose_desktop_flow_run` | Diagnose a desktop flow run: decodes the failure, checks the machine it ran on (status, heartbeat), translates licensing errors into the exact license to request, and pulls the log tail when available. |
+| `list_machines` | List registered desktop-flow (RPA) machines with live status, last heartbeat, capacity, hosting type, and group membership. |
+| `get_machine` | Get one desktop-flow machine's full detail: status, heartbeat, session capacity, agent version, hosted-machine errors, and group-key health. |
+| `list_machine_groups` | List desktop-flow machine groups (load balancing / high availability for unattended RPA runs) with type, member count, and provisioning state. |
+| `restart_hosted_machine` | Restart a Microsoft-hosted RPA machine (interrupts any in-flight run on it). Only works on hosted machines — physical machines must be restarted at the OS. |
 
 </details>
 
@@ -437,13 +456,13 @@ When asked to create or modify a Canvas app, use an existing blank/editable app 
 
 | Tool | Description |
 |------|-------------|
-| `list_work_queues` | List work queues (shared to-do lists that coordinate RPA and cloud-flow processing) with status and… |
-| `get_work_queue` | Get one work queue's configuration and health: item counts by state (queued/processing/processed/on-… |
-| `create_work_queue` | Create a work queue. Optionally enforce a JSON schema on item inputs and set retry/requeue caps and… |
-| `enqueue_work_queue_item` | Add an item to a work queue for processing. Supports priority (1 = highest), delayed availability, e… |
-| `list_work_queue_items` | List a work queue's items (newest first), optionally filtered by state: queued, processing, processe… |
-| `dequeue_work_queue_item` | Atomically claim the next queued item (oldest first, honoring priority) — it flips to Processing and… |
-| `update_work_queue_item` | Finish a claimed work-queue item: mark it processed, fail it with an exception class (business/IT/ge… |
+| `list_work_queues` | List work queues (shared to-do lists that coordinate RPA and cloud-flow processing) with status and retry/requeue policy. |
+| `get_work_queue` | Get one work queue's configuration and health: item counts by state (queued/processing/processed/on-hold/error). |
+| `create_work_queue` | Create a work queue. Optionally enforce a JSON schema on item inputs and set retry/requeue caps and a default item time-to-live. |
+| `enqueue_work_queue_item` | Add an item to a work queue for processing. Supports priority (1 = highest), delayed availability, expiry, and a per-queue dedup key. |
+| `list_work_queue_items` | List a work queue's items (newest first), optionally filtered by state: queued, processing, processed, on_hold, or error. |
+| `dequeue_work_queue_item` | Atomically claim the next queued item (oldest first, honoring priority) — it flips to Processing and is returned with its input. Finish it with update_work_queue_item. |
+| `update_work_queue_item` | Finish a claimed work-queue item: mark it processed, fail it with an exception class (business/IT/generic), or requeue it (optionally delayed). |
 | `delete_work_queue` | Permanently delete a work queue and its items. Requires confirm=true. |
 
 </details>

@@ -8,6 +8,7 @@
 
 | Version | Date | Highlights |
 |---------|------|------------|
+| [0.16.6](#0166---2026-08-04) | 2026-08-04 | **Dataverse depth: 216 → 227 tools + self-diagnosing auth** — FetchXML aggregates and joins, option-set/relationship schema lookups (the anti-hallucination pair), schema write (columns + lookups), `$batch` up to 100 ops with changesets, alternate-key upsert, row assignment, N:N/1:N links, full-text search; Dataverse errors carry a `[PERMISSIONS]`/`[SCHEMA_MISMATCH]`/`[ENV_LIMITATION]` category; the sign-in renews itself in the background and auth errors name the real cause (sign-in policy, revocation, idle expiry, CA block); new [Rolling back](INSTALL.md#rolling-back) guide |
 | [0.16.5](#0165---2026-08-01) | 2026-08-01 | **Setup that detects instead of asks + zero-touch team rollout** — the wizard finds your app automatically (config, org `org.json`, or a signed-in Azure CLI) and asks at most one question; `az login`/app creation only happen when you explicitly choose to create; admin consent verified by sign-in, not questionnaires; org.json can pin an environment so the server runs with **no per-user setup** (first in-chat `sign_in` = whole onboarding); new [Mass deployment guide](INSTALL.md#mass-deployment-intune--gpo--jamf) for Intune/GPO/Jamf |
 | [0.16.4](#0164---2026-07-30) | 2026-07-30 | **Team rollout + quiet sign-in + new license** — setup auto-discovers an IT-provisioned `org.json` (no Client ID to paste; new `--emit-org-config` generates it) · `--login`/`--setup` no longer bury the device-code prompt in log lines · license: MIT → Community License 1.0 (0.16.2 and earlier remain MIT). *There is no 0.16.3 — the number was retired by npm's unpublish policy* |
 | [0.16.2](#0162---2026-07-28) | 2026-07-28 | **Full error messages + security patch** — API error messages are no longer clipped mid-sentence (the part that tells you the fix now survives, e.g. allowed enum values) · `ip-address` SSRF advisory closed (SNYK-JS-IPADDRESS-18343249); `npm audit` 0 vulnerabilities |
@@ -40,6 +41,18 @@
 | [0.7.6](#076---2026-04-23) | 2026-04-23 | Dataverse URL auto-resolution, flow run-ID validation, `$orderby` fix ([#6](https://github.com/rcb0727/powerplatform-mcp-docs/issues/6), [#7](https://github.com/rcb0727/powerplatform-mcp-docs/issues/7), [#8](https://github.com/rcb0727/powerplatform-mcp-docs/issues/8)) |
 
 Older releases are documented below in full.
+
+## [0.16.6] - 2026-08-04
+
+- **Dataverse depth: 216 → 227 tools.** Eleven new tools close the gaps between "CRUD on rows" and "work with Dataverse like it's a real database":
+  - **`execute_fetchxml`** — aggregates, grouping, and link-entity joins that OData can't express ("opportunities closed above $50k this quarter, grouped by owner").
+  - **`get_dataverse_option_set` / `get_dataverse_relationships`** — the anti-hallucination pair: choice columns' label↔integer mappings and relationship schema names are the two things an AI cannot guess, and guessing them wrong writes bad data silently or 404s.
+  - **`create_dataverse_column` / `create_dataverse_lookup_column`** — schema write (string, memo, integer, decimal, money, datetime, boolean, picklist; lookups create the N:1 relationship in the same call). Confirm-gated; reminds you to publish.
+  - **`batch_dataverse_operations`** — up to 100 operations in one `$batch`, with optional all-or-nothing changesets; batches containing deletes are confirm-gated. The right tool for "add every approved row from this spreadsheet."
+  - **`upsert_dataverse_row`** (alternate-key create-or-update, reports which happened), **`assign_dataverse_row`** (ownership to a user or team), **`associate_dataverse_rows` / `disassociate_dataverse_rows`** (N:N and 1:N links), **`search_dataverse`** (full-text relevance search across tables).
+- **Dataverse errors now carry a category** — `[PERMISSIONS]`, `[SCHEMA_MISMATCH]`, or `[ENV_LIMITATION]` — so the AI knows whether to fix a name, ask an admin, or stop retrying something the environment has disabled, instead of hammering an unwinnable call.
+- **Auth errors now name the real cause.** When Microsoft refuses to renew your sign-in, the error says why instead of a blanket "no cached credentials": your organization's sign-in frequency policy expired the session on schedule (recurring by design — not a bug), the sign-in was revoked by a password change or security event, it expired after 90 days without use, or Conditional Access is blocking the device/network outright (that one points at IT, since signing in again won't fix it). The mass-deployment guide gained a matching note so IT knows what to expect and how to scope the policy if the cadence is disruptive.
+- **The sign-in stays fresh on its own.** The server now silently renews its Microsoft sign-in in the background (on start, then every 4 hours) — each renewal rotates the refresh token, so a session left open for days no longer drifts toward the 90-day inactivity expiry, and a renewal failure shows up in the log the moment it happens instead of at your next command. Tune or disable with `PA_MCP_TOKEN_KEEPALIVE_HOURS` (default `4`, `0` disables). Note: if your organization enforces a sign-in frequency policy, periodic interactive re-sign-in is still required — that's a tenant rule no client can bypass.
 
 ## [0.16.5] - 2026-08-01
 
