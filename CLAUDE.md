@@ -55,9 +55,9 @@ When asked to create or modify a Canvas app, use an existing blank/editable app 
 ## Tool Reference
 
 <!-- TOOLS-TABLE:BEGIN — generated from the tool registry and synced here at each release; do not edit by hand -->
-## Available Tools (227 total)
+## Available Tools (228 total)
 
-> Every tool the server exposes, grouped by service. All 227 are listed here.
+> Every tool the server exposes, grouped by service. All 228 are listed here.
 
 <details>
 <summary><strong>Setup & Authentication</strong> (1 tools)</summary>
@@ -369,11 +369,12 @@ When asked to create or modify a Canvas app, use an existing blank/editable app 
 </details>
 
 <details>
-<summary><strong>Environment Administration</strong> (10 tools)</summary>
+<summary><strong>Environment Administration</strong> (11 tools)</summary>
 
 | Tool | Description |
 |------|-------------|
 | `list_environments` | List all Power Platform environments accessible to the current user. Shows environment names, IDs, regions, and whether each is the default environment. |
+| `switch_environment` | Switch which Power Platform environment this session works in. Takes an environment ID or display name (use list_environments to see them). The switch lasts for THIS session only — it never changes the saved configuration, and restarting the server returns to the default environment. Dataverse tools are re-pointed at the new environment's org automatically. Access is always limited to what the signed-in user already has in that environment. |
 | `get_environment` | Get detailed information about a Power Platform environment including Dataverse URL, region, and SKU. |
 | `create_environment` | Create a new Power Platform environment. Requires admin role. |
 | `delete_environment` | Delete a Power Platform environment permanently. This action cannot be undone. Set confirm=true. |

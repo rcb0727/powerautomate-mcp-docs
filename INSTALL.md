@@ -329,6 +329,8 @@ If `npm install -g` causes permission headaches, skip it entirely. Configure you
 
 `powerautomate-mcp --update` does the npm upgrade for you (same rule: close apps first). The [Changelog](https://github.com/rcb0727/powerplatform-mcp-docs/blob/main/CHANGELOG.md) lists what changed and any version-specific notes.
 
+You don't have to check for updates yourself: when a new version is out, the server mentions it once per session right in the chat (set `PA_MCP_UPDATE_NOTICE=0` to turn that off). Machines set up through an organization's `org.json` stay quiet — updates there are IT's job.
+
 ---
 
 ## Rolling back
@@ -460,6 +462,6 @@ Rolling out to a whole team means IT does everything once, and every other user'
 
 - **Kill switch** — disable the app registration in Microsoft Entra: the entire deployment stops accepting sign-ins instantly.
 - **Offboard one user** — disable their account; their tokens die with it.
-- **Update** — `npm install -g powerautomate-mcp@latest` via your management tool (or users run `powerautomate-mcp --update`).
+- **Update** — `npm install -g powerautomate-mcp@latest` via your management tool (or users run `powerautomate-mcp --update`). With `org.json` present, users are NOT nagged about new versions in chat (updates are yours to roll out); set `PA_MCP_UPDATE_NOTICE=1` if you want them notified anyway.
 - **Change environments** — push an updated `org.json`.
 - **Custom file location** — set `PA_MCP_ORG_CONFIG` to the file's path.
