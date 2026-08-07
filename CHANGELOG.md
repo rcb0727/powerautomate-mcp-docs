@@ -8,6 +8,7 @@
 
 | Version | Date | Highlights |
 |---------|------|------------|
+| [0.16.8](#0168---2026-08-07) | 2026-08-07 | **Errors that name the real problem** — Power Pages permission failures (D004) now say a role grant is needed instead of "Authentication failed"; `InvalidApiVersion` names your installed version and the update command (it almost always means the install is outdated); `--setup --client skip` works as documented |
 | [0.16.7](#0167---2026-08-06) | 2026-08-06 | **Switch environments mid-chat + in-chat update notices** — `switch_environment` (227 → 228 tools) re-points every tool at another environment for the session only (Dataverse org URL re-resolved; destructive tools name the active environment while switched; config never touched); new-version notices arrive once per session in the chat (org.json machines stay quiet; `PA_MCP_UPDATE_NOTICE=0` disables); better-sqlite3 13 (bundled prebuilds — installs with no compiler), msal-node 5.4.3, MCP SDK 1.30 |
 | [0.16.6](#0166---2026-08-04) | 2026-08-04 | **Dataverse depth: 216 → 227 tools + self-diagnosing auth** — FetchXML aggregates and joins, option-set/relationship schema lookups (the anti-hallucination pair), schema write (columns + lookups), `$batch` up to 100 ops with changesets, alternate-key upsert, row assignment, N:N/1:N links, full-text search; Dataverse errors carry a `[PERMISSIONS]`/`[SCHEMA_MISMATCH]`/`[ENV_LIMITATION]` category; the sign-in renews itself in the background and auth errors name the real cause (sign-in policy, revocation, idle expiry, CA block); new [Rolling back](INSTALL.md#rolling-back) guide |
 | [0.16.5](#0165---2026-08-01) | 2026-08-01 | **Setup that detects instead of asks + zero-touch team rollout** — the wizard finds your app automatically (config, org `org.json`, or a signed-in Azure CLI) and asks at most one question; `az login`/app creation only happen when you explicitly choose to create; admin consent verified by sign-in, not questionnaires; org.json can pin an environment so the server runs with **no per-user setup** (first in-chat `sign_in` = whole onboarding); new [Mass deployment guide](INSTALL.md#mass-deployment-intune--gpo--jamf) for Intune/GPO/Jamf |
@@ -42,6 +43,12 @@
 | [0.7.6](#076---2026-04-23) | 2026-04-23 | Dataverse URL auto-resolution, flow run-ID validation, `$orderby` fix ([#6](https://github.com/rcb0727/powerplatform-mcp-docs/issues/6), [#7](https://github.com/rcb0727/powerplatform-mcp-docs/issues/7), [#8](https://github.com/rcb0727/powerplatform-mcp-docs/issues/8)) |
 
 Older releases are documented below in full.
+
+## [0.16.8] - 2026-08-07
+
+- **Power Pages permission errors now tell the truth.** The management API reports a missing user role as a 401 with "User doesn't have required permissions" (D004) — the tools used to swallow that body and say "Authentication failed," sending people to re-sign-in when the real fix is an environment admin granting a Power Pages role. The error now names the actual problem and the fix.
+- **"InvalidApiVersion" now says what it almost always means: your install is outdated.** Old versions of this tool targeted API versions Microsoft has since retired; when Microsoft rejects a call that way, the error now names your installed version and gives the exact update command, instead of reading like a product bug.
+- **`--setup --client skip` works as documented.** The wizard always supported "skip" as a pre-selected answer for the AI-app step, but the CLI rejected the word as an unknown client and showed the menu anyway. Scripted and unattended setups can now skip client wiring cleanly.
 
 ## [0.16.7] - 2026-08-06
 
