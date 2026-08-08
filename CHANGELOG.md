@@ -8,6 +8,7 @@
 
 | Version | Date | Highlights |
 |---------|------|------------|
+| [0.16.9](#0169---2026-08-07) | 2026-08-07 | **Power Pages bug fixes** — provisioning no longer reports false failures (operation polls now carry api-version), and site/component tools survive tenants whose `mspp_*` virtual tables error on retrieve-by-key (`entityMetadata` null) |
 | [0.16.8](#0168---2026-08-07) | 2026-08-07 | **Errors that name the real problem** — Power Pages permission failures (D004) now say a role grant is needed instead of "Authentication failed"; `InvalidApiVersion` names your installed version and the update command (it almost always means the install is outdated); `--setup --client skip` works as documented |
 | [0.16.7](#0167---2026-08-06) | 2026-08-06 | **Switch environments mid-chat + in-chat update notices** — `switch_environment` (227 → 228 tools) re-points every tool at another environment for the session only (Dataverse org URL re-resolved; destructive tools name the active environment while switched; config never touched); new-version notices arrive once per session in the chat (org.json machines stay quiet; `PA_MCP_UPDATE_NOTICE=0` disables); better-sqlite3 13 (bundled prebuilds — installs with no compiler), msal-node 5.4.3, MCP SDK 1.30 |
 | [0.16.6](#0166---2026-08-04) | 2026-08-04 | **Dataverse depth: 216 → 227 tools + self-diagnosing auth** — FetchXML aggregates and joins, option-set/relationship schema lookups (the anti-hallucination pair), schema write (columns + lookups), `$batch` up to 100 ops with changesets, alternate-key upsert, row assignment, N:N/1:N links, full-text search; Dataverse errors carry a `[PERMISSIONS]`/`[SCHEMA_MISMATCH]`/`[ENV_LIMITATION]` category; the sign-in renews itself in the background and auth errors name the real cause (sign-in policy, revocation, idle expiry, CA block); new [Rolling back](INSTALL.md#rolling-back) guide |
@@ -43,6 +44,11 @@
 | [0.7.6](#076---2026-04-23) | 2026-04-23 | Dataverse URL auto-resolution, flow run-ID validation, `$orderby` fix ([#6](https://github.com/rcb0727/powerplatform-mcp-docs/issues/6), [#7](https://github.com/rcb0727/powerplatform-mcp-docs/issues/7), [#8](https://github.com/rcb0727/powerplatform-mcp-docs/issues/8)) |
 
 Older releases are documented below in full.
+
+## [0.16.9] - 2026-08-07
+
+- **Bug fix — Power Pages provisioning no longer reports false failures.** The service's `Operation-Location` header carries no `api-version`, and Microsoft now rejects unversioned polls — so `create_powerpages_website` provisioned the site successfully and then reported `ApiVersionInvalid` anyway (field report: three "failed" attempts, one live site). The poller now appends the API version (and honors one if the service ever includes it).
+- **Bug fix — site and component tools survive broken `mspp_*` virtual tables.** On some tenants, Power Pages' enhanced-model virtual tables throw `Value cannot be null: entityMetadata` on retrieve-by-key — which used to kill `get_powerpages_site`, `list_powerpages_components`, and `create_powerpages_component` unconditionally, on every site. Model detection and site reads now use filtered queries (the operation those tables handle reliably — the same one `list_powerpages_sites` was already succeeding with), structural provider errors fall through to the standard model instead of aborting, and when a site truly can't be found the error says the virtual provider misbehaved rather than pretending the site doesn't exist.
 
 ## [0.16.8] - 2026-08-07
 
