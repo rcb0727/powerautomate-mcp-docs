@@ -368,6 +368,19 @@ Both use Microsoft's standard sign-in page in your own browser, MFA included. No
 
 Run **`powerautomate-mcp --doctor`** first — it pinpoints most problems and prints the fix. Common cases:
 
+### macOS keeps asking for your keychain password
+
+macOS prompts whenever the token cache is read by a program that isn't on the keychain item's approval list — and Node upgrades change the program's identity, so an old approval stops counting. Two fixes, use both:
+
+1. When the prompt appears, click **Always Allow** (not "Allow").
+2. If prompts persist or come back after a Node upgrade, run:
+   ```bash
+   powerautomate-mcp --fix-keychain
+   ```
+   It asks for **one** final approval, then rebuilds the keychain entry so the current Node owns it — reads and writes stop prompting entirely. Rerun it if prompts ever return.
+
+(The server also avoids re-reading the keychain unless your sign-in actually changed, so even unapproved setups see at most a prompt per session — never one per tool call. `PA_MCP_TOKEN_CACHE_SYNC=always` restores the old re-read-every-time behavior if you ever need it.)
+
 ### Install problems
 
 | Symptom | Fix |
