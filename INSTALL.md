@@ -74,6 +74,11 @@ npm install -g powerautomate-mcp
 
 ✅ **You should see** a few lines ending in something like `added 1 package`. Yellow `WARN` lines are normal and safe to ignore — only red `ERR!` means a real problem.
 
+> **npm 12 or newer?** npm now blocks dependency install scripts by default, and you'll see a warning naming `keytar` and `@azure/msal-node-extensions`. **You don't have to do anything** — setup detects this and repairs it automatically. To skip the repair step entirely, install with the scripts allowed:
+> ```bash
+> npm install -g --allow-scripts=@azure/msal-node-extensions,keytar powerautomate-mcp
+> ```
+
 > **If that fails** with `command not found`, `EACCES`, or a permission error, don't worry — you don't need the global install. Just use `npx` instead: everywhere below, replace `powerautomate-mcp` with `npx -y powerautomate-mcp@latest`. So Step 2 becomes `npx -y powerautomate-mcp@latest --setup`. That's the only change — skip the rest of this step.
 
 ### Step 2 — Run setup
@@ -367,6 +372,10 @@ Both use Microsoft's standard sign-in page in your own browser, MFA included. No
 ## Troubleshooting
 
 Run **`powerautomate-mcp --doctor`** first — it pinpoints most problems and prints the fix. Common cases:
+
+### Sign-in works, then everything says "not authorized" (npm 12+)
+
+npm 12 blocks dependency install scripts by default; the blocked `keytar` script leaves secure token storage without a native component, and the failure masquerades as permission/consent problems (sign-in appears fine, every later step finds no credentials). Run `powerautomate-mcp --setup` or `--doctor` — both detect and repair this automatically. Manual alternative: reinstall with `npm install -g --allow-scripts=@azure/msal-node-extensions,keytar powerautomate-mcp`.
 
 ### macOS keeps asking for your keychain password
 
